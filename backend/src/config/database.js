@@ -97,12 +97,11 @@ const path = require('path');
 // تحديد مسار قاعدة البيانات المحلية تلقائياً
 // نحن في: backend/src/config
 // الداتا في: backend/data/quran.db
-const localDbPath = path.join(__dirname, '../../database/quran_roots_dual_v2.sqlite');
+const localDbPath = path.join(process.cwd(), 'backend', 'database', 'quran_roots_dual_v2.sqlite');
 
-// إعداد الكونفيج بذكاء
 const config = {
   url: process.env.TURSO_DB_URL || `file:${localDbPath}`,
-  authToken: process.env.TURSO_DB_AUTH_TOKEN, // اختياري للمحلي
+  authToken: process.env.TURSO_DB_AUTH_TOKEN,
 };
 
 /* ===========================
@@ -113,8 +112,9 @@ const client = createClient(config);
 let logged = false;
 function logOnce() {
   if (!logged) {
-    const mode = config.url.startsWith('file:') ? '📂 Local SQLite (Blazing Fast)' : '☁️ Remote Turso';
+    const mode = config.url.startsWith('file:') ? '📂 Local SQLite (Production Safe)' : '☁️ Remote Turso';
     console.log(`✅ Database Connected: ${mode}`);
+    console.log(`📍 Path used: ${localDbPath}`); // سيظهر هذا في لوج Vercel للتأكد
     logged = true;
   }
 }

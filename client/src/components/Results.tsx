@@ -181,13 +181,13 @@ export const Results: React.FC = () => {
 
                 {/* Action Buttons: Dashboard (New), Copy, Download */}
                 <div className="flex items-center gap-1 border-l border-border/50 pl-2 ml-2">
-                  <Link href="/dashboard">
-                    <a 
-                      className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-xl transition-colors flex items-center justify-center"
-                      title="لوحة المعلومات والإحصائيات"
-                    >
-                      <LayoutDashboard className="w-4 h-4" />
-                    </a>
+                  <Link
+                    href="/dashboard"
+                    className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-md transition-colors"
+                    title="لوحة المعلومات والإحصائيات"
+                  >
+                    {/* اترك الأيقونة أو المحتوى كما هو هنا */}
+                    <LayoutDashboard className="w-5 h-5" />
                   </Link>
                   <button
                     onClick={() => {
@@ -299,12 +299,12 @@ export const Results: React.FC = () => {
                 <div className="absolute right-0 top-3 bottom-2 w-8 bg-gradient-to-l from-background to-transparent pointer-events-none" />
               </div>
             )}
-            
+
             {/* Active Filters Tags */}
             {(selectedSurah !== 'all' || selectedJuz !== 'all' || subSearch || selectedDerivative) && (
-               <div className="flex flex-wrap gap-2 pt-2 border-t border-border/30">
-                 <button onClick={() => { setSelectedSurah('all'); setSelectedJuz('all'); setSubSearch(''); setSelectedDerivative(null); }} className="text-xs text-destructive hover:underline px-2">مسح الكل</button>
-               </div>
+              <div className="flex flex-wrap gap-2 pt-2 border-t border-border/30">
+                <button onClick={() => { setSelectedSurah('all'); setSelectedJuz('all'); setSubSearch(''); setSelectedDerivative(null); }} className="text-xs text-destructive hover:underline px-2">مسح الكل</button>
+              </div>
             )}
           </div>
         </div>
