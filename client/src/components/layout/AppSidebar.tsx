@@ -170,7 +170,14 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ isOpen, onClose, current
                                     <Settings className="w-4 h-4" />
                                     مظهر التطبيق
                                 </span>
-                                <ThemeToggle />
+                                <div className="flex items-center gap-3">
+                                    <Link href="/settings" onClick={onClose} className="inline-flex">
+                                        <Button variant="outline" size="sm">
+                                            إعدادات
+                                        </Button>
+                                    </Link>
+                                    <ThemeToggle />
+                                </div>
                             </div>
                             <p className="text-[10px] text-center text-muted-foreground mt-4 opacity-50 font-mono">
                                 v2.0.0 • Quran Roots
