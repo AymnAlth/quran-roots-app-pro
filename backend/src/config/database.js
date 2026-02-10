@@ -1,86 +1,55 @@
-// const sqlite3 = require('sqlite3').verbose();
-// const path = require('path');
 
-// class Database {
-//   constructor() {
-//     this.dbPath = path.join(__dirname, '../../database/quran_roots_dual_v2.sqlite');
-//     this.db = null;
-//   }
+// const { createClient } = require('@libsql/client');
 
-//   connect() {
-//     return new Promise((resolve, reject) => {
-//       this.db = new sqlite3.Database(this.dbPath, sqlite3.OPEN_READONLY, (err) => {
-//         if (err) {
-//           console.error('❌ Database connection error:', err.message);
-//           reject(err);
-//         } else {
-//           console.log('✅ Connected to SQLite database');
-//           resolve(this.db);
-//         }
-//       });
-//     });
-//   }
+// /* ===========================
+//    Validation
+// =========================== */
+// if (!process.env.TURSO_DB_URL || !process.env.TURSO_DB_AUTH_TOKEN) {
+//   throw new Error(
+//     '❌ Missing TURSO_DB_URL or TURSO_DB_AUTH_TOKEN in backend/.env'
+//   );
+// }
 
-//   query(sql, params = []) {
-//     return new Promise((resolve, reject) => {
-//       this.db.all(sql, params, (err, rows) => {
-//         if (err) {
-//           console.error('❌ Query error:', err.message);
-//           reject(err);
-//         } else {
-//           resolve(rows || []);
-//         }
-//       });
-//     });
-//   }
+// /* ===========================
+//    Turso Client
+// =========================== */
+// const client = createClient({
+//   url: process.env.TURSO_DB_URL,
+//   authToken: process.env.TURSO_DB_AUTH_TOKEN,
+// });
 
-//   get(sql, params = []) {
-//     return new Promise((resolve, reject) => {
-//       this.db.get(sql, params, (err, row) => {
-//         if (err) {
-//           console.error('❌ Get query error:', err.message);
-//           reject(err);
-//         } else {
-//           resolve(row);
-//         }
-//       });
-//     });
-//   }
-
-//   close() {
-//     return new Promise((resolve, reject) => {
-//       if (this.db) {
-//         this.db.close((err) => {
-//           if (err) {
-//             console.error('❌ Database close error:', err.message);
-//             reject(err);
-//           } else {
-//             console.log('✅ Database connection closed');
-//             resolve();
-//           }
-//         });
-//       } else {
-//         resolve();
-//       }
-//     });
+// let logged = false;
+// function logOnce() {
+//   if (!logged) {
+//     console.log('✅ Connected to Turso (remote SQLite via libSQL)');
+//     logged = true;
 //   }
 // }
 
-// // Create singleton instance
-// const database = new Database();
+// /* ===========================
+//    Query Helpers
+// =========================== */
+// async function executeQuery(sql, params = []) {
+//   logOnce();
+//   const result = await client.execute({
+//     sql,
+//     args: params,
+//   });
+//   return result.rows || [];
+// }
 
-// // Helper function for executing queries
-// const executeQuery = async (sql, params = []) => {
-//   try {
-//     await database.connect();
-//     const rows = await database.query(sql, params);
-//     return rows;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
+// async function executeGet(sql, params = []) {
+//   logOnce();
+//   const result = await client.execute({
+//     sql,
+//     args: params,
+//   });
+//   return result.rows?.[0] ?? null;
+// }
 
-// // Surah names mapping
+// /* ===========================
+//    Surah Names (كما كان متوقعًا)
+// =========================== */
 // const getSurahName = (surahNo) => {
 //   const surahNames = {
 //     1: 'الفاتحة', 2: 'البقرة', 3: 'آل عمران', 4: 'النساء', 5: 'المائدة',
@@ -111,34 +80,41 @@
 //   return surahNames[surahNo] || `سورة ${surahNo}`;
 // };
 
+// /* ===========================
+//    Public API (مطابقة 100%)
+// =========================== */
 // module.exports = {
-//   database,
 //   executeQuery,
-//   getSurahName
+//   executeGet,
+//   getSurahName,
 // };
 const { createClient } = require('@libsql/client');
+const path = require('path');
 
 /* ===========================
-   Validation
+   Database Configuration
 =========================== */
-if (!process.env.TURSO_DB_URL || !process.env.TURSO_DB_AUTH_TOKEN) {
-  throw new Error(
-    '❌ Missing TURSO_DB_URL or TURSO_DB_AUTH_TOKEN in backend/.env'
-  );
-}
+// تحديد مسار قاعدة البيانات المحلية تلقائياً
+// نحن في: backend/src/config
+// الداتا في: backend/data/quran.db
+const localDbPath = path.join(__dirname, '../../database/quran_roots_dual_v2.sqlite');
+
+// إعداد الكونفيج بذكاء
+const config = {
+  url: process.env.TURSO_DB_URL || `file:${localDbPath}`,
+  authToken: process.env.TURSO_DB_AUTH_TOKEN, // اختياري للمحلي
+};
 
 /* ===========================
-   Turso Client
+   Client Initialization
 =========================== */
-const client = createClient({
-  url: process.env.TURSO_DB_URL,
-  authToken: process.env.TURSO_DB_AUTH_TOKEN,
-});
+const client = createClient(config);
 
 let logged = false;
 function logOnce() {
   if (!logged) {
-    console.log('✅ Connected to Turso (remote SQLite via libSQL)');
+    const mode = config.url.startsWith('file:') ? '📂 Local SQLite (Blazing Fast)' : '☁️ Remote Turso';
+    console.log(`✅ Database Connected: ${mode}`);
     logged = true;
   }
 }
@@ -148,24 +124,34 @@ function logOnce() {
 =========================== */
 async function executeQuery(sql, params = []) {
   logOnce();
-  const result = await client.execute({
-    sql,
-    args: params,
-  });
-  return result.rows || [];
+  try {
+    const result = await client.execute({
+      sql,
+      args: params,
+    });
+    return result.rows || [];
+  } catch (error) {
+    console.error('❌ Database Query Error:', error.message);
+    throw error;
+  }
 }
 
 async function executeGet(sql, params = []) {
   logOnce();
-  const result = await client.execute({
-    sql,
-    args: params,
-  });
-  return result.rows?.[0] ?? null;
+  try {
+    const result = await client.execute({
+      sql,
+      args: params,
+    });
+    return result.rows?.[0] ?? null;
+  } catch (error) {
+    console.error('❌ Database Get Error:', error.message);
+    throw error;
+  }
 }
 
 /* ===========================
-   Surah Names (كما كان متوقعًا)
+   Surah Names
 =========================== */
 const getSurahName = (surahNo) => {
   const surahNames = {
@@ -198,7 +184,7 @@ const getSurahName = (surahNo) => {
 };
 
 /* ===========================
-   Public API (مطابقة 100%)
+   Public API
 =========================== */
 module.exports = {
   executeQuery,
