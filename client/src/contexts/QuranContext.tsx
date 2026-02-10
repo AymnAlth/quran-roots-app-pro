@@ -10,6 +10,7 @@ interface Token {
 }
 
 interface Ayah {
+  [x: string]: string;
   id: string;
   surahNo: number;
   ayahNo: number;

@@ -41,91 +41,114 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 }
-
 :root {
-  /* Islamic Minimalism Color Palette */
-  --primary: #1e3a8a;
-  /* Deep Islamic Blue */
-  --primary-foreground: #faf8f3;
-  /* Cream/Off-white */
-  --sidebar-primary: #1e3a8a;
-  --sidebar-primary-foreground: #faf8f3;
-  --chart-1: #3b82f6;
-  --chart-2: #1e40af;
-  --chart-3: #1e3a8a;
-  --chart-4: #172554;
-  --chart-5: #0f172a;
-  --radius: 0.65rem;
-  --background: #faf8f3;
-  /* Warm cream background */
-  --foreground: #1f2937;
-  /* Deep charcoal text */
+  /* --- Islamic Minimalism Palette (Light Mode) --- */
+  
+  /* الخلفية: لون ورق كريمي هادئ جداً (مثل ورق الكتب القديمة) */
+  --background: #fdfbf7; 
+  /* النص: رمادي غامق جداً مائل للزرقة (للقراءة المريحة) */
+  --foreground: #1a202c; 
+
+  /* البطاقات: أبيض نقي */
   --card: #ffffff;
-  /* Pure white cards */
-  --card-foreground: #1f2937;
+  --card-foreground: #1a202c;
+  
   --popover: #ffffff;
-  --popover-foreground: #1f2937;
-  --secondary: #f3f4f6;
-  /* Light gray */
-  --secondary-foreground: #374151;
-  /* Medium gray text */
-  --muted: #e5e7eb;
-  /* Muted gray */
-  --muted-foreground: #4b5563;
-  /* Darker Sage gray for better contrast */
-  --accent: #d97706;
-  /* Gold accent */
-  --accent-foreground: #ffffff;
-  --destructive: #dc2626;
-  /* Red for errors */
+  --popover-foreground: #1a202c;
+
+  /* اللون الأساسي: تركواز غامق (Deep Teal) - لون إسلامي كلاسيكي */
+  --primary: #0f4c5c; 
+  --primary-foreground: #ffffff;
+
+  /* اللون الثانوي: ذهبي مطفي (للمشتقات والتمييز) */
+  --secondary: #fb8b24; 
+  --secondary-foreground: #ffffff;
+
+  /* لون العناصر الهادئة */
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+
+  /* لون التمييز الإضافي (Accent): بيج غامق */
+  --accent: #e2e8f0;
+  --accent-foreground: #0f172a;
+
+  /* الأخطاء */
+  --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: #e5e7eb;
-  /* Light border */
-  --input: #f3f4f6;
-  /* Input background */
-  --ring: #1e3a8a;
-  /* Focus ring in primary blue */
+
+  --border: #e2e8f0;
+  --input: #f1f5f9;
+  --ring: #0f4c5c; /* نفس اللون الأساسي */
+
+  --radius: 0.75rem;
+
+  /* الرسوم البيانية (Charts) - متدرجة من التركواز */
+  --chart-1: #0f4c5c;
+  --chart-2: #2a6f7e;
+  --chart-3: #5f9ea0;
+  --chart-4: #98c1d9;
+  --chart-5: #e0fbfc;
+
+  /* الشريط الجانبي */
   --sidebar: #ffffff;
-  --sidebar-foreground: #1f2937;
-  --sidebar-accent: #f3f4f6;
-  --sidebar-accent-foreground: #1e3a8a;
-  --sidebar-border: #e5e7eb;
-  --sidebar-ring: #1e3a8a;
+  --sidebar-foreground: #0f4c5c;
+  --sidebar-primary: #0f4c5c;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1f5f9;
+  --sidebar-accent-foreground: #0f4c5c;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #0f4c5c;
 }
 
 .dark {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-500);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.85 0.005 65);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.85 0.005 65);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.85 0.005 65);
-  --secondary: oklch(0.24 0.006 286.033);
-  --secondary-foreground: oklch(0.7 0.005 65);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground: oklch(0.92 0.005 65);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.488 0.243 264.376);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.85 0.005 65);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.488 0.243 264.376);
+  /* --- Islamic Minimalism Palette (Dark Mode) --- */
+  
+  /* الخلفية: كحلي ليلي عميق (Midnight Blue) */
+  --background: #0a192f; 
+  --foreground: #e6f1ff;
+
+  --card: #112240;
+  --card-foreground: #e6f1ff;
+
+  --popover: #112240;
+  --popover-foreground: #e6f1ff;
+
+  /* اللون الأساسي: تركواز مضيء قليلاً */
+  --primary: #64ffda; 
+  --primary-foreground: #0a192f;
+
+  /* اللون الثانوي: ذهبي فاتح */
+  --secondary: #ffd700; 
+  --secondary-foreground: #0a192f;
+
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+
+  --accent: #1e293b;
+  --accent-foreground: #e6f1ff;
+
+  --destructive: #ff6b6b;
+  --destructive-foreground: #ffffff;
+
+  --border: #233554;
+  --input: #233554;
+  --ring: #64ffda;
+
+  /* الرسوم البيانية لليلي */
+  --chart-1: #64ffda;
+  --chart-2: #52e0c4;
+  --chart-3: #40c0ae;
+  --chart-4: #2ea098;
+  --chart-5: #1c8082;
+
+  --sidebar: #112240;
+  --sidebar-foreground: #e6f1ff;
+  --sidebar-primary: #64ffda;
+  --sidebar-primary-foreground: #0a192f;
+  --sidebar-accent: #233554;
+  --sidebar-accent-foreground: #64ffda;
+  --sidebar-border: #233554;
+  --sidebar-ring: #64ffda;
 }
 
 @layer base {
@@ -135,11 +158,14 @@
 
   body {
     @apply bg-background text-foreground;
+    /* استخدام Cairo كخط أساسي للواجهة العربية */
     font-family: 'Cairo', 'Lato', sans-serif;
     direction: rtl;
-    /* Enforce RTL */
     text-align: right;
-    /* Default alignment */
+  }
+  .en-heading {
+    font-family: 'Crimson Text', serif;
+    font-weight: 700;
   }
 
   h1,
@@ -161,17 +187,26 @@
   select:not(:disabled),
   input[type="checkbox"]:not(:disabled),
   input[type="radio"]:not(:disabled) {
-    @apply cursor-pointer;
-  }
+      @apply cursor-pointer;
+    }
 
   /* Quranic Font Style */
-  .font-quran {
+.font-quran {
     font-family: 'Amiri', serif;
-    line-height: 2.3;
-    font-feature-settings: "cv01" 1, "cv02" 1, "cv03" 1, "cv04" 1;
-    /* Enable optional ligatures if supported */
+    line-height: 2.6; /* زيادة الارتفاع لراحة العين مع التشكيل */
+    letter-spacing: 0.02em; /* تباعد بسيط جداً للأناقة */
+    font-weight: 400;
+    
+    /* ميزات OpenType للخط العربي الجميل */
+    font-feature-settings: "cv01" 1, "cv02" 1, "cv03" 1, "cv04" 1, "kashida" 1; 
+    
     direction: rtl;
     text-align: right;
+  }
+  .quran-heading {
+    font-family: 'Amiri', serif;
+    font-weight: 700;
+    color: var(--primary);
   }
 }
 

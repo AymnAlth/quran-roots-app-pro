@@ -3,7 +3,7 @@ import { useRoute, useLocation, Link } from 'wouter';
 import { useQuran } from '../contexts/QuranContext';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
-import { LayoutDashboard, Search, FileText, Component, Hash } from 'lucide-react';
+import { LayoutDashboard, Search, FileText, Component, Hash, ArrowUp, ArrowDown, ListFilter, BookOpen, Layers, Clock } from 'lucide-react';
 import { AyahList } from '../components/AyahList';
 import { Card, CardContent } from '../components/ui/card';
 import { QuranLoader } from '../components/ui/QuranLoader';
@@ -16,6 +16,7 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { ScrollToTop } from '../components/ui/ScrollToTop';
+import { motion } from 'framer-motion';
 
 // Helper to remove Tashkeel
 const removeTashkeel = (text: string) => {
@@ -27,106 +28,105 @@ const DetailView: React.FC = () => {
     const { searchResults, statistics, searchByRoot, loading } = useQuran();
     const [_, setLocation] = useLocation();
 
-    // Local State for Interactivity
+    // Local State
     const [searchQuery, setSearchQuery] = useState('');
     const [displayLimit, setDisplayLimit] = useState(10);
     const [sortBy, setSortBy] = useState<'default' | 'length_asc' | 'length_desc'>('default');
 
-    // Get focus ID from URL search params
     const searchParams = new URLSearchParams(window.location.search);
     const focusAyahIdProp = searchParams.get('focus');
     const focusAyahId = focusAyahIdProp ? parseInt(focusAyahIdProp) : undefined;
 
-    // Safe derivation of params
     const { root, type, value } = params || {};
     const decodedValue = value ? decodeURIComponent(value) : '';
     const decodedRoot = root ? decodeURIComponent(root) : '';
 
-    // Fetch data if missing or root mismatch
     React.useEffect(() => {
         if (decodedRoot) {
             if (!searchResults || searchResults.root !== decodedRoot) {
                 searchByRoot(decodedRoot);
             }
         } else {
-            // If no root in URL, go back
             setLocation('/');
         }
     }, [decodedRoot, searchResults, searchByRoot, setLocation]);
 
-    // Navigate to other roots when clicked inside cards
     const handleRootClick = (rootToNav: string) => {
         setLocation(`/details/${rootToNav}/root/search`);
     };
 
-    // 1. Base Filtering Logic (Drill-down)
-    const { baseList, title, description } = useMemo(() => {
-        // Safe defaults if data is missing
+    // 1. Base Filtering Logic
+    const { baseList, title, description, icon: HeaderIcon } = useMemo(() => {
         if (!searchResults || !params) {
-            return { baseList: [], title: "", description: "" };
+            return { baseList: [], title: "", description: "", icon: FileText };
         }
 
         let ayahs = searchResults.ayahs || [];
         let pageTitle = "";
         let pageDesc = "";
+        let PageIcon = FileText;
 
         switch (type) {
             case 'surah':
                 ayahs = ayahs.filter(a => a.surahName === decodedValue);
-                pageTitle = `الآيات في سورة ${decodedValue}`;
-                pageDesc = `عرض المواضع التي ورد فيها الجذر "${decodedRoot}" في سورة ${decodedValue}`;
+                pageTitle = `سورة ${decodedValue}`;
+                pageDesc = `استعراض مواضع جذر "${decodedRoot}" في هذه السورة`;
+                PageIcon = BookOpen;
                 break;
 
             case 'era':
-                // Note: Simplified logic
+                ayahs = ayahs.filter(a => a.type === decodedValue); // Assuming 'type' exists or handled elsewhere
+                // If not filtered in backend, logic remains same
                 pageTitle = `الآيات ${decodedValue === 'meccan' ? 'المكية' : 'المدنية'}`;
-                pageDesc = `عرض الآيات حسب تصنيف العهد`;
+                pageDesc = `استعراض المواضع حسب عهد النزول`;
+                PageIcon = Clock;
                 break;
 
             case 'juz':
                 const juzNum = parseInt(decodedValue.replace(/\D/g, ''));
-                if (!isNaN(juzNum)) {
-                    ayahs = ayahs.filter(a => a.juz === juzNum);
-                }
-                pageTitle = `الآيات في الجزء ${decodedValue}`;
-                pageDesc = `عرض المواضع في الجزء ${decodedValue}`;
+                if (!isNaN(juzNum)) ayahs = ayahs.filter(a => a.juz === juzNum);
+                pageTitle = `الجزء ${decodedValue}`;
+                pageDesc = `مواضع الجذر في الجزء القرآني`;
+                PageIcon = Layers;
                 break;
 
             case 'page':
                 const pageNum = parseInt(decodedValue.replace(/\D/g, ''));
-                if (!isNaN(pageNum)) {
-                    ayahs = ayahs.filter(a => a.page === pageNum);
-                }
-                pageTitle = `الآيات في الصفحة ${decodedValue}`;
-                pageDesc = `عرض المواضع في الصفحة ${decodedValue}`;
+                if (!isNaN(pageNum)) ayahs = ayahs.filter(a => a.page === pageNum);
+                pageTitle = `الصفحة ${decodedValue}`;
+                pageDesc = `مواضع الجذر في الصفحة`;
+                PageIcon = FileText;
                 break;
 
             case 'form':
                 ayahs = ayahs.filter(a =>
                     a.tokens.some((t: any) => (t.token_plain_norm || t.token) === decodedValue)
                 );
-                pageTitle = `صيغة "${decodedValue}"`;
-                pageDesc = `الآيات التي وردت فيها الصيغة اللفظية "${decodedValue}"`;
+                pageTitle = `الصيغة: "${decodedValue}"`;
+                pageDesc = `الآيات التي وردت فيها هذه الصيغة اللفظية`;
+                PageIcon = Component;
                 break;
 
             case 'compare':
                 ayahs = ayahs.filter(a => a.otherRoots.includes(decodedValue));
-                pageTitle = `اقتران "${decodedRoot}" مع "${decodedValue}"`;
-                pageDesc = `الآيات التي جمعت بين الجذرين في سياق واحد`;
+                pageTitle = `اقتران مع "${decodedValue}"`;
+                pageDesc = `الآيات التي جمعت بين "${decodedRoot}" و "${decodedValue}"`;
+                PageIcon = Hash;
                 break;
 
             default:
+                pageTitle = `نتائج البحث`;
+                PageIcon = Search;
                 break;
         }
 
-        return { baseList: ayahs, title: pageTitle, description: pageDesc };
+        return { baseList: ayahs, title: pageTitle, description: pageDesc, icon: PageIcon };
     }, [searchResults, params, type, decodedValue, decodedRoot]);
 
-    // 2. Second Layer Filtering (Search) - INSENSITIVE
+    // 2. Second Layer Filtering
     const filteredList = useMemo(() => {
         let list = baseList || [];
 
-        // Search Filter
         if (searchQuery.trim()) {
             const normalizedQuery = removeTashkeel(searchQuery.trim());
             list = list.filter(a => {
@@ -135,21 +135,18 @@ const DetailView: React.FC = () => {
             });
         }
 
-        // Sorting Logic
         if (sortBy === 'length_asc') {
             list = [...list].sort((a, b) => a.text.length - b.text.length);
         } else if (sortBy === 'length_desc') {
             list = [...list].sort((a, b) => b.text.length - a.text.length);
         } else {
-            // Default (Quranic Order or Pinning)
-            // If focusAyahId exists, move it to top
             if (focusAyahId) {
                 list = [...list].sort((a, b) => {
                     const idA = parseInt(a.id);
                     const idB = parseInt(b.id);
                     if (idA === focusAyahId) return -1;
                     if (idB === focusAyahId) return 1;
-                    return idA - idB; // Default order otherwise
+                    return idA - idB;
                 });
             }
         }
@@ -157,11 +154,9 @@ const DetailView: React.FC = () => {
         return list;
     }, [baseList, searchQuery, sortBy, focusAyahId]);
 
-    // 3. Pagination Slicing
     const paginatedList = filteredList.slice(0, displayLimit);
 
-
-    // 4. Scoped Statistics Calculation
+    // 3. Scoped Statistics
     const scopedStats = useMemo(() => {
         if (!filteredList) return [];
         const uniqueSurahs = new Set(filteredList.map(a => a.surahName)).size;
@@ -171,9 +166,9 @@ const DetailView: React.FC = () => {
             : 0;
 
         return [
-            { label: 'عدد الآيات', value: totalAyahs, icon: Hash, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
-            { label: 'السور', value: uniqueSurahs, icon: Component, color: 'text-amber-500', bg: 'bg-amber-500/10' },
-            { label: 'متوسط الطول', value: `${avgLength} حرف`, icon: FileText, color: 'text-blue-500', bg: 'bg-blue-500/10' },
+            { label: 'عدد النتائج', value: totalAyahs, icon: Hash, style: 'text-primary bg-primary/10 border-primary/20' },
+            { label: 'السور', value: uniqueSurahs, icon: Component, style: 'text-secondary bg-secondary/10 border-secondary/20' },
+            { label: 'متوسط الطول', value: avgLength, icon: FileText, style: 'text-rose-600 bg-rose-500/10 border-rose-500/20' },
         ];
     }, [filteredList]);
 
@@ -181,45 +176,36 @@ const DetailView: React.FC = () => {
     if (loading || (decodedRoot && (!searchResults || searchResults.root !== decodedRoot))) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-background">
-                <QuranLoader message={`جاري استحضار تفاصيل الجذر "${decodedRoot}"...`} />
+                <QuranLoader message={`جاري استحضار تفاصيل "${decodedRoot}"...`} />
             </div>
         );
     }
 
-    if (!searchResults || !statistics || !match || !params) {
-        return null;
-    }
+    if (!searchResults || !statistics || !match || !params) return null;
 
     return (
         <div className="min-h-screen bg-background selection:bg-primary/20 pb-20 font-sans">
 
-            {/* Navigation Header (Breadcrumbs) */}
+            {/* Navigation Header */}
             <header className="sticky top-16 z-30 w-full backdrop-blur-xl bg-background/80 border-b border-border shadow-sm">
                 <div className="container flex h-14 items-center">
                     <Breadcrumb>
                         <BreadcrumbList>
                             <BreadcrumbItem>
-                                <BreadcrumbLink asChild className="flex items-center gap-1 hover:text-primary transition-colors cursor-pointer">
-                                    <Link href="/">
-                                        <Search className="w-3.5 h-3.5" />
-                                        <span>الرئيسية</span>
-                                    </Link>
+                                <BreadcrumbLink asChild className="hover:text-primary transition-colors cursor-pointer">
+                                    <Link href="/">الرئيسية</Link>
                                 </BreadcrumbLink>
                             </BreadcrumbItem>
                             <BreadcrumbSeparator className="rtl:rotate-180" />
                             <BreadcrumbItem>
-                                <BreadcrumbLink asChild className="flex items-center gap-1 hover:text-primary transition-colors cursor-pointer">
-                                    <Link href="/dashboard">
-                                        <LayoutDashboard className="w-3.5 h-3.5" />
-                                        <span>لوحة التحكم</span>
-                                    </Link>
+                                <BreadcrumbLink asChild className="hover:text-primary transition-colors cursor-pointer">
+                                    <Link href="/dashboard">لوحة التحكم</Link>
                                 </BreadcrumbLink>
                             </BreadcrumbItem>
                             <BreadcrumbSeparator className="rtl:rotate-180" />
                             <BreadcrumbItem>
-                                <BreadcrumbPage className="font-bold text-primary flex items-center gap-1">
-                                    <Hash className="w-3.5 h-3.5" />
-                                    <span>{decodedRoot}</span>
+                                <BreadcrumbPage className="font-bold text-primary flex items-center gap-1 font-quran text-lg pt-1">
+                                    {title}
                                 </BreadcrumbPage>
                             </BreadcrumbItem>
                         </BreadcrumbList>
@@ -227,59 +213,87 @@ const DetailView: React.FC = () => {
                 </div>
             </header>
 
-            <main className="container pt-12 animate-in fade-in slide-in-from-bottom-6 duration-700 max-w-6xl mx-auto">
-                <div className="mb-8 text-center md:text-start">
-                    <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">{title}</h1>
-                    <p className="text-muted-foreground">{description}</p>
-                </div>
+            <main className="container pt-8 animate-in fade-in slide-in-from-bottom-4 duration-700 max-w-6xl mx-auto space-y-8">
 
-                {/* Scoped Stats Grid */}
-                <div className="grid grid-cols-3 gap-3 md:gap-6 mb-8">
-                    {scopedStats.map((stat, i) => (
-                        <Card key={i} className="bg-card/40 backdrop-blur border-border/50">
-                            <CardContent className="p-4 flex flex-col items-center justify-center text-center">
-                                <div className={`p-2 rounded-full mb-2 ${stat.bg} ${stat.color}`}>
-                                    <stat.icon className="w-5 h-5" />
+                {/* Hero Section */}
+                <div className="relative overflow-hidden rounded-2xl bg-card border border-primary/10 p-8 shadow-sm">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-20" />
+                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                        <div className="space-y-2">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/5 rounded-full text-xs font-bold text-primary border border-primary/10">
+                                <HeaderIcon className="w-3.5 h-3.5" />
+                                {type === 'compare' ? 'تحليل مقارن' : 'تصفية النتائج'}
+                            </div>
+                            <h1 className="text-4xl md:text-5xl font-bold text-primary font-quran">{title}</h1>
+                            <p className="text-muted-foreground max-w-xl text-lg">{description}</p>
+                        </div>
+
+                        {/* Mini Stats in Hero */}
+                        <div className="flex gap-3">
+                            {scopedStats.map((stat, i) => (
+                                <div key={i} className={`flex flex-col items-center justify-center p-3 rounded-xl border min-w-[80px] ${stat.style}`}>
+                                    <stat.icon className="w-5 h-5 mb-1 opacity-80" />
+                                    <span className="font-bold text-xl font-mono">{stat.value}</span>
+                                    <span className="text-[10px] opacity-70">{stat.label}</span>
                                 </div>
-                                <div className="text-2xl font-bold mb-1">{stat.value}</div>
-                                <div className="text-xs text-muted-foreground">{stat.label}</div>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
-
-                {/* Toolbar: Search & Actions */}
-                <div className="sticky top-20 z-40 bg-background/80 backdrop-blur-md p-4 rounded-xl border border-primary/10 mb-8 flex flex-col md:flex-row gap-4 justify-between items-center shadow-lg">
-                    {/* Search */}
-                    <div className="relative w-full md:w-96">
-                        <Search className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                        <Input
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="ابحث في نص الآيات (بدون تشكيل)..."
-                            className="pe-9 bg-secondary/5 border-primary/10 focus-visible:ring-primary/20"
-                        />
-                    </div>
-
-                    {/* Controls Group */}
-                    <div className="flex items-center gap-4 w-full md:w-auto">
-                        <select
-                            className="h-10 px-3 py-2 bg-secondary/5 border border-primary/10 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full md:w-auto"
-                            value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value as any)}
-                        >
-                            <option value="default">الترتيب الافتراضي</option>
-                            <option value="length_asc">الأقصر أولاً</option>
-                            <option value="length_desc">الأطول أولاً</option>
-                        </select>
-
-                        <div className="text-sm text-muted-foreground whitespace-nowrap hidden md:block">
-                            <span className="font-bold text-foreground">{paginatedList.length}</span> / <span className="font-bold text-foreground">{filteredList.length}</span>
+                            ))}
                         </div>
                     </div>
                 </div>
 
-                {/* List Content */}
+                {/* Toolbar */}
+                <div className="sticky top-32 z-40 bg-card/80 backdrop-blur-md p-3 rounded-xl border border-primary/10 shadow-lg flex flex-col md:flex-row gap-3 justify-between items-center transition-all">
+                    {/* Search Field */}
+                    <div className="relative w-full md:w-96 group">
+                        <Search className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                        <Input
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="بحث دقيق داخل النتائج..."
+                            className="pe-10 bg-background border-border focus-visible:ring-primary/20 h-11"
+                        />
+                    </div>
+
+                    {/* Sort Controls */}
+                    <div className="flex items-center gap-3 w-full md:w-auto">
+                        <div className="flex items-center gap-1 bg-background border border-border rounded-lg p-1">
+                            <Button
+                                variant={sortBy === 'default' ? 'secondary' : 'ghost'}
+                                size="sm"
+                                onClick={() => setSortBy('default')}
+                                className="h-8 text-xs"
+                            >
+                                <ListFilter className="w-3.5 h-3.5 me-1" />
+                                افتراضي
+                            </Button>
+                            <Button
+                                variant={sortBy === 'length_asc' ? 'secondary' : 'ghost'}
+                                size="sm"
+                                onClick={() => setSortBy('length_asc')}
+                                className="h-8 text-xs"
+                            >
+                                <ArrowDown className="w-3.5 h-3.5 me-1" />
+                                الأقصر
+                            </Button>
+                            <Button
+                                variant={sortBy === 'length_desc' ? 'secondary' : 'ghost'}
+                                size="sm"
+                                onClick={() => setSortBy('length_desc')}
+                                className="h-8 text-xs"
+                            >
+                                <ArrowUp className="w-3.5 h-3.5 me-1" />
+                                الأطول
+                            </Button>
+                        </div>
+
+                        <div className="hidden md:flex items-center px-3 py-1.5 bg-primary/5 rounded-md border border-primary/10">
+                            <span className="text-xs text-muted-foreground">النتائج:</span>
+                            <span className="text-sm font-bold text-primary mx-1">{filteredList.length}</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Content List */}
                 <AyahList
                     ayahs={paginatedList}
                     highlightQuery={searchQuery || (type === 'form' ? decodedValue : undefined)}
@@ -287,37 +301,39 @@ const DetailView: React.FC = () => {
                     onRootClick={handleRootClick}
                 />
 
-                {/* Pagination Controls */}
+                {/* Pagination */}
                 {filteredList.length > displayLimit && (
-                    <div className="mt-8 flex justify-center gap-4">
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        className="flex justify-center pt-8"
+                    >
                         <Button
                             variant="outline"
                             size="lg"
                             onClick={() => setDisplayLimit(prev => prev + 10)}
-                            className="min-w-[140px]"
+                            className="min-w-[200px] border-primary/20 hover:bg-primary/5 hover:text-primary gap-2"
                         >
-                            عرض المزيد (+10)
+                            <ArrowDown className="w-4 h-4" />
+                            عرض المزيد من الآيات
                         </Button>
-                        <Button
-                            variant="secondary"
-                            size="lg"
-                            onClick={() => setDisplayLimit(filteredList.length)}
-                        >
-                            عرض الكل
-                        </Button>
-                    </div>
+                    </motion.div>
                 )}
 
-                {/* Show Less Control */}
-                {displayLimit > 10 && displayLimit >= filteredList.length && filteredList.length > 10 && (
-                    <div className="mt-8 flex justify-center">
+                {/* Empty State */}
+                {filteredList.length === 0 && (
+                    <div className="flex flex-col items-center justify-center py-20 text-center">
+                        <div className="p-4 rounded-full bg-muted mb-4">
+                            <Search className="w-8 h-8 text-muted-foreground" />
+                        </div>
+                        <h3 className="text-lg font-bold text-foreground">لا توجد نتائج مطابقة</h3>
+                        <p className="text-muted-foreground">جرب تغيير كلمات البحث أو إزالة الفلاتر</p>
                         <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => setDisplayLimit(10)}
-                            className="text-muted-foreground"
+                            variant="link"
+                            onClick={() => setSearchQuery('')}
+                            className="mt-2 text-primary"
                         >
-                            طي القائمة
+                            مسح البحث
                         </Button>
                     </div>
                 )}

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { apiClient } from '../lib/apiClient';
 import { useLocation, useRoute, Link } from 'wouter';
-import { useQuran } from '../contexts/QuranContext';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { BookOpen, Sparkles, Anchor, Eye, Search, LayoutDashboard, AlertCircle } from 'lucide-react';
+import { BookOpen, Sparkles, Anchor, Eye, Search, LayoutDashboard, AlertCircle, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { QuranLoader } from '@/components/ui/QuranLoader';
@@ -40,7 +39,6 @@ interface SurahData {
 }
 
 // --- Local Component: SurahAyahView ---
-// تم فصله لتحسين القراءة مع الحفاظ على التصميم الأصلي بدقة
 const SurahAyahView: React.FC<{
     ayah: Ayah;
     roots: { root: string; ayah_id: string; count: number }[];
@@ -61,24 +59,23 @@ const SurahAyahView: React.FC<{
             transition={{ duration: 0.5, delay: index * 0.05 }}
         >
             <div className={`relative bg-card/40 backdrop-blur-sm border ${isReadingMode
-                    ? 'border-transparent p-8 md:p-12 shadow-none' // Reading Mode Styles
-                    : 'border-border p-8 rounded-[2rem] hover:border-primary/30 hover:shadow-xl hover:bg-card/60' // Analysis Mode Styles
+                ? 'border-transparent p-8 md:p-12 shadow-none' // Reading Mode
+                : 'border-border p-8 rounded-[2rem] hover:border-primary/30 hover:shadow-xl hover:bg-card/60' // Analysis Mode
                 } transition-all duration-300 group`}
             >
                 {/* Ayah Number Badge */}
                 <div className="absolute top-6 start-6 opacity-30 group-hover:opacity-100 transition-opacity">
-                    <div className="w-8 h-8 flex items-center justify-center rounded-full border border-primary/20 text-primary text-xs font-bold font-mono bg-primary/5">
+                    <div className="w-9 h-9 flex items-center justify-center rounded-lg border border-primary/20 text-primary text-sm font-bold font-quran bg-primary/5 shadow-sm">
                         {ayah.ayah_no}
                     </div>
                 </div>
 
-                {/* Text - Responsive Typography matching Original */}
-                <p className={`text-center font-quran leading-[2.2] text-foreground ${isReadingMode ? 'text-4xl md:text-5xl' : 'text-3xl md:text-4xl'
-                    }`} dir="rtl">
+                {/* Text */}
+                <p className={`text-center font-quran leading-[2.4] text-foreground ${isReadingMode ? 'text-4xl md:text-5xl leading-[2.6]' : 'text-3xl md:text-4xl'}`} dir="rtl">
                     {ayah.text_uthmani}
                 </p>
 
-                {/* Analysis Toolbar (Hidden in Reading Mode) */}
+                {/* Analysis Toolbar */}
                 {!isReadingMode && (
                     <div className="mt-10 pt-6 border-t border-border/50">
                         <div className="flex flex-wrap items-center justify-center gap-2">
@@ -89,10 +86,10 @@ const SurahAyahView: React.FC<{
                                         key={i}
                                         onClick={() => onRootClick(r.root)}
                                         className={`
-                                            px-3 py-1 rounded-full text-xs font-bold transition-all border
+                                            px-3 py-1.5 rounded-md text-xs font-bold transition-all border
                                             ${unique
-                                                ? 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100'
-                                                : 'bg-secondary/50 text-muted-foreground border-transparent hover:bg-primary/10 hover:text-primary hover:border-primary/20'
+                                                ? 'bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-700'
+                                                : 'bg-secondary/10 text-muted-foreground border-transparent hover:bg-primary/10 hover:text-primary hover:border-primary/20'
                                             }
                                         `}
                                     >
@@ -125,7 +122,7 @@ const SurahProfile: React.FC = () => {
     const heroY = useTransform(scrollY, [0, 300], [0, 100]);
     const contentY = useTransform(scrollY, [0, 300], [0, -50]);
 
-    // Track scroll for sticky elements
+    // Track scroll for sticky header
     const [isScrolled, setIsScrolled] = useState(false);
     useEffect(() => {
         return scrollY.on("change", (latest) => {
@@ -167,7 +164,6 @@ const SurahProfile: React.FC = () => {
         setLocation(`/details/${root}/root/search`);
     };
 
-    // Helper to check if a root is unique to this surah
     const isUnique = (root: string) => data?.stats.uniqueRoots.includes(root) || false;
 
     if (loading) {
@@ -233,8 +229,8 @@ const SurahProfile: React.FC = () => {
                                     <BreadcrumbSeparator className="rtl:rotate-180" />
                                     <BreadcrumbItem>
                                         <BreadcrumbPage className="font-bold text-primary flex items-center gap-2">
-                                            <span className="font-quran text-lg">{data.name.replace('سورة ', '')}</span>
-                                            <Badge variant="outline" className="text-[10px] px-1.5 h-4 hidden sm:flex">
+                                            <span className="font-quran text-lg pt-1">{data.name.replace('سورة ', '')}</span>
+                                            <Badge variant="outline" className="text-[10px] px-1.5 h-4 hidden sm:flex border-primary/20">
                                                 {data.number}
                                             </Badge>
                                         </BreadcrumbPage>
@@ -248,7 +244,7 @@ const SurahProfile: React.FC = () => {
                                 onClick={() => setIsReadingMode(!isReadingMode)}
                                 size="sm"
                                 variant={isReadingMode ? "default" : "outline"}
-                                className={`rounded-full transition-all ${isReadingMode ? "shadow-md" : "border-primary/20"}`}
+                                className={`rounded-full transition-all ${isReadingMode ? "shadow-md bg-primary text-primary-foreground" : "border-primary/20 text-primary hover:bg-primary/5"}`}
                             >
                                 {isReadingMode ? <BookOpen className="w-3.5 h-3.5 ml-2" /> : <Eye className="w-3.5 h-3.5 ml-2" />}
                                 {isReadingMode ? 'وضع التحليل' : 'وضع القراءة'}
@@ -266,16 +262,16 @@ const SurahProfile: React.FC = () => {
                 {/* Background Atmosphere */}
                 <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background z-0"></div>
 
-                {/* Orbital Rings Decoration */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
+                {/* Orbital Rings */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-30">
                     <div className="w-[800px] h-[800px] border border-primary/10 rounded-full animate-[spin_60s_linear_infinite]" />
-                    <div className="w-[600px] h-[600px] border border-primary/10 rounded-full animate-[spin_40s_linear_infinite_reverse]" />
+                    <div className="w-[600px] h-[600px] border border-secondary/10 rounded-full animate-[spin_40s_linear_infinite_reverse]" />
                 </div>
 
                 {/* Content */}
                 <div className="z-10 text-center space-y-6 px-4 max-w-4xl mx-auto">
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-                        <Badge variant="outline" className="border-primary/20 bg-primary/5 text-primary px-4 py-1 text-xs tracking-widest uppercase">
+                        <Badge variant="outline" className="border-secondary/30 bg-secondary/5 text-secondary-foreground px-4 py-1 text-xs tracking-widest uppercase font-bold">
                             سورة رقم {data.number} • {data.number < 2 ? 'مكية' : 'مدنية'}
                         </Badge>
                     </motion.div>
@@ -284,7 +280,7 @@ const SurahProfile: React.FC = () => {
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ duration: 1, type: "spring" }}
-                        className={`font-quran text-transparent bg-clip-text bg-gradient-to-b from-primary/80 to-primary drop-shadow-sm ${isReadingMode ? 'text-6xl' : 'text-8xl md:text-9xl'} leading-tight`}
+                        className={`font-quran text-primary drop-shadow-sm ${isReadingMode ? 'text-6xl' : 'text-8xl md:text-9xl'} leading-tight`}
                     >
                         {data.name.replace('سورة ', '')}
                     </motion.h1>
@@ -293,7 +289,7 @@ const SurahProfile: React.FC = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.5 }}
-                        className="text-lg md:text-2xl text-muted-foreground font-amiri"
+                        className="text-lg md:text-2xl text-muted-foreground font-quran"
                     >
                         {data.stats.uniqueRoots.length > 0
                             ? `تتميز بـ ${data.stats.uniqueRoots.length} جذراً لغوياً فريداً`
@@ -301,21 +297,19 @@ const SurahProfile: React.FC = () => {
                         }
                     </motion.p>
 
-                    {/* Controls */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.8 }}
                         className="flex items-center justify-center gap-4 mt-8"
                     >
-
                         <Button
                             onClick={() => setIsReadingMode(!isReadingMode)}
-                            className={`rounded-full px-6 border transition-all duration-500 ${isReadingMode
-                                ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg'
-                                : 'bg-transparent text-primary border-primary hover:bg-primary/5'}`}
+                            className={`rounded-full px-8 py-6 border transition-all duration-500 font-bold ${isReadingMode
+                                ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20'
+                                : 'bg-background text-primary border-primary hover:bg-primary/5'}`}
                         >
-                            {isReadingMode ? <BookOpen className="w-4 h-4 ml-2" /> : <Eye className="w-4 h-4 ml-2" />}
+                            {isReadingMode ? <BookOpen className="w-5 h-5 ml-2" /> : <Eye className="w-5 h-5 ml-2" />}
                             {isReadingMode ? 'وضع التحليل' : 'وضع القراءة'}
                         </Button>
                     </motion.div>
@@ -327,7 +321,6 @@ const SurahProfile: React.FC = () => {
                 style={{ y: contentY }}
                 className="relative z-20 container mx-auto px-4 pb-20 -mt-20 max-w-7xl"
             >
-
                 {/* --- ANALYTICS DASHBOARD --- */}
                 <AnimatePresence>
                     {!isReadingMode && (
@@ -348,14 +341,14 @@ const SurahProfile: React.FC = () => {
                                                 <Sparkles className="w-6 h-6" />
                                             </div>
                                             <div>
-                                                <h3 className="text-xl font-bold text-foreground">الدرر الفريدة</h3>
+                                                <h3 className="text-xl font-bold text-foreground font-quran">الدرر الفريدة</h3>
                                                 <p className="text-xs text-muted-foreground">بصمة السورة الخاصة</p>
                                             </div>
                                         </div>
 
                                         <div className="flex flex-wrap gap-2 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
                                             {data.stats.uniqueRoots.length > 0 ? (
-                                                data.stats.uniqueRoots.map((root, i) => (
+                                                data.stats.uniqueRoots.map((root) => (
                                                     <motion.button
                                                         key={'unique-' + root}
                                                         whileHover={{ scale: 1.05 }}
@@ -367,7 +360,7 @@ const SurahProfile: React.FC = () => {
                                                     </motion.button>
                                                 ))
                                             ) : (
-                                                <div className="w-full text-center py-8 text-muted-foreground italic">
+                                                <div className="w-full text-center py-8 text-muted-foreground italic font-quran text-lg">
                                                     لا توجد جذور متفردة في هذه السورة
                                                 </div>
                                             )}
@@ -377,13 +370,13 @@ const SurahProfile: React.FC = () => {
 
                                 {/* Root Structure Chart */}
                                 <div className="md:col-span-8">
-                                    <div className="h-full bg-card/60 backdrop-blur-xl border border-blue-500/20 rounded-3xl overflow-hidden p-6 hover:border-blue-500/40 hover:shadow-xl hover:shadow-blue-500/5 transition-all">
+                                    <div className="h-full bg-card/60 backdrop-blur-xl border border-primary/20 rounded-3xl overflow-hidden p-6 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all">
                                         <div className="flex items-center gap-3 mb-6">
-                                            <div className="p-3 bg-blue-500/10 rounded-2xl text-blue-600 dark:text-blue-500">
+                                            <div className="p-3 bg-primary/10 rounded-2xl text-primary">
                                                 <Anchor className="w-6 h-6" />
                                             </div>
                                             <div>
-                                                <h3 className="text-xl font-bold text-foreground">البنية الجذرية</h3>
+                                                <h3 className="text-xl font-bold text-foreground font-quran">البنية الجذرية</h3>
                                                 <p className="text-xs text-muted-foreground">الجذور الأكثر تأثيراً وتكراراً</p>
                                             </div>
                                         </div>
@@ -393,19 +386,19 @@ const SurahProfile: React.FC = () => {
                                                 const height = Math.max(10, (item.frequency / data.stats.topRoots[0].frequency) * 100);
                                                 return (
                                                     <div key={i} className="flex-1 flex flex-col items-center gap-2 group cursor-pointer" onClick={() => handleRootClick(item.root)}>
-                                                        <div className="w-full relative flex flex-col justify-end overflow-hidden rounded-t-lg bg-secondary/50 group-hover:bg-primary/10 transition-colors" style={{ height: '100%' }}>
+                                                        <div className="w-full relative flex flex-col justify-end overflow-hidden rounded-t-lg bg-secondary/5 group-hover:bg-secondary/10 transition-colors" style={{ height: '100%' }}>
                                                             <motion.div
                                                                 initial={{ height: 0 }}
                                                                 animate={{ height: `${height}%` }}
                                                                 transition={{ duration: 1, delay: i * 0.05 }}
-                                                                className="w-full bg-blue-500/50 dark:bg-blue-500/40 border-t-4 border-blue-600 relative"
+                                                                className="w-full bg-primary/60 border-t-4 border-primary relative group-hover:bg-primary/80 transition-colors"
                                                             >
-                                                                <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-xs font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded shadow-sm z-10">
+                                                                <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-xs font-bold text-primary-foreground bg-primary px-2 py-0.5 rounded shadow-sm z-10 font-mono">
                                                                     {item.frequency}
                                                                 </div>
                                                             </motion.div>
                                                         </div>
-                                                        <span className="text-xs md:text-sm font-bold text-muted-foreground group-hover:text-blue-600 transition-colors font-amiri">{item.root}</span>
+                                                        <span className="text-xs md:text-sm font-bold text-muted-foreground group-hover:text-primary transition-colors font-quran pt-1">{item.root}</span>
                                                     </div>
                                                 )
                                             })}
@@ -418,14 +411,14 @@ const SurahProfile: React.FC = () => {
                 </AnimatePresence>
 
                 {/* --- SEPARATOR --- */}
-                <div className="flex items-center justify-center gap-8 py-8 opacity-40">
-                    <div className="h-px bg-gradient-to-l from-transparent via-primary/50 to-transparent flex-1" />
-                    <div className="font-quran text-3xl text-primary/80">﷽</div>
-                    <div className="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent flex-1" />
+                <div className="flex items-center justify-center gap-8 py-10 opacity-60">
+                    <div className="h-px bg-gradient-to-l from-transparent via-primary/40 to-transparent flex-1" />
+                    <div className="font-quran text-4xl text-primary drop-shadow-sm">﷽</div>
+                    <div className="h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent flex-1" />
                 </div>
 
                 {/* --- AYAH STREAM --- */}
-                <div className={`mt-12 space-y-8 mx-auto transition-all duration-700 ${isReadingMode ? 'max-w-3xl' : 'max-w-5xl'}`}>
+                <div className={`mt-8 space-y-8 mx-auto transition-all duration-700 ${isReadingMode ? 'max-w-3xl' : 'max-w-5xl'}`}>
                     {data.ayahs.map((ayah, idx) => (
                         <SurahAyahView
                             key={ayah.ayah_no}
@@ -441,7 +434,6 @@ const SurahProfile: React.FC = () => {
                 </div>
             </motion.div>
 
-            {/* SCROLL TO TOP FAB */}
             <ScrollToTop />
         </div>
     );

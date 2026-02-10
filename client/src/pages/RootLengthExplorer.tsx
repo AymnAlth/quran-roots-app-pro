@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { apiClient } from '../lib/apiClient';
 import { useRoute, useLocation } from 'wouter';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { Layers, ArrowRight, Search, Database, Component, ArrowUpRight, Sparkles, Activity, AlertCircle } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Layers, ArrowRight, Search, Database, Component, Sparkles, Scale, Info } from 'lucide-react';
 import { useQuran } from '../contexts/QuranContext';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
@@ -12,7 +12,7 @@ import { QuranLoader } from '../components/ui/QuranLoader';
 import { NetworkError as NetworkErrorPage } from '@/components/errors/NetworkError';
 import { ServerError as ServerErrorPage } from '@/components/errors/ServerError';
 import { ErrorLayout } from '@/components/errors/ErrorLayout';
-import { AppError, NetworkError } from '../lib/errors';
+import { AppError } from '../lib/errors';
 import { ScrollToTop } from '@/components/ui/ScrollToTop';
 
 interface RootItem {
@@ -28,58 +28,40 @@ interface LengthStats {
     }
 }
 
-const BATCH_SIZE = 48; // Items to load per batch
+const BATCH_SIZE = 48;
 
 const RootLengthExplorer: React.FC = () => {
     const [match, params] = useRoute('/morphology/:length');
-    const [location, setLocation] = useLocation();
-    const { searchByRoot } = useQuran();
+    const [_, setLocation] = useLocation();
 
     const [data, setData] = useState<LengthStats | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<AppError | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
-
-    // Pagination State
     const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
 
-    // Scroll State
     const { scrollY } = useScroll();
-    const [showScrollTop, setShowScrollTop] = useState(false);
-
-    useEffect(() => {
-        return scrollY.on("change", (latest) => {
-            setShowScrollTop(latest > 300);
-        });
-    }, [scrollY]);
+    // Parallax effect for header
+    const headerY = useTransform(scrollY, [0, 300], [0, 100]);
+    const headerOpacity = useTransform(scrollY, [0, 300], [1, 0]);
 
     const length = params?.length ? parseInt(params.length) : 0;
 
-    // Fetch Data
     useEffect(() => {
         if (!length) return;
-
         const fetchData = async () => {
             setLoading(true);
             try {
                 const result = await apiClient.get<{ success: boolean; data: LengthStats }>(`statistics/roots-by-length/${length}`);
-                if (result.success) {
-                    setData(result.data);
-                } else {
-                    throw new AppError('Unknown error');
-                }
+                if (result.success) setData(result.data);
+                else throw new AppError('Unknown error');
             } catch (err) {
-                console.error(err);
-                if (err instanceof AppError) {
-                    setError(err);
-                } else {
-                    setError(new AppError('Failed to load roots data'));
-                }
+                if (err instanceof AppError) setError(err);
+                else setError(new AppError('Failed to load roots data'));
             } finally {
                 setLoading(false);
             }
         };
-
         fetchData();
     }, [length]);
 
@@ -87,38 +69,26 @@ const RootLengthExplorer: React.FC = () => {
         setLocation(`/details/${encodeURIComponent(root)}/root/search`);
     };
 
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
-    // Filter Roots
     const filteredRoots = useMemo(() => {
         if (!data) return [];
         if (!searchQuery) return data.roots;
         return data.roots.filter(r => r.root.includes(searchQuery));
     }, [data, searchQuery]);
 
-    // Visible Roots (Batching)
     const visibleRoots = useMemo(() => {
         return filteredRoots.slice(0, visibleCount);
     }, [filteredRoots, visibleCount]);
 
-    // Infinite Scroll Trigger
     useEffect(() => {
         const handleScroll = () => {
-            if (
-                window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-                visibleCount < filteredRoots.length
-            ) {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 && visibleCount < filteredRoots.length) {
                 setVisibleCount(prev => Math.min(prev + BATCH_SIZE, filteredRoots.length));
             }
         };
-
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, [visibleCount, filteredRoots.length]);
 
-    // Reset visible count on search/length change
     useEffect(() => {
         setVisibleCount(BATCH_SIZE);
     }, [searchQuery, length]);
@@ -131,195 +101,163 @@ const RootLengthExplorer: React.FC = () => {
         return `${len} أحرف`;
     };
 
+    const getLengthDescription = (len: number) => {
+        if (len === 3) return "تشكل الجذور الثلاثية الغالبية العظمى من ألفاظ القرآن، وهي الأساس المتين للغة العربية.";
+        if (len === 4) return "الجذور الرباعية أقل شيوعاً، وغالباً ما تدل على معاني دقيقة أو مبالغة أو تعريب.";
+        if (len >= 5) return "الجذور الخماسية والسداسية نادرة جداً، وعادة ما تكون أسماء أعجمية أو مركبة.";
+        return "";
+    };
+
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-background">
-                <QuranLoader message="جاري تحليل البيانات..." />
+                <QuranLoader message="جاري استحضار المعجم..." />
             </div>
         );
     }
 
     if (error) {
-        if (error.name === 'NetworkError') {
-            return <NetworkErrorPage onRetry={() => window.location.reload()} />;
-        }
-        if (error.name === 'ServerError') {
-            return <ServerErrorPage error={error} onRetry={() => window.location.reload()} />;
-        }
-        return (
-            <div className="min-h-screen">
-                <ErrorLayout
-                    title="خطأ في جلب البيانات"
-                    description={error.message}
-                    icon={<AlertCircle className="w-10 h-10 text-destructive" />}
-                    action="retry"
-                    onRetry={() => window.location.reload()}
-                />
-            </div>
-        );
+        if (error.name === 'NetworkError') return <NetworkErrorPage onRetry={() => window.location.reload()} />;
+        if (error.name === 'ServerError') return <ServerErrorPage error={error} onRetry={() => window.location.reload()} />;
+        return <ErrorLayout title="خطأ" description={error.message} icon={<AlertCircle className="w-10 h-10 text-destructive" />} action="retry" onRetry={() => window.location.reload()} />;
     }
 
     if (!data) return null;
 
     return (
-        <div className="min-h-screen bg-background text-foreground selection:bg-primary/20 pb-20 font-sans">
+        <div className="min-h-screen bg-background text-foreground selection:bg-primary/20 pb-20 font-sans overflow-x-hidden">
 
             {/* Header Background */}
-            <div className="fixed top-0 left-0 right-0 h-[400px] bg-gradient-to-b from-primary/5 via-background to-background -z-10 pointer-events-none" />
+            <div className="fixed top-0 left-0 right-0 h-[50vh] bg-gradient-to-b from-primary/10 via-background to-background -z-10 pointer-events-none" />
 
-            {/* Main Header */}
-            <div className="container relative z-10 pt-12 pb-8">
+            {/* Animated Grid Background */}
+            <div className="fixed inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none -z-10"></div>
+
+            {/* Navigation & Hero */}
+            <div className="container relative z-10 pt-8 pb-4">
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="flex justify-between items-center mb-8"
+                    className="flex justify-between items-center mb-12"
                 >
-                    <Button
-                        variant="ghost"
-                        className="hover:bg-primary/5 text-muted-foreground hover:text-primary transition-colors gap-2"
-                        onClick={() => setLocation('/dashboard')}
-                    >
-                        <ArrowRight className="w-4 h-4" />
-                        عودة للوحة التحكم
+                    <Button variant="ghost" onClick={() => setLocation('/dashboard')} className="group gap-2 hover:bg-primary/10">
+                        <ArrowRight className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                        <span className="font-bold">عودة للوحة التحكم</span>
                     </Button>
                 </motion.div>
 
-                <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-12">
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.1 }}
-                    >
-                        <div className="flex items-center gap-3 mb-4">
-                            <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 px-3 py-1">
-                                علم الصرف
-                            </Badge>
-                            <Badge variant="secondary" className="px-3 py-1">
-                                {length} أحرف
-                            </Badge>
-                        </div>
-                        <h1 className="text-5xl md:text-6xl font-bold font-quran text-foreground mb-4 drop-shadow-sm bg-clip-text text-transparent bg-gradient-to-l from-primary to-primary/70">
-                            الجذور {getLengthName(length)}
-                        </h1>
-                        <p className="text-xl text-muted-foreground max-w-2xl font-amiri leading-relaxed">
-                            استكشاف {data.summary.total_roots.toLocaleString()} جذراً فريداً في القرآن الكريم مصنفة حسب بنائها الصرفي.
-                        </p>
+                <motion.div style={{ y: headerY, opacity: headerOpacity }} className="flex flex-col items-center text-center mb-16 space-y-6">
+                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="p-4 bg-primary/10 rounded-full mb-2 ring-1 ring-primary/20">
+                        <Scale className="w-10 h-10 text-primary" />
                     </motion.div>
 
-                    {/* Stats Cards */}
-                    <div className="flex gap-4">
-                        {[
-                            { icon: Component, label: "جذر فريد", value: data.summary.total_roots, color: "text-emerald-500", bg: "bg-emerald-500/10" },
-                            { icon: Database, label: "موضع", value: data.summary.total_occurrences, color: "text-blue-500", bg: "bg-blue-500/10" }
-                        ].map((stat, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.2 + i * 0.1 }}
-                            >
-                                <Card className="bg-card/50 backdrop-blur border-border hover:shadow-lg transition-all duration-300">
-                                    <CardContent className="p-6 flex flex-col items-center min-w-[140px]">
-                                        <div className={`p-3 rounded-full mb-3 ${stat.bg} ${stat.color}`}>
-                                            <stat.icon className="w-6 h-6" />
-                                        </div>
-                                        <span className="text-3xl font-bold font-mono">{stat.value.toLocaleString()}</span>
-                                        <span className="text-sm text-muted-foreground mt-1">{stat.label}</span>
-                                    </CardContent>
-                                </Card>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
+                    <h1 className="text-6xl md:text-8xl font-bold font-quran text-transparent bg-clip-text bg-gradient-to-b from-primary to-primary/60 drop-shadow-sm">
+                        الجذور {getLengthName(length)}
+                    </h1>
 
-            </div>
+                    <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl font-amiri leading-relaxed">
+                        {getLengthDescription(length)}
+                    </p>
 
-            {/* Grid Content */}
-            <div className="container min-h-[500px]">
-                {/* Search Bar & Navigation - Sticky */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="sticky top-4 z-30 shadow-2xl shadow-primary/5 rounded-2xl mb-8"
-                >
-                    <div className="bg-card/80 backdrop-blur-xl p-2 rounded-2xl border border-border flex items-center gap-2 pr-4 pl-2 transition-all focus-within:ring-2 focus-within:ring-primary/20">
-                        {/* Sticky Back Button */}
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => setLocation('/dashboard')}
-                            className="text-muted-foreground hover:text-primary hover:bg-primary/5 shrink-0 gap-2"
-                            title="عودة للوحة التحكم"
-                        >
-                            <ArrowRight className="w-5 h-5" />
-                            <span className="hidden md:inline font-bold">عودة</span>
-                        </Button>
-
-                        <div className="h-8 w-px bg-border/50 mx-1" />
-
-                        <Search className="w-5 h-5 text-muted-foreground shrink-0" />
-                        <Input
-                            placeholder={`ابحث في الجذور ${getLengthName(length)}...`}
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="border-none bg-transparent focus-visible:ring-0 text-lg font-quran h-12 flex-1 min-w-0"
-                        />
-                        <div className="pl-4 text-sm font-bold text-muted-foreground border-r border-border/50 pr-4 shrink-0 hidden sm:block">
-                            {filteredRoots.length} نتيجة
+                    {/* Stats Badges */}
+                    <div className="flex gap-4 mt-4">
+                        <div className="px-4 py-2 bg-card border border-border rounded-full flex items-center gap-2 shadow-sm">
+                            <Component className="w-4 h-4 text-secondary" />
+                            <span className="font-bold">{data.summary.total_roots.toLocaleString()}</span>
+                            <span className="text-xs text-muted-foreground">جذر فريد</span>
+                        </div>
+                        <div className="px-4 py-2 bg-card border border-border rounded-full flex items-center gap-2 shadow-sm">
+                            <Database className="w-4 h-4 text-primary" />
+                            <span className="font-bold">{data.summary.total_occurrences.toLocaleString()}</span>
+                            <span className="text-xs text-muted-foreground">موضع في القرآن</span>
                         </div>
                     </div>
                 </motion.div>
+            </div>
+
+            {/* Main Content Area */}
+            <div className="container min-h-[500px] relative z-20 -mt-8">
+
+                {/* Search Bar - Sticky & Glassy */}
+                <div className="sticky top-6 z-40 mb-10 max-w-2xl mx-auto">
+                    <div className="relative group">
+                        <div className="absolute inset-0 bg-primary/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="relative bg-card/80 backdrop-blur-xl border border-primary/20 rounded-2xl shadow-2xl flex items-center p-2 transition-all group-focus-within:border-primary/50 group-focus-within:ring-4 ring-primary/5">
+                            <Search className="w-6 h-6 text-muted-foreground mx-3" />
+                            <Input
+                                placeholder={`ابحث في الجذور ${getLengthName(length)}...`}
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="border-none bg-transparent text-xl font-quran h-12 focus-visible:ring-0 placeholder:text-muted-foreground/50"
+                            />
+                            {filteredRoots.length > 0 && (
+                                <Badge variant="secondary" className="mx-2 bg-primary/10 text-primary hover:bg-primary/20">
+                                    {filteredRoots.length}
+                                </Badge>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Roots Grid */}
                 {visibleRoots.length > 0 ? (
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 pb-20">
                         {visibleRoots.map((item, index) => (
                             <motion.div
                                 key={item.root}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "50px" }}
-                                transition={{ duration: 0.3 }}
+                                transition={{ duration: 0.4, delay: index % 10 * 0.05 }}
                                 onClick={() => handleRootClick(item.root)}
-                                className="group cursor-pointer"
+                                className="group cursor-pointer perspective-1000"
                             >
-                                <div className="h-full bg-card hover:bg-primary/5 border border-border hover:border-primary/30 rounded-2xl p-6 flex flex-col items-center justify-center gap-4 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden">
-                                    <div className="absolute top-0 start-0 w-full h-1 bg-gradient-to-l from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <div className="relative h-32 bg-card border border-border rounded-xl flex flex-col items-center justify-center gap-3 transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-[0_0_20px_rgba(var(--primary),0.1)] group-hover:-translate-y-1 overflow-hidden">
 
-                                    <h3 className="text-3xl font-bold font-quran text-foreground group-hover:text-primary transition-colors">
+                                    {/* Background decorative letter */}
+                                    <span className="absolute -bottom-4 -right-4 text-8xl font-quran text-primary/5 group-hover:text-primary/10 transition-colors select-none pointer-events-none">
+                                        {item.root[0]}
+                                    </span>
+
+                                    {/* Main Root Text */}
+                                    <h3 className="text-3xl font-bold font-quran text-foreground group-hover:text-primary transition-colors z-10">
                                         {item.root}
                                     </h3>
 
-                                    <div className="flex items-center gap-2 text-xs font-bold text-muted-foreground bg-secondary px-3 py-1 rounded-full group-hover:bg-white group-hover:text-primary group-hover:shadow-sm transition-all">
+                                    {/* Count Badge */}
+                                    <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground bg-secondary/50 px-2.5 py-0.5 rounded-full border border-transparent group-hover:border-primary/20 group-hover:bg-primary/5 group-hover:text-primary transition-all z-10">
                                         <Layers className="w-3 h-3" />
                                         <span>{item.count}</span>
                                     </div>
+
+                                    {/* Shine Effect */}
+                                    <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 transform translate-x-[-100%] group-hover:translate-x-[100%]" />
                                 </div>
                             </motion.div>
                         ))}
                     </div>
                 ) : (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="flex flex-col items-center justify-center py-20 text-muted-foreground"
-                    >
-                        <Search className="w-16 h-16 mb-4 opacity-20" />
-                        <p className="text-xl">لا توجد جذور تطابق بحثك</p>
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center justify-center py-20 text-muted-foreground space-y-4">
+                        <div className="p-6 bg-muted/50 rounded-full">
+                            <Search className="w-12 h-12 opacity-50" />
+                        </div>
+                        <p className="text-xl font-amiri">لم يتم العثور على جذور تطابق بحثك</p>
+                        <Button variant="link" onClick={() => setSearchQuery('')} className="text-primary">مسح البحث</Button>
                     </motion.div>
                 )}
 
-                {/* Loading Indicator for Infinite Scroll */}
+                {/* Loading Spinner */}
                 {visibleCount < filteredRoots.length && (
-                    <div className="py-12 flex justify-center">
-                        <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+                    <div className="py-8 flex justify-center">
+                        <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
                     </div>
                 )}
             </div>
 
-            {/* Scroll To Top FAB */}
             <ScrollToTop />
         </div>
     );
 };
 
+import { AlertCircle } from 'lucide-react';
 export default RootLengthExplorer;

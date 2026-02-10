@@ -1,14 +1,19 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ChevronUp, Copy } from 'lucide-react';
+import { ChevronDown, ChevronUp, Copy, BookOpen } from 'lucide-react';
 
-// --- Utility: Normalize Arabic ---
-const normalizeArabic = (text: string) => {
+// --- Utility: Strong Normalization (توحيد النص للمقارنة الدقيقة) ---
+// التحديث: إضافة "ٱ" (همزة الوصل) لقائمة التوحيد لضمان تلوين لفظ الجلالة
+const normalizeForMatch = (text: string) => {
     if (!text) return "";
-    return text.replace(/[\u064B-\u065F\u0670\u0640]/g, "");
+    return text
+        .replace(/[\u064B-\u065F\u0670\u0640]/g, "") // إزالة التشكيل والتطويل
+        .replace(/[أإآٱ]/g, "ا") // توحيد جميع أشكال الألف (بما فيها همزة الوصل الموجودة في "ٱللَّهِ")
+        .replace(/[^\w\s\u0600-\u06FF]/g, "") // إزالة الرموز
+        .trim();
 };
 
-// --- Sub-component: HighlightableText (Moved here for encapsulation) ---
+// --- Sub-component: HighlightableText ---
 const HighlightableText: React.FC<{
     text: string;
     mainWords: string[];
@@ -17,40 +22,46 @@ const HighlightableText: React.FC<{
 }> = ({ text, mainWords, secondaryWords, subSearch }) => {
     if (!text) return null;
 
-    // COLOR PALETTE (High Contrast Text Only - No Backgrounds)
-    const STYLE_MAIN = "text-blue-600 dark:text-blue-400 font-extrabold";
-    const STYLE_SECONDARY = "text-fuchsia-600 dark:text-fuchsia-400 font-extrabold";
-    const STYLE_GENERAL = "text-emerald-600 dark:text-emerald-400 font-bold";
-
-    const normalize = (t: string) => t.replace(/[\u064B-\u065F\u0670\u0640]/g, "");
-
-    const mainSet = new Set(mainWords.map(w => normalize(w)));
-    const secondarySet = new Set(secondaryWords.map(w => normalize(w)));
-
-    const cleanSub = subSearch ? normalize(subSearch.trim()) : "";
-    const subIsRoot = mainSet.has(cleanSub) || secondarySet.has(cleanSub);
+    const mainSet = new Set(mainWords.map(w => normalizeForMatch(w)));
+    const secondarySet = new Set(secondaryWords.map(w => normalizeForMatch(w)));
+    const cleanSub = subSearch ? normalizeForMatch(subSearch) : "";
 
     const words = text.split(' ');
 
     return (
         <>
             {words.map((word, i) => {
-                const normWord = normalize(word);
+                const normWord = normalizeForMatch(word);
                 const suffix = i < words.length - 1 ? " " : "";
 
+                // 1. الجذر الأساسي
                 if (mainSet.has(normWord)) {
-                    return <span key={i} className={STYLE_MAIN}>{word}{suffix}</span>;
+                    return (
+                        <span key={i} className="text-secondary font-extrabold drop-shadow-sm decoration-secondary/30 underline decoration-2 underline-offset-8">
+                            {word}{suffix}
+                        </span>
+                    );
                 }
 
+                // 2. الجذر الثانوي (تم إصلاح المشكلة هنا بفضل التوحيد الجديد)
                 if (secondarySet.has(normWord)) {
-                    return <span key={i} className={STYLE_SECONDARY}>{word}{suffix}</span>;
+                    return (
+                        <span key={i} className="text-primary font-extrabold decoration-primary/30 underline decoration-dotted underline-offset-8">
+                            {word}{suffix}
+                        </span>
+                    );
                 }
 
-                if (cleanSub && cleanSub.length > 1 && !subIsRoot && normWord.includes(cleanSub)) {
-                    return <span key={i} className={STYLE_GENERAL}>{word}{suffix}</span>;
+                // 3. البحث النصي الحر
+                if (cleanSub && cleanSub.length > 1 && normWord.includes(cleanSub)) {
+                    return (
+                        <span key={i} className="text-rose-600 dark:text-rose-400 font-extrabold decoration-rose-300/30 underline decoration-wavy underline-offset-4">
+                            {word}{suffix}
+                        </span>
+                    );
                 }
 
-                return <span key={i}>{word}{suffix}</span>;
+                return <span key={i} className="text-foreground/85">{word}{suffix}</span>;
             })}
         </>
     );
@@ -74,19 +85,30 @@ export const AyahCard: React.FC<AyahCardProps> = ({
 }) => {
     const [isExpanded, setIsExpanded] = React.useState(false);
 
-    // Derive Highlight Lists
-    const mainTokens = React.useMemo(() =>
-        ayah.tokens
-            ? ayah.tokens
-                .filter((t: any) => t.root === mainRoot)
-                .map((t: any) => t.token_uthmani || t.token)
-            : [],
-        [ayah.tokens, mainRoot]);
+    // 1. كلمات الجذر الأساسي
+    const mainTokens = React.useMemo(() => {
+        if (!ayah.tokens) return [];
+        const cleanMain = normalizeForMatch(mainRoot);
 
+        return ayah.tokens
+            .filter((t: any) => normalizeForMatch(t.root) === cleanMain)
+            .map((t: any) => t.token_uthmani || t.token);
+    }, [ayah.tokens, mainRoot]);
+
+    // 2. كلمات الجذر الثانوي
     const secondaryTokens = React.useMemo(() => {
         if (!subSearch || !ayah.tokens) return [];
+
+        const cleanSub = normalizeForMatch(subSearch);
+        const cleanMain = normalizeForMatch(mainRoot);
+
+        if (cleanSub === cleanMain) return [];
+
         return ayah.tokens
-            .filter((t: any) => t.root === subSearch && t.root !== mainRoot)
+            .filter((t: any) => {
+                const tRoot = normalizeForMatch(t.root);
+                return tRoot === cleanSub;
+            })
             .map((t: any) => t.token_uthmani || t.token);
     }, [ayah.tokens, subSearch, mainRoot]);
 
@@ -96,79 +118,60 @@ export const AyahCard: React.FC<AyahCardProps> = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: index * 0.05 }}
-            className={`group overflow-hidden rounded-2xl border transition-all duration-500 relative bg-card ${isExpanded
-                    ? 'shadow-2xl shadow-primary/10 border-primary/20 ring-1 ring-primary/5'
-                    : 'shadow-sm hover:shadow-md border-border/50 hover:border-primary/20'
+            className={`group overflow-hidden rounded-xl border transition-all duration-500 relative bg-card ${isExpanded
+                    ? 'shadow-lg shadow-primary/5 border-primary/30 ring-1 ring-primary/10'
+                    : 'shadow-sm hover:shadow-md border-border/60 hover:border-primary/20'
                 }`}
         >
-            {/* Decorative side accent */}
-            <div className={`absolute start-0 top-0 bottom-0 w-1 transition-all duration-500 ${isExpanded ? 'bg-primary' : 'bg-primary/0 group-hover:bg-primary/50'}`} />
+            <div className={`absolute start-0 top-0 bottom-0 w-1 transition-all duration-500 ${isExpanded ? 'bg-primary' : 'bg-primary/0 group-hover:bg-primary/30'}`} />
 
-            {/* CLICKABLE HEADER AREA */}
+            {/* HEADER */}
             <div
-                role="button"
-                aria-expanded={isExpanded}
-                tabIndex={0}
+                className="cursor-pointer p-4 md:p-5 flex flex-wrap items-center justify-between gap-4 relative z-10 rounded-t-xl select-none"
                 onClick={() => setIsExpanded(!isExpanded)}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setIsExpanded(!isExpanded); } }}
-                className="cursor-pointer p-4 md:p-5 flex flex-wrap items-center justify-between gap-4 relative z-10 focus:outline-none focus:ring-2 focus:ring-primary/50 rounded-xl"
             >
                 <div className="flex items-center gap-4 flex-1">
-                    {/* Number Badge */}
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold transition-colors font-serif ${isExpanded ? 'bg-primary text-primary-foreground shadow-md' : 'bg-secondary text-primary group-hover:bg-primary/10'}`}>
+                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center text-lg font-bold transition-colors font-quran pt-1 border ${isExpanded
+                            ? 'bg-primary text-primary-foreground border-primary shadow-sm'
+                            : 'bg-muted/50 text-muted-foreground border-border group-hover:border-primary/30'
+                        }`}>
                         {index + 1}
                     </div>
 
                     <div className="flex flex-col">
                         <div className="flex items-baseline gap-2">
-                            <h3 className="text-lg font-bold text-foreground font-serif leading-tight">{ayah.surahName}</h3>
-                            <span className="text-xs text-muted-foreground font-medium px-1.5 py-0.5 bg-background rounded border border-border">آية {ayah.ayahNo}</span>
-                        </div>
-
-                        {/* Metadata Preview */}
-                        <div className="flex gap-2 text-[10px] text-muted-foreground mt-1">
-                            <span>الجزء {ayah.juz}</span>
-                            <span className="w-px h-2.5 bg-border self-center" />
-                            <span>صفحة {ayah.page}</span>
-                            {!isExpanded && ayah.tokens && ayah.tokens.length > 0 && (
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    className="mr-2 flex gap-1"
-                                >
-                                    <span className="bg-primary/10 text-primary px-1.5 rounded-[3px] font-bold text-[10px]">
-                                        {ayah.tokens.length} تطابق
-                                    </span>
-                                </motion.div>
-                            )}
+                            <h3 className="text-xl text-foreground font-quran">{ayah.surahName}</h3>
+                            <span className="text-xs text-muted-foreground font-medium px-2 py-0.5 bg-muted/50 rounded-full border border-border/50">
+                                آية {ayah.ayahNo}
+                            </span>
                         </div>
                     </div>
                 </div>
 
-                {/* Toggle Icon & Copy Button */}
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1">
                     <button
+                        type="button"
                         onClick={(e) => {
                             e.stopPropagation();
                             navigator.clipboard.writeText(`${ayah.text} \n[${ayah.surahName}: ${ayah.ayahNo}]`);
-                            // Simple visual feedback could be added here
                         }}
-                        className="p-2 rounded-full hover:bg-secondary/80 text-muted-foreground transition-colors z-20"
+                        className="p-2 rounded-full hover:bg-muted text-muted-foreground hover:text-primary transition-colors z-20 focus:outline-none"
                         title="نسخ الآية"
                     >
-                        <Copy className="w-3.5 h-3.5" />
+                        <Copy className="w-4 h-4" />
                     </button>
-                    <div className={`p-2 rounded-full transition-colors ${isExpanded ? 'bg-primary/10 text-primary' : 'bg-transparent text-muted-foreground group-hover:bg-muted'}`}>
+
+                    <div className={`p-2 rounded-full transition-colors ${isExpanded ? 'bg-primary/10 text-primary' : 'text-muted-foreground group-hover:text-foreground'}`}>
                         {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                     </div>
                 </div>
             </div>
 
-            {/* VISIBLE QURAN TEXT AREA */}
-            <div className="px-5 md:px-8 pb-4 pt-0 -mt-1">
+            {/* TEXT AREA */}
+            <div className="px-5 md:px-8 pb-5 pt-1">
                 <div className="relative">
-                    <div className="max-h-[130px] overflow-y-auto custom-scrollbar pl-2 pr-2 py-1 hover:bg-muted/5 rounded-lg transition-colors">
-                        <p className="text-right text-lg md:text-xl leading-[2.4] dir-rtl text-foreground font-quran drop-shadow-sm select-text" dir="rtl">
+                    <div className="pl-2 pr-1 py-2 max-h-[160px] overflow-y-auto custom-scrollbar rounded-lg transition-colors hover:bg-muted/5">
+                        <p className="text-right text-2xl md:text-3xl dir-rtl text-foreground font-quran leading-[2.6]" dir="rtl">
                             <HighlightableText
                                 text={ayah.text}
                                 mainWords={mainTokens}
@@ -180,39 +183,55 @@ export const AyahCard: React.FC<AyahCardProps> = ({
                 </div>
             </div>
 
-            {/* EXPANDABLE CONTENT */}
+            {/* DETAILS */}
             <AnimatePresence>
                 {isExpanded && (
                     <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.25 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
-                        <div className="px-5 md:px-8 pb-6 pt-4 border-t border-border/40 bg-muted/5">
-                            <div className="flex flex-wrap gap-x-8 gap-y-4">
+                        <div className="px-5 md:px-8 pb-6 pt-4 border-t border-border/40 bg-muted/30">
 
-                                {/* Root Matches */}
+                            <div className="flex items-center gap-4 mb-4 text-sm text-muted-foreground font-medium">
+                                <span className="flex items-center gap-1"><BookOpen className="w-3.5 h-3.5" /> الجزء {ayah.juz}</span>
+                                <span className="w-1 h-1 rounded-full bg-border" />
+                                <span>صفحة {ayah.page}</span>
+                            </div>
+
+                            <div className="flex flex-wrap gap-x-8 gap-y-6">
+                                {/* الكلمات المطابقة */}
                                 {ayah.tokens && ayah.tokens.length > 0 && (
-                                    <div className="space-y-2">
-                                        <div className="text-xs font-bold text-primary/90 flex items-center gap-1.5">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                                            الكلمات المطابقة
+                                    <div className="space-y-3">
+                                        <div className="text-xs font-bold text-primary/80 flex items-center gap-1.5 uppercase tracking-wider">
+                                            التحليل الصرفي للجذر
                                         </div>
-                                        <div className="flex flex-wrap gap-2">
+                                        <div className="flex flex-wrap gap-3">
                                             {ayah.tokens.map((token: any, idx: number) => {
-                                                const isMain = token.root === mainRoot;
-                                                const isSecondary = token.root === subSearch;
+                                                const cleanTokenRoot = normalizeForMatch(token.root);
+                                                const cleanMain = normalizeForMatch(mainRoot);
+                                                const cleanSub = normalizeForMatch(subSearch);
+
+                                                const isMain = cleanTokenRoot === cleanMain;
+                                                const isSecondary = cleanTokenRoot === cleanSub && !isMain;
+
                                                 return (
-                                                    <div key={idx} className={`flex flex-col items-center px-3 py-1.5 rounded-md border shadow-sm relative min-w-[40px] ${isMain ? 'bg-primary/10 border-primary/30' :
-                                                            isSecondary ? 'bg-amber-100 border-amber-300 dark:bg-amber-900/30' :
-                                                                'bg-background border-border/80'
+                                                    <div key={idx} className={`flex flex-col items-center px-4 py-2 rounded-lg border relative min-w-[60px] transition-all ${isMain
+                                                            ? 'bg-secondary/10 border-secondary/40 shadow-sm'
+                                                            : isSecondary
+                                                                ? 'bg-primary/10 border-primary/30 ring-1 ring-primary/20'
+                                                                : 'bg-background border-border hover:border-primary/30'
                                                         }`}>
-                                                        <span className={`text-sm font-bold font-quran leading-tight ${isMain ? 'text-primary' :
-                                                                isSecondary ? 'text-amber-700 dark:text-amber-400' :
-                                                                    'text-foreground'
-                                                            }`}>{token.token_uthmani || token.token}</span>
-                                                        <span className="text-[9px] text-muted-foreground/90 uppercase tracking-wide">{token.root}</span>
+                                                        <span className={`text-xl font-quran mb-1 ${isMain
+                                                                ? 'text-secondary font-bold'
+                                                                : isSecondary
+                                                                    ? 'text-primary font-bold'
+                                                                    : 'text-foreground'
+                                                            }`}>
+                                                            {token.token_uthmani || token.token}
+                                                        </span>
+                                                        <span className="text-[10px] text-muted-foreground font-mono bg-background/50 px-1.5 rounded">{token.root}</span>
                                                     </div>
                                                 );
                                             })}
@@ -220,27 +239,30 @@ export const AyahCard: React.FC<AyahCardProps> = ({
                                     </div>
                                 )}
 
-                                {/* Related Roots */}
+                                {/* جذور أخرى */}
                                 {ayah.otherRoots && ayah.otherRoots.length > 0 && (
-                                    <div className="space-y-2 flex-1 min-w-[180px]">
-                                        <div className="text-xs font-bold text-muted-foreground flex items-center gap-1.5">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground/60" />
-                                            جذور أخرى
+                                    <div className="space-y-3 flex-1 min-w-[200px]">
+                                        <div className="text-xs font-bold text-muted-foreground flex items-center gap-1.5 uppercase tracking-wider">
+                                            جذور أخرى في الآية
                                         </div>
-                                        <div className="flex flex-wrap gap-1.5">
-                                            {ayah.otherRoots.filter((r: string) => normalizeArabic(r).length >= 3).map((root: string, idx: number) => {
-                                                const isSelected = root === subSearch;
+                                        <div className="flex flex-wrap gap-2">
+                                            {ayah.otherRoots.filter((r: string) => normalizeForMatch(r).length >= 3).map((root: string, idx: number) => {
+                                                const isSelected = normalizeForMatch(root) === normalizeForMatch(subSearch);
                                                 return (
-                                                    <span
+                                                    <button
                                                         key={idx}
-                                                        onClick={(e) => { e.stopPropagation(); onRootClick(root); }}
-                                                        className={`text-xs font-medium px-2 py-1 rounded-md border cursor-pointer transition-all hover:shadow-sm ${isSelected
-                                                                ? 'bg-amber-100 text-amber-700 border-amber-300 dark:bg-amber-900/30 dark:text-amber-400'
-                                                                : 'bg-background text-muted-foreground border-border/50 hover:border-primary/50 hover:text-primary'
+                                                        type="button"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            onRootClick(root);
+                                                        }}
+                                                        className={`text-sm px-3 py-1.5 rounded-md border transition-all ${isSelected
+                                                                ? 'bg-primary text-primary-foreground border-primary shadow-sm ring-2 ring-primary/20'
+                                                                : 'bg-background text-muted-foreground border-border hover:border-primary/50 hover:text-primary'
                                                             }`}
                                                     >
                                                         {root}
-                                                    </span>
+                                                    </button>
                                                 );
                                             })}
                                         </div>

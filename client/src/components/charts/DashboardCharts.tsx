@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-    PieChart, Pie, Cell, Legend
+    PieChart, Pie, Cell, Legend, Area, ComposedChart
 } from 'recharts';
 import { motion } from 'framer-motion';
+import { Share2 } from 'lucide-react';
 
 // --- Types ---
 interface TimelineItem {
@@ -30,19 +31,25 @@ interface Link {
     value: number;
 }
 
-// --- colors ---
+// --- NEW ISLAMIC PALETTE ---
 const COLORS = {
-    meccan: '#10b981', // Emerald 500
-    medinan: '#f59e0b', // Amber 500
-    primary: 'var(--primary)',
-    secondary: 'var(--secondary)',
-    muted: 'var(--muted)'
+    // Primary: Deep Teal (تركواز غامق)
+    primary: '#0f4c5c',
+    // Secondary: Golden (ذهبي)
+    secondary: '#fb8b24',
+    // Era Colors
+    meccan: '#0f4c5c', // Teal for Meccan
+    medinan: '#d4a373', // Muted Gold for Medinan
+    // UI
+    muted: 'var(--muted)',
+    tooltipBg: 'var(--card)',
+    tooltipBorder: 'var(--border)'
 };
 
 // --- Components ---
 
 export const RevelationTimeline = ({ data, onClick }: { data: TimelineItem[]; onClick?: (surah: string) => void }) => {
-    if (!data || data.length === 0) return <div>لا توجد بيانات</div>;
+    if (!data || data.length === 0) return <div className="text-muted-foreground font-quran text-center py-10">لا توجد بيانات</div>;
 
     return (
         <div className="w-full h-[300px] dir-ltr text-xs">
@@ -56,26 +63,48 @@ export const RevelationTimeline = ({ data, onClick }: { data: TimelineItem[]; on
                         }
                     }}
                 >
-                    <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.1} />
+                    <defs>
+                        <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor={COLORS.primary} stopOpacity={1} />
+                            <stop offset="95%" stopColor={COLORS.primary} stopOpacity={0.6} />
+                        </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke={COLORS.muted} strokeOpacity={0.2} vertical={false} />
                     <XAxis
                         dataKey="order"
-                        label={{ value: 'ترتيب النزول', position: 'insideBottom', offset: -5 }}
-                        tick={{ fontSize: 10 }}
+                        label={{ value: 'ترتيب النزول / المصحف', position: 'insideBottom', offset: -5, fill: 'var(--muted-foreground)' }}
+                        tick={{ fontSize: 10, fill: 'var(--muted-foreground)' }}
+                        axisLine={false}
+                        tickLine={false}
                     />
-                    <YAxis tick={{ fontSize: 10 }} />
+                    <YAxis
+                        tick={{ fontSize: 10, fill: 'var(--muted-foreground)' }}
+                        axisLine={false}
+                        tickLine={false}
+                    />
                     <Tooltip
-                        contentStyle={{ backgroundColor: 'var(--popover)', borderColor: 'var(--border)', borderRadius: '8px' }}
-                        itemStyle={{ color: 'var(--popover-foreground)' }}
+                        cursor={{ fill: COLORS.secondary, opacity: 0.1 }}
+                        contentStyle={{
+                            backgroundColor: 'var(--card)',
+                            borderColor: 'var(--border)',
+                            borderRadius: '12px',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                            fontFamily: 'Amiri, serif'
+                        }}
+                        itemStyle={{ color: COLORS.primary, fontWeight: 'bold' }}
+                        labelStyle={{ color: 'var(--muted-foreground)', marginBottom: '0.25rem' }}
                         labelFormatter={(label) => `الترتيب: ${label}`}
-                        formatter={(value: number, name: string, props: any) => [value, `سورة ${props.payload.surah}`]}
-                        cursor={{ fill: 'var(--primary)', opacity: 0.1 }}
+                        formatter={(value: number, name: string, props: any) => [
+                            <span className="font-bold text-lg">{value}</span>,
+                            <span className="text-sm">سورة {props.payload.surah}</span>
+                        ]}
                     />
                     <Bar
                         dataKey="count"
-                        fill="var(--primary)"
+                        fill="url(#barGradient)"
                         radius={[4, 4, 0, 0]}
                         animationDuration={1500}
-                        className="cursor-pointer hover:opacity-80"
+                        className="cursor-pointer hover:opacity-80 transition-opacity"
                     />
                 </BarChart>
             </ResponsiveContainer>
@@ -101,43 +130,49 @@ export const EraDistribution = ({ data, onClick }: { data: EraData; onClick?: (e
                         cy="50%"
                         innerRadius={60}
                         outerRadius={80}
-                        paddingAngle={5}
+                        paddingAngle={4}
                         dataKey="value"
                         onClick={(data) => onClick && onClick(data.type)}
                         cursor="pointer"
+                        stroke="none"
                     >
                         {chartData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={eraColors[index % eraColors.length]} className="cursor-pointer hover:opacity-80 stroke-background stroke-2" />
+                            <Cell
+                                key={`cell-${index}`}
+                                fill={eraColors[index % eraColors.length]}
+                                className="cursor-pointer hover:opacity-80 transition-opacity outline-none"
+                            />
                         ))}
                     </Pie>
                     <Tooltip
-                        contentStyle={{ backgroundColor: 'var(--popover)', borderColor: 'var(--border)', borderRadius: '8px' }}
-                        itemStyle={{ color: 'var(--popover-foreground)' }}
+                        contentStyle={{
+                            backgroundColor: 'var(--card)',
+                            borderColor: 'var(--border)',
+                            borderRadius: '12px',
+                            fontFamily: 'Amiri, serif'
+                        }}
+                        itemStyle={{ color: 'var(--foreground)' }}
                     />
-                    <Legend verticalAlign="bottom" height={36} />
+                    <Legend
+                        verticalAlign="bottom"
+                        height={36}
+                        formatter={(value) => <span className="font-quran text-sm mx-2">{value}</span>}
+                    />
                 </PieChart>
             </ResponsiveContainer>
-            <div className="text-center text-sm text-muted-foreground mt-2">
-                <span className="text-emerald-500 font-bold">{data.meccan}</span> مكية مقابل <span className="text-amber-500 font-bold">{data.medinan}</span> مدنية
+            <div className="text-center text-sm text-muted-foreground mt-1 font-quran">
+                <span className="font-bold" style={{ color: COLORS.meccan }}>{data.meccan}</span> مكية مقابل <span className="font-bold" style={{ color: COLORS.medinan }}>{data.medinan}</span> مدنية
             </div>
         </div>
     );
 };
 
 export const NetworkGraph = ({ nodes, links, onClick }: { nodes: Node[]; links: Link[]; onClick?: (root: string) => void }) => {
-    // Simple Radial Layout since it's a star topology
-    // Center is the first node
+    // Radial Layout
     const centerX = 200;
     const centerY = 200;
     const radius = 120;
 
-    // Filter nodes: strictly exclude roots with < 3 letters (ignoring diacritics)
-    // Always keep the center node (group 1) usually, but for consistency let's filter all 
-    // OR: Assume center node is the target and might be small? 
-    // Actually, user wants "other roots" filtered. The center is the target.
-    // Let's filter the SATELLITE nodes (group 2).
-
-    // Safety check
     if (!nodes || nodes.length === 0) return null;
 
     const centerNode = nodes[0];
@@ -148,7 +183,7 @@ export const NetworkGraph = ({ nodes, links, onClick }: { nodes: Node[]; links: 
     const angleStep = (2 * Math.PI) / satelliteNodes.length;
 
     return (
-        <div className="w-full h-[400px] flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-background to-secondary/10 rounded-xl border border-primary/5">
+        <div className="w-full h-[400px] flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-background to-secondary/5 rounded-xl border border-primary/5">
             <svg viewBox="0 0 400 400" className="w-full h-full">
                 {/* Links */}
                 {satelliteNodes.map((node, i) => {
@@ -157,7 +192,7 @@ export const NetworkGraph = ({ nodes, links, onClick }: { nodes: Node[]; links: 
                     const y = centerY + radius * Math.sin(angle);
 
                     const link = links.find(l => l.target === node.id);
-                    const strokeWidth = link ? Math.max(1, Math.min(4, link.value / 3)) : 1;
+                    const strokeWidth = link ? Math.max(1, Math.min(3, link.value / 3)) : 1;
                     const count = link ? link.value : 0;
 
                     const midX = (centerX + x) / 2;
@@ -170,38 +205,38 @@ export const NetworkGraph = ({ nodes, links, onClick }: { nodes: Node[]; links: 
                                 y1={centerY}
                                 x2={x}
                                 y2={y}
-                                stroke="var(--primary)"
-                                strokeOpacity="0.3"
+                                stroke={COLORS.primary}
+                                strokeOpacity="0.2"
                                 strokeWidth={strokeWidth}
                                 initial={{ pathLength: 0 }}
                                 animate={{ pathLength: 1 }}
-                                transition={{ duration: 1, delay: 0.5 }}
+                                transition={{ duration: 1, delay: 0.2 }}
                             />
 
-                            {/* Link Badge (Circle instead of Rect) */}
+                            {/* Link Badge (Golden Dot) */}
                             <motion.circle
                                 cx={midX}
                                 cy={midY}
-                                r="10"
-                                fill="white"
-                                stroke="var(--primary)"
+                                r="8"
+                                fill="var(--card)"
+                                stroke={COLORS.secondary}
                                 strokeWidth="1"
-                                strokeOpacity="0.5"
                                 initial={{ opacity: 0, scale: 0 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 1.5 }}
+                                transition={{ delay: 1 }}
                             />
                             <motion.text
                                 x={midX}
                                 y={midY}
                                 dy=".35em"
                                 textAnchor="middle"
-                                fontSize="10"
-                                fill="var(--primary)"
+                                fontSize="9"
+                                fill={COLORS.secondary}
                                 fontWeight="bold"
+                                className="font-mono"
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                transition={{ delay: 1.6 }}
+                                transition={{ delay: 1.1 }}
                             >
                                 {count}
                             </motion.text>
@@ -209,7 +244,7 @@ export const NetworkGraph = ({ nodes, links, onClick }: { nodes: Node[]; links: 
                     );
                 })}
 
-                {/* Satellite Nodes */}
+                {/* Satellite Nodes (Golden Theme) */}
                 {satelliteNodes.map((node, i) => {
                     const angle = i * angleStep;
                     const x = centerX + radius * Math.cos(angle);
@@ -221,17 +256,18 @@ export const NetworkGraph = ({ nodes, links, onClick }: { nodes: Node[]; links: 
                                 cx={x}
                                 cy={y}
                                 r={Math.min(24, Math.max(18, node.radius))}
-                                fill="white"
-                                stroke="var(--primary)"
-                                strokeWidth="2"
+                                fill="var(--card)"
+                                stroke={COLORS.secondary}
+                                strokeWidth="1.5"
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
                                 transition={{ delay: 0.5 + i * 0.05 }}
-                                className="group-hover:fill-primary/10 transition-colors shadow-lg"
+                                className="group-hover:fill-secondary/10 transition-colors shadow-sm"
                             />
                             <motion.text
                                 x={x}
-                                y={y + Math.min(24, Math.max(18, node.radius)) + 16}
+                                y={y}
+                                dy=".35em"
                                 textAnchor="middle"
                                 fill="var(--foreground)"
                                 fontSize="12"
@@ -239,7 +275,7 @@ export const NetworkGraph = ({ nodes, links, onClick }: { nodes: Node[]; links: 
                                 className="pointer-events-none group-hover:scale-110 transition-transform font-quran"
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                transition={{ delay: 1 + i * 0.05 }}
+                                transition={{ delay: 0.8 + i * 0.05 }}
                             >
                                 {node.id}
                             </motion.text>
@@ -247,26 +283,26 @@ export const NetworkGraph = ({ nodes, links, onClick }: { nodes: Node[]; links: 
                     );
                 })}
 
-                {/* Center Node */}
+                {/* Center Node (Teal Theme) */}
                 <g>
                     <motion.circle
                         cx={centerX}
                         cy={centerY}
-                        r={Math.min(45, Math.max(30, centerNode.radius))}
-                        fill="var(--primary)"
-                        stroke="white"
+                        r={Math.min(45, Math.max(35, centerNode.radius))}
+                        fill={COLORS.primary}
+                        stroke="var(--background)"
                         strokeWidth="4"
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        className="cursor-default drop-shadow-md"
+                        className="cursor-default drop-shadow-xl"
                     />
                     <text
                         x={centerX}
                         y={centerY}
                         dy=".35em"
                         textAnchor="middle"
-                        fill="white"
-                        fontSize="16"
+                        fill="#fff"
+                        fontSize="18"
                         fontWeight="bold"
                         className="pointer-events-none font-quran"
                     >
@@ -274,8 +310,8 @@ export const NetworkGraph = ({ nodes, links, onClick }: { nodes: Node[]; links: 
                     </text>
                 </g>
             </svg>
-            <div className="absolute bottom-2 right-2 text-[10px] text-muted-foreground/60">
-                شبكة الجذور المصاحبة (اضغط للتفاصيل) <Share2 className="w-3 h-3 inline ml-1" />
+            <div className="absolute bottom-3 right-3 text-[10px] text-muted-foreground bg-background/80 px-2 py-1 rounded-full border border-border">
+                اضغط على الدوائر للمقارنة <Share2 className="w-3 h-3 inline ml-1" />
             </div>
         </div>
     );
@@ -286,7 +322,7 @@ export const WordFormsList = ({ forms, onClick }: { forms: { form: string, count
     const max = forms[0].count;
 
     return (
-        <div className="grid grid-cols-2 gap-3 max-h-[400px] overflow-y-auto p-2">
+        <div className="grid grid-cols-2 gap-3 max-h-[400px] overflow-y-auto p-1 custom-scrollbar">
             {forms.map((item, i) => (
                 <motion.div
                     key={i}
@@ -294,49 +330,46 @@ export const WordFormsList = ({ forms, onClick }: { forms: { form: string, count
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.05 }}
-                    className="flex items-center justify-between p-3 rounded-lg bg-secondary/10 border border-border/50 hover:bg-secondary/20 hover:border-primary/30 transition-all cursor-pointer group"
+                    className="flex items-center justify-between p-3 rounded-lg bg-card border border-border/60 hover:border-primary/40 hover:bg-secondary/5 transition-all cursor-pointer group"
                 >
                     <span className="font-quran text-lg text-foreground group-hover:text-primary transition-colors">{item.form}</span>
                     <div className="flex items-center gap-2">
-                        <div className="h-1.5 w-16 bg-muted/30 rounded-full overflow-hidden">
-                            <div className="h-full bg-primary/60 rounded-full" style={{ width: `${(item.count / max) * 100}%` }} />
+                        {/* Custom Progress Bar */}
+                        <div className="h-1.5 w-14 bg-muted rounded-full overflow-hidden">
+                            <div
+                                className="h-full bg-gradient-to-l from-primary to-primary/60 rounded-full"
+                                style={{ width: `${(item.count / max) * 100}%` }}
+                            />
                         </div>
-                        <span className="text-xs font-bold text-muted-foreground w-6 text-left">{item.count}</span>
+                        <span className="text-xs font-bold text-primary w-6 text-left font-mono">{item.count}</span>
                     </div>
                 </motion.div>
             ))}
         </div>
     );
 };
-// ... existing imports ...
 
 export const RelationshipMatrix = ({ data, onClick }: { data: { x: string; y: string; value: number }[], onClick?: (x: string, y: string) => void }) => {
-    // Fail-Safe: Filter out any execution that slipped through backend
-    // Remove diacritics before checking length!
+    // Cleaning Data
     const cleanData = data?.filter(d =>
         d.x.replace(/[\u064B-\u065F\u0670]/g, "").length >= 3 &&
         d.y.replace(/[\u064B-\u065F\u0670]/g, "").length >= 3
     ) || [];
 
-    if (!cleanData || cleanData.length === 0) return <div>لا توجد بيانات</div>;
+    if (!cleanData || cleanData.length === 0) return <div className="text-center py-8 text-muted-foreground font-quran">لا توجد علاقات كافية للعرض</div>;
 
-    // 1. Extract unique roots
     const roots = Array.from(new Set(cleanData.map(d => d.x)));
-
-    // 2. Find max value for color scale (excluding self-intersection which is huge)
     const maxVal = Math.max(...cleanData.filter(d => d.x !== d.y).map(d => d.value), 1);
-
-    // 3. Grid CSS
     const gridSize = roots.length;
 
     return (
-        <div className="w-full overflow-x-auto p-4 flex justify-center">
-            <div className="grid gap-1" style={{ gridTemplateColumns: `auto repeat(${gridSize}, minmax(40px, 1fr))` }}>
+        <div className="w-full overflow-x-auto p-4 flex justify-center custom-scrollbar">
+            <div className="grid gap-1.5" style={{ gridTemplateColumns: `auto repeat(${gridSize}, minmax(42px, 1fr))` }}>
                 {/* Header Row */}
-                <div className="h-10"></div>
+                <div className="h-12"></div>
                 {roots.map((root, i) => (
-                    <div key={`head-${i}`} className="h-10 flex items-end justify-center pb-2">
-                        <span className="text-xs font-bold text-muted-foreground -rotate-45 whitespace-nowrap origin-bottom-left translate-x-2">{root}</span>
+                    <div key={`head-${i}`} className="h-12 flex items-end justify-center pb-2">
+                        <span className="text-xs font-bold text-primary -rotate-45 whitespace-nowrap origin-bottom-left translate-x-3 font-quran">{root}</span>
                     </div>
                 ))}
 
@@ -344,8 +377,8 @@ export const RelationshipMatrix = ({ data, onClick }: { data: { x: string; y: st
                 {roots.map((rowRoot, i) => (
                     <React.Fragment key={`row-${i}`}>
                         {/* Row Label */}
-                        <div className="flex items-center justify-end pr-2">
-                            <span className="text-xs font-bold text-muted-foreground">{rowRoot}</span>
+                        <div className="flex items-center justify-end pr-3">
+                            <span className="text-xs font-bold text-primary font-quran">{rowRoot}</span>
                         </div>
 
                         {/* Cells */}
@@ -363,13 +396,14 @@ export const RelationshipMatrix = ({ data, onClick }: { data: { x: string; y: st
                                     onClick={() => !isSelf && onClick && onClick(rowRoot, colRoot)}
                                     className={`
                                         aspect-square rounded-md flex items-center justify-center text-[10px] font-medium transition-all
-                                        ${isSelf ? 'bg-secondary/20 text-muted-foreground cursor-default' : 'cursor-pointer hover:ring-2 hover:ring-primary/50 hover:z-10'}
+                                        ${isSelf ? 'bg-muted/30 text-muted-foreground/30 cursor-default' : 'cursor-pointer hover:ring-2 hover:ring-secondary hover:z-10 shadow-sm'}
                                     `}
                                     style={{
-                                        backgroundColor: !isSelf ? `rgba(16, 185, 129, ${0.1 + (intensity * 0.9)})` : undefined, // Using Emerald (primary) base
-                                        color: !isSelf && intensity > 0.5 ? 'white' : 'inherit'
+                                        // Teal Base Color with varying opacity
+                                        backgroundColor: !isSelf ? `rgba(15, 76, 92, ${0.1 + (intensity * 0.8)})` : undefined,
+                                        color: !isSelf && intensity > 0.6 ? '#fff' : 'inherit'
                                     }}
-                                    title={`${rowRoot} + ${colRoot}: ${cell.value} موضع`}
+                                    title={!isSelf ? `${rowRoot} + ${colRoot}: ${cell.value} موضع` : ''}
                                 >
                                     {cell.value > 0 ? cell.value : ''}
                                 </motion.div>
@@ -381,4 +415,3 @@ export const RelationshipMatrix = ({ data, onClick }: { data: { x: string; y: st
         </div>
     );
 };
-import { Share2 } from 'lucide-react';
