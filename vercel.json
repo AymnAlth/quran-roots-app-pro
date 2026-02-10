@@ -1,5 +1,12 @@
 {
+  "version": 2,
   "rewrites": [
-    { "source": "/((?!assets/|.*\\..*).*)", "destination": "/index.html" }
-  ]
+    { "source": "/api/(.*)", "destination": "/server/index.ts" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "functions": {
+    "server/index.ts": {
+      "includeFiles": "backend/**"
+    }
+  }
 }
