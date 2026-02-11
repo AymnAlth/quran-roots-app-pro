@@ -137,6 +137,18 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ isOpen, onClose, current
                                 </div>
                             </section>
 
+                            <section>
+                                <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-4 px-2">
+                                    القراءات
+                                </h3>
+                                <nav className="space-y-2">
+                                    <Link href="/mushaf" onClick={onClose} className="flex items-center gap-3 p-3 rounded-xl bg-secondary/30 hover:bg-secondary/60 transition-colors">
+                                        <BookOpen className="w-5 h-5 text-primary" />
+                                        <span className="text-sm font-bold">مصحف</span>
+                                    </Link>
+                                </nav>
+                            </section>
+
                             {/* Section: Quick Links (Placeholder for Future) */}
                             <section>
                                 <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-4 px-2">

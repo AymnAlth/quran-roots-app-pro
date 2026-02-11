@@ -23,6 +23,7 @@ const searchRoutes = require("../backend/src/routes/searchRoutes");
 const ayahRoutes = require("../backend/src/routes/ayahRoutes");
 const surahRoutes = require("../backend/src/routes/surahRoutes");
 const statisticsRoutes = require("../backend/src/routes/statisticsRoutes");
+const mushafRoutes = require("../backend/src/routes/mushafRoutes");
 
 const app = express();
 
@@ -95,6 +96,7 @@ app.use('/api/search', searchRoutes);
 app.use('/api/ayah', ayahRoutes);
 app.use('/api/surahs', surahRoutes);
 app.use('/api/statistics', statisticsRoutes);
+app.use('/api/mushaf', mushafRoutes);
 
 app.get('/api', (_req, res) => {
   res.json({ message: 'Quran Roots API is running (Unified Mode)' });

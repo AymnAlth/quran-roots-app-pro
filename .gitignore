@@ -100,7 +100,7 @@ jspm_packages/
 tmp/
 temp/
 
-# Database
-*.db
-*.sqlite
-*.sqlite3
+# # Database
+# *.db
+# *.sqlite
+# *.sqlite3

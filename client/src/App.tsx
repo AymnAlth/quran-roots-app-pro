@@ -19,6 +19,7 @@ const SurahProfile = lazy(() => import("./pages/SurahProfile"));
 const RootLengthExplorer = lazy(() => import("./pages/RootLengthExplorer"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const RootNetworkExplorer = lazy(() => import("./pages/RootNetworkExplorer"));
+const Mushaf = lazy(() => import("./pages/Mushaf"));
 const Settings = lazy(() => import("./pages/Settings"));
 
 // --- New Islamic Loader Component ---
@@ -70,6 +71,7 @@ function Router() {
         {/* استكشاف حسب الطول */}
         <Route path="/morphology/:length" component={RootLengthExplorer} />
         <Route path="/settings" component={Settings} />
+        <Route path="/mushaf" component={Mushaf} />
 
         {/* صفحات الخطأ */}
         <Route path="/404" component={NotFound} />
