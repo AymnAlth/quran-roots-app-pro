@@ -1,246 +1,653 @@
-# معمارية التطبيق
-# Application Architecture
+# معمارية التطبيق | Application Architecture
 
-## نظرة عامة / Overview
+<div align="center">
 
-تطبيق بحث جذور القرآن الكريم هو تطبيق ويب حديث يتبع نمط معمارية **Client-Server** مع فصل واضح بين الواجهة الأمامية والخلفية.
+**التصميم التقني الشامل لتطبيق جذور القرآن الكريم**  
+**Comprehensive Technical Design of Quran Roots Application**
 
-The Quran Roots Search application is a modern web application following a **Client-Server** architecture with clear separation between frontend and backend.
+</div>
 
-## المكونات الرئيسية / Main Components
+---
 
-### 1. Frontend (React + TypeScript + Tailwind CSS)
+## 📋 جدول المحتويات | Table of Contents
 
-**التقنيات المستخدمة / Technologies:**
-- React 19 - UI library
-- TypeScript - Type safety
-- Tailwind CSS 4 - Styling
-- Recharts - Data visualization
-- Wouter - Routing
-- shadcn/ui - Component library
+- [نظرة عامة على المعمارية](#نظرة-عامة-على-المعمارية)
+- [البنية التقنية](#البنية-التقنية)
+- [تدفق البيانات](#تدفق-البيانات)
+- [قاعدة البيانات](#قاعدة-البيانات)
+- [واجهة برمجة التطبيقات](#واجهة-برمجة-التطبيقات)
+- [المكونات الرئيسية](#المكونات-الرئيسية)
+- [إدارة الحالة](#إدارة-الحالة)
+- [الأمان والأداء](#الأمان-والأداء)
 
-**المسؤوليات / Responsibilities:**
-- عرض واجهة المستخدم / User interface rendering
-- إدارة حالة التطبيق / Application state management
-- التفاعل مع المستخدم / User interactions
-- عرض النتائج والإحصائيات / Results and statistics display
+---
 
-### 2. Backend (Express.js + SQLite)
+## 🏛️ نظرة عامة على المعمارية | Architecture Overview
 
-**التقنيات المستخدمة / Technologies:**
-- Express.js - Web framework
-- SQLite3 - Database driver
-- CORS - Cross-origin requests
-- Helmet - Security headers
-- Morgan - Request logging
-- Compression - Response compression
+يتبع التطبيق معمارية **Client-Server** حديثة مع فصل واضح بين الواجهة الأمامية والخلفية، مع تكامل سحابي كامل.
 
-**المسؤوليات / Responsibilities:**
-- معالجة طلبات البحث / Handle search requests
-- الاتصال بقاعدة البيانات / Database connection
-- معالجة البيانات وتحويلها / Data processing and transformation
-- حساب الإحصائيات / Statistics calculation
+The application follows a modern **Client-Server** architecture with clear separation between frontend and backend, with full cloud integration.
 
-### 3. Database (SQLite)
-
-**الجداول / Tables:**
-- `ayah` - الآيات القرآنية / Quranic verses
-- `token` - الكلمات والجذور / Words and roots
-- `token_uthmani` - الكلمات بالرسم العثماني / Uthmani script words
-
-## تدفق البيانات / Data Flow
-
-### Search Flow
+### النمط المعماري | Architectural Pattern
 
 ```
-User Input (SearchBar)
-    ↓
-QuranContext.searchByRoot()
-    ↓
-API Call: GET /api/search/root/:root
-    ↓
-Backend: rootService.searchByRoot()
-    ↓
-Database Queries:
-  1. Get ayahs containing root
-  2. Get tokens for each ayah
-  3. Get accompanying roots
-    ↓
-Response: {root, ayahs[], totalOccurrences}
-    ↓
-Update QuranContext State
-    ↓
-Re-render Results & Statistics Components
+┌──────────────────────────────────────────────────────────┐
+│                    CLIENT LAYER                         │
+│  ┌────────────────────────────────────────────────────┐ │
+│  │        React SPA (Single Page Application)        │ │
+│  │                                                    │ │
+│  │  • React 19 + TypeScript                          │ │
+│  │  • Wouter (Routing)                               │ │
+│  │  • Context API (State)                            │ │
+│  │  • Tailwind CSS + shadcn/ui                       │ │
+│  └────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────┘
+                           ↕
+                     HTTPS/JSON
+                           ↕
+┌──────────────────────────────────────────────────────────┐
+│                    SERVER LAYER                         │
+│  ┌────────────────────────────────────────────────────┐ │
+│  │   Vercel Serverless Functions (Express.js)        │ │
+│  │                                                    │ │
+│  │  • RESTful API                                    │ │
+│  │  • Business Logic                                 │ │
+│  │  • Data Processing                                │ │
+│  └────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────┘
+                           ↕
+                    LibSQL Protocol
+                           ↕
+┌──────────────────────────────────────────────────────────┐
+│                   DATABASE LAYER                        │
+│  ┌────────────────────────────────────────────────────┐ │
+│  │         Turso (Cloud SQLite / LibSQL)             │ │
+│  │                                                    │ │
+│  │  • Distributed Edge Database                      │ │
+│  │  • Auto-scaling                                   │ │
+│  │  • Global Replication                             │ │
+│  └────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────┘
 ```
 
-## API Endpoints
+---
 
-### Search Endpoints
+## 🔧 البنية التقنية | Technical Stack
 
-**GET /api/search/root/:root**
-- Search for a specific root
-- Returns: `{root, ayahs[], totalOccurrences}`
+### Frontend Architecture
 
-**GET /api/search/statistics/:root**
-- Get root statistics
-- Returns: `{root, statistics}`
+```typescript
+┌─────────────────────────────────────────────────────┐
+│                   PRESENTATION LAYER                 │
+├─────────────────────────────────────────────────────┤
+│                                                      │
+│  Pages (9 Routes)                                   │
+│  ├─ Home.tsx              - البحث الرئيسي          │
+│  ├─ Dashboard.tsx         - لوحة التحليلات         │
+│  ├─ DetailView.tsx        - تفاصيل الجذر            │
+│  ├─ Mushaf.tsx            - المصحف الكامل           │
+│  ├─ SurahProfile.tsx      - ملف تعريف السورة        │
+│  ├─ RootNetworkExplorer   - شبكة الجذور ثلاثية      │
+│  ├─ RootLengthExplorer    - استكشاف حسب الطول       │
+│  ├─ Settings.tsx          - إعدادات التطبيق        │
+│  └─ NotFound.tsx          - صفحة 404               │
+│                                                      │
+├─────────────────────────────────────────────────────┤
+│                   COMPONENT LAYER                    │
+├─────────────────────────────────────────────────────┤
+│                                                      │
+│  Layout Components                                  │
+│  ├─ MainLayout            - الهيكل الرئيسي         │
+│  ├─ AppSidebar            - الشريط الجانبي         │
+│  └─ TopBar                - الشريط العلوي          │
+│                                                      │
+│  Feature Components                                 │
+│  ├─ SearchBar             - صندوق البحث            │
+│  ├─ Results               - عرض النتائج            │
+│  ├─ Statistics            - الإحصائيات             │
+│  └─ Charts/*              - الرسوم البيانية        │
+│                                                      │
+│  Mushaf Components                                  │
+│  ├─ SearchModal           - نافذة بحث المصحف       │
+│  ├─ SurahHeader           - رأس السورة             │
+│  ├─ Basmala               - البسملة                │
+│  └─ PageContainer         - حاوية الصفحة           │
+│                                                      │
+│  UI Components (shadcn/ui - 57+ components)        │
+│  └─ Button, Input, Dialog, etc.                    │
+│                                                      │
+├─────────────────────────────────────────────────────┤
+│                    SERVICE LAYER                     │
+├─────────────────────────────────────────────────────┤
+│                                                      │
+│  API Services                                       │
+│  ├─ apiClient.ts          - HTTP client            │
+│  ├─ searchService.ts      - بحث المصحف             │
+│  ├─ mushafService.ts      - خدمات المصحف           │
+│  └─ errors.ts             - معالجة الأخطاء         │
+│                                                      │
+│  Contexts (State Management)                        │
+│  ├─ QuranContext          - بيانات القرآن والبحث   │
+│  └─ ThemeContext          - إدارة المظهر           │
+│                                                      │
+└─────────────────────────────────────────────────────┘
+```
 
-### Ayah Endpoints
+### Backend Architecture
 
-**GET /api/ayah/:ayahId**
-- Get ayah details
-- Returns: `{id, surahNo, ayahNo, surahName, text, tokens[], page, juz}`
+```typescript
+┌─────────────────────────────────────────────────────┐
+│                    API LAYER                         │
+├─────────────────────────────────────────────────────┤
+│                                                      │
+│  Routes (API Endpoints)                             │
+│  ├─ /api/search/*         - بحث الجذور             │
+│  ├─ /api/mushaf/*         - المصحف                 │
+│  ├─ /api/surahs/*         - السور                  │
+│  ├─ /api/resources/*      - الموارد (word-index)   │
+│  └─ /health               - صحة السيرفر            │
+│                                                      │
+├─────────────────────────────────────────────────────┤
+│                  SERVICE LAYER                       │
+├─────────────────────────────────────────────────────┤
+│                                                      │
+│  Business Logic                                     │
+│  ├─ Root Search Logic     - منطق البحث             │
+│  ├─ Statistics Calculation - حساب الإحصائيات       │
+│  ├─ Data Aggregation      - تجميع البيانات         │
+│  └─ Response Formatting   - تنسيق الاستجابات       │
+│                                                      │
+├─────────────────────────────────────────────────────┤
+│                   DATA LAYER                         │
+├─────────────────────────────────────────────────────┤
+│                                                      │
+│  Database Access                                    │
+│  ├─ LibSQL Client         - عميل قاعدة البيانات    │
+│  ├─ Query Builder         - بناء الاستعلامات       │
+│  └─ Connection Pool       - إدارة الاتصالات        │
+│                                                      │
+└─────────────────────────────────────────────────────┘
+```
 
-### Surah Endpoints
+---
 
-**GET /api/surahs**
-- Get all surahs
-- Returns: `[{number, name}, ...]`
+## 🔄 تدفق البيانات | Data Flow
 
-**GET /api/surahs/:surahNo**
-- Get specific surah
-- Returns: `{number, name}`
+### تدفق البحث عن جذر | Root Search Flow
 
-## State Management
+```
+┌──────────────┐
+│     User     │
+│  Input Root  │
+└──────┬───────┘
+       │
+       ↓
+┌──────────────────────────────────┐
+│   SearchBar Component            │
+│   • Validate Input               │
+│   • Show Autocomplete            │
+│   • Trigger Search               │
+└──────┬───────────────────────────┘
+       │
+       ↓
+┌──────────────────────────────────┐
+│   QuranContext                   │
+│   • searchByRoot(root)           │
+│   • Set Loading State            │
+└──────┬───────────────────────────┘
+       │
+       ↓
+┌──────────────────────────────────┐
+│   API Request                    │
+│   GET /api/search/root/:root     │
+└──────┬───────────────────────────┘
+       │
+       ↓
+┌──────────────────────────────────┐
+│   Backend Service                │
+│   1. Parse request               │
+│   2. Query database              │
+│   3. Aggregate results           │
+│   4. Calculate statistics        │
+└──────┬───────────────────────────┘
+       │
+       ↓
+┌──────────────────────────────────┐
+│   Turso Database                 │
+│   SELECT * FROM token            │
+│   WHERE root = ?                 │
+│   JOIN ayah  ...                 │
+└──────┬───────────────────────────┘
+       │
+       ↓
+┌──────────────────────────────────┐
+│   Response Processing            │
+│   • Format ayahs                 │
+│   • Add metadata                 │
+│   • Return JSON                  │
+└──────┬───────────────────────────┘
+       │
+       ↓
+┌──────────────────────────────────┐
+│   QuranContext Update            │
+│   • Set searchResults            │
+│   • Set statistics               │
+│   • Clear loading                │
+└──────┬───────────────────────────┘
+       │
+       ↓
+┌──────────────────────────────────┐
+│   UI Re-render                   │
+│   • Results Component            │
+│   • Statistics Component         │
+│   • Charts Component             │
+└──────────────────────────────────┘
+```
 
-### Global State (QuranContext)
+### تدفق بحث المصحف | Mushaf Search Flow
 
-The application uses React Context API for global state management:
+```
+User Input → SearchModal Component
+    ↓
+searchInMushaf(query) in searchService.ts
+    ↓
+Loop through 604 pages (fetchByPage)
+    ↓
+For each page:
+  - Fetch ayahs
+  - normalizeForSearch() - remove tashkeel + normalize hamza
+  - Match query  
+  - highlightText() - dual color highlighting
+    ↓
+Return merged results
+    ↓
+Display in SearchModal with lazy loading
+```
+
+---
+
+## 🗄️ قاعدة البيانات | Database Schema
+
+### Turso (LibSQL) Database Schema
+
+```sql
+┌─────────────────────────────────────────────────────┐
+│                    TABLE: ayah                      │
+├────────────────┬───────────┬────────────────────────┤
+│ Column         │ Type      │ Description            │
+├────────────────┼───────────┼────────────────────────┤
+│ global_ayah    │ INTEGER   │ PK - Unique ayah ID    │
+│ surah_no       │ INTEGER   │ Surah number (1-114)   │
+│ ayah_no        │ INTEGER   │ Ayah number in surah   │
+│ text           │ TEXT      │ Arabic text (Simple)   │
+│ text_uthmani   │ TEXT      │ Uthmani script         │
+│ juz            │ INTEGER   │ Juz number (1-30)      │
+│ page           │ INTEGER   │ Page number (1-604)    │
+└────────────────┴───────────┴────────────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│                    TABLE: token                     │
+├────────────────┬───────────┬────────────────────────┤
+│ Column         │ Type      │ Description            │
+├────────────────┼───────────┼────────────────────────┤
+│ id             │ INTEGER   │ PK - Token ID          │
+│ global_ayah    │ INTEGER   │ FK → ayah.global_ayah  │
+│ token          │ TEXT      │ Word (no diacritics)   │
+│ root           │ TEXT      │ Root form              │
+│ pos            │ INTEGER   │ Position in ayah       │
+└────────────────┴───────────┴────────────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│                TABLE: token_uthmani                 │
+├────────────────┬───────────┬────────────────────────┤
+│ Column         │ Type      │ Description            │
+├────────────────┼───────────┼────────────────────────┤
+│ id             │ INTEGER   │ PK - Token ID          │
+│ global_ayah    │ INTEGER   │ FK → ayah.global_ayah  │
+│ token_uthmani  │ TEXT      │ Word (Uthmani script)  │
+│ root           │ TEXT      │ Root form              │
+│ pos            │ INTEGER   │ Position in ayah       │
+└────────────────┴───────────┴────────────────────────┘
+```
+
+### Indexes (Performance)
+
+```sql
+-- Critical indexes for performance
+CREATE INDEX idx_token_root ON token(root);
+CREATE INDEX idx_token_ayah ON token(global_ayah);
+CREATE INDEX idx_ayah_page ON ayah(page);
+CREATE INDEX idx_ayah_surah ON ayah(surah_no);
+```
+
+### Data Relationships
+
+```
+ayah (1) ←──── (many) token
+│                     │
+│                     └─ root → searched term
+│
+└─ Used for Mushaf display
+   └─ Used for page-by-page fetching
+```
+
+---
+
+## 🌐 واجهة برمجة التطبيقات | API Endpoints
+
+### Search API
+
+#### 1. البحث عن جذر | Search by Root
+
+```http
+GET /api/search/root/:root
+
+Parameters:
+  - root: string (Arabic root, 3-5 letters)
+
+Response: {
+  "root": "رحم",
+  "ayahs": [
+    {
+      "id": "1:1",
+      "surahNo": 1,
+      "ayahNo": 1,
+      "surahName": "الفاتحة",
+      "text": "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+      "rootCount": 2,
+      "tokens": [...],
+      "otherRoots": ["..."],
+      "page": 1,
+      "juz": 1
+    }
+  ],
+  "totalOccurrences": 57
+}
+
+Status Codes:
+  - 200: Success
+  - 404: Root not found
+  - 500: Server error
+```
+
+#### 2. إحصائيات الجذر | Root Statistics
+
+```http
+GET /api/search/statistics/:root
+
+Response: {
+  "statistics": {
+    "totalOccurrences": 114,
+    "totalAyahs": 57,
+    "uniqueSurahs": 25,
+    "surahDistribution": {...},
+    "topAccompanyingRoots": [[root, count], ...],
+    "juzDistribution": {...},
+    "pageDistribution": {...},
+    "averageOccurrencesPerAyah": "2.00",
+    "forms": [{form, count}, ...],
+    "timeline": [{order, surah, count}, ...],
+    "era": {meccan: 45, medinan: 69},
+    "network": {nodes: [...], links: [...]},
+    "matrix": [{x, y, value}, ...]
+  }
+}
+```
+
+#### 3. اقتراحات البحث | Search Suggestions
+
+```http
+GET /api/search/suggest?q=<query>
+
+Parameters:
+  - q: string (search query, min 2 chars)
+
+Response: ["root1", "root2", "root3", ...]
+
+Note: Uses local word index for fast autocomplete
+```
+
+### Mushaf API
+
+#### 4. صفحة المصحف | Mushaf Page
+
+```http
+GET /api/mushaf/page/:pageNumber
+
+Parameters:
+  - pageNumber: integer (1-604)
+
+Response: {
+  "page": 1,
+  "data": [
+    {
+      "surah_no": 1,
+      "ayah_no": 1,
+      "text_uthmani": "...",
+      "tokens": [...]
+    }
+  ]
+}
+```
+
+### Surah API
+
+#### 5. قائمة السور | List Surahs
+
+```http
+GET /api/surahs
+
+Response: [
+  {
+    "number": 1,
+    "name": "الفاتحة",
+    "arabicName": "الفاتحة",
+    "englishName": "Al-Fatiha"
+  },
+  ...
+]
+```
+
+#### 6. تفاصيل السورة | Surah Details
+
+```http
+GET /api/surahs/:surahNumber
+
+Parameters:
+  - surahNumber: integer (1-114)
+
+Response: {
+  "surah": {...},
+  "ayahs": [...],
+  "roots": [...],
+  "statistics": {
+    "topRoots": [...],
+    "uniqueRoots": [...]
+  }
+}
+```
+
+### Resources API
+
+#### 7. فهرس الكلمات | Word Index
+
+```http
+GET /api/resources/word-index
+
+Response: {
+  "roots": ["root1", "root2", ...],
+  "words": {
+    "word1": "root1",
+    "word2": "root2",
+    ...
+  }
+}
+
+Note: Cached locally for autocomplete
+Size: ~1878 roots, ~15,000+ words
+```
+
+---
+
+## 🧩 المكونات الرئيسية | Core Components
+
+### 1. QuranContext (Global State)
 
 ```typescript
 interface QuranContextType {
   searchResults: SearchResult | null;
   statistics: Statistics | null;
   loading: boolean;
-  error: string | null;
+  error: AppError | null;
   recentSearches: string[];
+  
+  // Methods
   searchByRoot: (root: string) => Promise<void>;
+  suggestRoots: (query: string) => Promise<string[]>;
+  removeRecentSearch: (root: string) => void;
   clearResults: () => void;
   clearError: () => void;
 }
+
+// Features:
+// - Centralized search state
+// - Recent searches persistence (localStorage)
+// - Word index caching (loaded on mount)
+// - Error handling with custom error types
 ```
 
-**Persistent State:**
-- `recentSearches` - Stored in localStorage for search history
+### 2. SearchService (Mushaf Search)
 
-## Performance Considerations
+```typescript
+// Key Functions:
 
-### Database Optimization
-1. Ensure indexes on `token.root` and `ayah.global_ayah`
-2. Use efficient SQL queries with GROUP BY and DISTINCT
-3. Consider connection pooling for production
+removeTashkeel(text: string): string
+// Removes Arabic diacritics (tashkeel)
 
-### Frontend Optimization
-1. Code splitting for large components
-2. Memoization of expensive computations
-3. Efficient chart rendering with Recharts
+normalizeForSearch(text: string): string
+// Removes tashkeel + normalizes hamza forms
 
-### Caching Strategy
-1. Browser cache for static assets
-2. API response caching for frequent searches
-3. Database query caching
+searchInMushaf(query: string): Promise<SearchResult[]>
+// Searches all 604 pages
+// Returns matches with metadata
 
-## Security Measures
-
-### Backend Security
-- Helmet.js for secure HTTP headers
-- CORS configured for frontend origin
-- Input validation before database queries
-- Parameterized queries to prevent SQL injection
-
-### Frontend Security
-- React's built-in XSS protection
-- Content Security Policy via Helmet
-- Secure cookie handling
-
-## Error Handling
-
-### Backend
-- Try-catch blocks for all async operations
-- Proper HTTP status codes
-- Detailed error messages in development mode
-
-### Frontend
-- Error boundary component for React errors
-- User-friendly error messages
-- Error state in QuranContext
-
-## Design Philosophy
-
-### Islamic Minimalism with Semantic Depth
-
-The application follows a design philosophy that combines:
-
-- **Colors**: Deep Islamic Blue, Gold accents, Warm cream background
-- **Typography**: Amiri for headings, Cairo for body text
-- **Layout**: Content-first, asymmetric grid, generous whitespace
-- **Interactions**: Smooth transitions, meaningful animations
-
-## File Structure
-
-```
-quran-roots-app/
-├── client/                          # Frontend (React)
-│   ├── src/
-│   │   ├── components/              # Reusable components
-│   │   ├── contexts/                # Global state
-│   │   ├── pages/                   # Page components
-│   │   ├── App.tsx                  # Main app
-│   │   └── index.css                # Global styles
-│   ├── public/                      # Static assets
-│   └── package.json
-├── backend/                         # Backend (Express)
-│   ├── src/
-│   │   ├── config/                  # Database config
-│   │   ├── services/                # Business logic
-│   │   └── routes/                  # API endpoints
-│   ├── database/                    # SQLite database
-│   ├── server.js                    # Express app
-│   └── package.json
-├── README.md                        # Project overview
-├── SETUP.md                         # Installation guide
-└── ARCHITECTURE.md                  # This file
+highlightText(text: string, query: string): string
+// Highlights matched words in results
+// Supports dual-color highlighting
 ```
 
-## Deployment
+### 3. Mushaf Page
 
-### Frontend
-- Build with `pnpm build`
-- Deploy to Vercel, Netlify, or similar
-- Environment: Production with minification
-
-### Backend
-- Run with `npm start`
-- Deploy to Heroku, Railway, or similar
-- Include SQLite database file
-
-### Environment Variables
-
-**Frontend (.env):**
+```typescript
+// Features:
+// - Full Mushaf display (604 pages)
+// - Smooth scrolling
+// - Lazy loading
+// - FAB with expandable toolbar
+// - SearchModal integration
+// - Surah separators with Basmala
 ```
-VITE_API_URL=http://localhost:3001/api
-```
-
-**Backend (.env):**
-```
-PORT=3001
-NODE_ENV=development
-FRONTEND_URL=http://localhost:5173
-DATABASE_PATH=./database/quran_roots_dual_v2.sqlite
-```
-
-## Future Enhancements
-
-- Advanced search filters (Surah, Juz, Page)
-- Export results to PDF
-- Comparison between multiple roots
-- Tafsir integration
-- User accounts and saved searches
-- Dark mode support
-- Multi-language support
-- Mobile app version
 
 ---
 
-**Version:** 1.0.0
-**Last Updated:** February 2, 2026
+## 📊 إدارة الحالة | State Management
+
+### استراتيجية إدارة الحالة | State Management Strategy
+
+```
+┌─────────────────────────────────────────┐
+│          GLOBAL STATE                   │
+│  (React Context API)                    │
+├─────────────────────────────────────────┤
+│                                          │
+│  QuranContext                           │
+│  ├─ Search results                      │
+│  ├─ Statistics                          │
+│  ├─ Loading states                      │
+│  ├─ Error states                        │
+│  └─ Recent searches                     │
+│                                          │
+│  ThemeContext                           │
+│  ├─ Theme (light/dark/system)           │
+│  └─ Theme toggle logic                  │
+│                                          │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│          LOCAL STATE                    │
+│  (Component useState)                   │
+├─────────────────────────────────────────┤
+│                                          │
+│  Page-specific states                   │
+│  ├─ Mushaf page number                  │
+│  ├─ Modal open/close                    │
+│  ├─ Dropdown selections                 │
+│  └─ Form inputs                         │
+│                                          │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│       PERSISTENT STATE                  │
+│  (localStorage)                         │
+├─────────────────────────────────────────┤
+│                                          │
+│  - Recent searches                      │
+│  - Theme preference                     │
+│  - User preferences                     │
+│                                          │
+└─────────────────────────────────────────┘
+```
+
+---
+
+## 🔒 الأمان والأداء | Security & Performance
+
+### الأمان | Security
+
+1. **Environment Variables** - Sensitive data in `.env`
+2. **CORS Configuration** - Restricted origins
+3. **Helmet.js** - Security headers
+4. **Input Validation** - Zod schemas
+5. **SQL Injection Prevention** - Parameterized queries
+
+### الأداء | Performance
+
+#### Frontend Optimizations
+
+- ✅ **Code Splitting** - Lazy loading pages
+- ✅ **React.memo** - Prevent unnecessary re-renders
+- ✅ **Virtual Scrolling** - Large lists (Mushaf)
+- ✅ **Image Optimization** - Lazy loading images
+- ✅ **Bundle Size** - Tree shaking with Vite
+
+#### Backend Optimizations
+
+- ✅ **Database Indexes** - Fast queries
+- ✅ **Edge Functions** - Vercel serverless
+- ✅ **Response Compression** - Gzip
+- ✅ **Caching** - Word index caching
+
+#### Database Optimizations
+
+- ✅ **Turso Edge Replication** - Global distribution
+- ✅ **Query Optimization** - Efficient SQL
+- ✅ **Connection Pooling** - Reuse connections
+
+---
+
+## 📈 قابلية التطوير | Scalability
+
+### مستقبل التطوير | Future Scalability
+
+1. **Horizontal Scaling** - Vercel auto-scales
+2. **Database Scaling** - Turso distributed
+3. **CDN** - Static assets via Vercel Edge
+4. **Caching Layer** - Redis for frequently searched roots
+5. **Rate Limiting** - Protect API from abuse
+
+---
+
+**تم التطوير بواسطة | Developed by**  
+**أيمن أحمد الذاهبي | Ayman Ahmed Al-Dhahabi**
+
+📱 +967774998429 | ✉️ aymnaldhahby8@gmail.com

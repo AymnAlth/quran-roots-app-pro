@@ -1,0 +1,79 @@
+/* Floating Navigation Buttons */
+.mushaf-floating-nav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,
+            var(--primary) 0%,
+            color-mix(in srgb, var(--primary) 85%, black) 100%);
+    border: 2px solid color-mix(in srgb, var(--primary) 20%, transparent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 50;
+    opacity: 0.35;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(15, 76, 92, 0.2);
+}
+
+.mushaf-floating-nav:hover:not(:disabled) {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.12);
+    box-shadow:
+        0 8px 20px rgba(15, 76, 92, 0.3),
+        0 4px 8px rgba(15, 76, 92, 0.15);
+    border-color: color-mix(in srgb, var(--primary) 40%, transparent);
+}
+
+.mushaf-floating-nav:active:not(:disabled) {
+    transform: translateY(-50%) scale(1.05);
+}
+
+.mushaf-floating-prev {
+    right: 1.5rem;
+}
+
+.mushaf-floating-next {
+    left: 1.5rem;
+}
+
+.mushaf-floating-nav:disabled {
+    opacity: 0.12;
+    cursor: not-allowed;
+    background: var(--muted);
+    border-color: transparent;
+}
+
+.dark .mushaf-floating-nav {
+    background: linear-gradient(135deg,
+            var(--primary) 0%,
+            color-mix(in srgb, var(--primary) 75%, white) 100%);
+}
+
+/* إخفاء على الأجهزة الصغيرة - استخدام swipe */
+@media (max-width: 768px) {
+    .mushaf-floating-nav {
+        display: none;
+    }
+}
+
+/* تقليل الحجم على الشاشات المتوسطة */
+@media (max-width: 1024px) {
+    .mushaf-floating-nav {
+        width: 48px;
+        height: 48px;
+    }
+
+    .mushaf-floating-prev {
+        right: 1rem;
+    }
+
+    .mushaf-floating-next {
+        left: 1rem;
+    }
+}

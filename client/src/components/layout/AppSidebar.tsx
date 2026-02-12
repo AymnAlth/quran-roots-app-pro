@@ -160,10 +160,6 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ isOpen, onClose, current
                                         <span className="text-xs font-bold">الرئيسية</span>
                                     </Link>
                                     <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-secondary/30 hover:bg-secondary/60 transition-colors gap-2 text-center group cursor-pointer" title="قريباً">
-                                        <Book className="w-6 h-6 text-muted-foreground group-hover:scale-110 transition-transform" />
-                                        <span className="text-xs font-bold text-muted-foreground">المصحف</span>
-                                    </div>
-                                    <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-secondary/30 hover:bg-secondary/60 transition-colors gap-2 text-center group cursor-pointer" title="قريباً">
                                         <Info className="w-6 h-6 text-muted-foreground group-hover:scale-110 transition-transform" />
                                         <span className="text-xs font-bold text-muted-foreground">عن المشروع</span>
                                     </div>

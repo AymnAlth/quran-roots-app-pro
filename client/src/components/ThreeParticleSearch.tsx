@@ -492,7 +492,7 @@ export default function ThreeParticleSearch({ text }: { text: string }) {
             </div>
 
             {/* Minimal HUD (optional) — no box */}
-            <div className="pointer-events-none relative z-10 mx-auto flex min-h-[100vh] max-w-6xl items-end px-6 pb-14 md:px-10">
+            {/* <div className="pointer-events-none relative z-10 mx-auto flex min-h-[100vh] max-w-6xl items-end px-6 pb-14 md:px-10">
                 <div className="max-w-2xl">
                     <div className="text-white/92 text-3xl md:text-5xl font-semibold tracking-tight">
                         {activeText ? 'انفجار → تجمّع → تثبيت' : 'حرّك المؤشر… وانقر…'}
@@ -501,7 +501,7 @@ export default function ThreeParticleSearch({ text }: { text: string }) {
                         المؤشر يصنع دوّامة جذب/طرد. النقر يولد موجة صدمة. تغيير النص يفعل Scatter ثم Gather ثم Lock.
                     </div>
                 </div>
-            </div>
+            </div> */}
         </section>
     );
 }

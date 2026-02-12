@@ -1,5 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "./mushaf-separators.css";
+@import "./mushaf-floating-nav.css";
+@import "./mushaf-fab.css";
+@import "./search-modal.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -41,27 +45,28 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 }
+
 :root {
   /* --- Islamic Minimalism Palette (Light Mode) --- */
-  
+
   /* الخلفية: لون ورق كريمي هادئ جداً (مثل ورق الكتب القديمة) */
-  --background: #fdfbf7; 
+  --background: #fdfbf7;
   /* النص: رمادي غامق جداً مائل للزرقة (للقراءة المريحة) */
-  --foreground: #1a202c; 
+  --foreground: #1a202c;
 
   /* البطاقات: أبيض نقي */
   --card: #ffffff;
   --card-foreground: #1a202c;
-  
+
   --popover: #ffffff;
   --popover-foreground: #1a202c;
 
   /* اللون الأساسي: تركواز غامق (Deep Teal) - لون إسلامي كلاسيكي */
-  --primary: #0f4c5c; 
+  --primary: #0f4c5c;
   --primary-foreground: #ffffff;
 
   /* اللون الثانوي: ذهبي مطفي (للمشتقات والتمييز) */
-  --secondary: #fb8b24; 
+  --secondary: #fb8b24;
   --secondary-foreground: #ffffff;
 
   /* لون العناصر الهادئة */
@@ -78,7 +83,8 @@
 
   --border: #e2e8f0;
   --input: #f1f5f9;
-  --ring: #0f4c5c; /* نفس اللون الأساسي */
+  --ring: #0f4c5c;
+  /* نفس اللون الأساسي */
 
   --radius: 0.75rem;
 
@@ -102,9 +108,9 @@
 
 .dark {
   /* --- Islamic Minimalism Palette (Dark Mode) --- */
-  
+
   /* الخلفية: كحلي ليلي عميق (Midnight Blue) */
-  --background: #0a192f; 
+  --background: #0a192f;
   --foreground: #e6f1ff;
 
   --card: #112240;
@@ -114,11 +120,11 @@
   --popover-foreground: #e6f1ff;
 
   /* اللون الأساسي: تركواز مضيء قليلاً */
-  --primary: #64ffda; 
+  --primary: #64ffda;
   --primary-foreground: #0a192f;
 
   /* اللون الثانوي: ذهبي فاتح */
-  --secondary: #ffd700; 
+  --secondary: #ffd700;
   --secondary-foreground: #0a192f;
 
   --muted: #1e293b;
@@ -163,6 +169,7 @@
     direction: rtl;
     text-align: right;
   }
+
   .en-heading {
     font-family: 'Crimson Text', serif;
     font-weight: 700;
@@ -187,22 +194,25 @@
   select:not(:disabled),
   input[type="checkbox"]:not(:disabled),
   input[type="radio"]:not(:disabled) {
-      @apply cursor-pointer;
-    }
+    @apply cursor-pointer;
+  }
 
   /* Quranic Font Style */
-.font-quran {
+  .font-quran {
     font-family: 'Amiri', serif;
-    line-height: 2.6; /* زيادة الارتفاع لراحة العين مع التشكيل */
-    letter-spacing: 0.02em; /* تباعد بسيط جداً للأناقة */
+    line-height: 2.6;
+    /* زيادة الارتفاع لراحة العين مع التشكيل */
+    letter-spacing: 0.02em;
+    /* تباعد بسيط جداً للأناقة */
     font-weight: 400;
-    
+
     /* ميزات OpenType للخط العربي الجميل */
-    font-feature-settings: "cv01" 1, "cv02" 1, "cv03" 1, "cv04" 1, "kashida" 1; 
-    
+    font-feature-settings: "cv01" 1, "cv02" 1, "cv03" 1, "cv04" 1, "kashida" 1;
+
     direction: rtl;
     text-align: right;
   }
+
   .quran-heading {
     font-family: 'Amiri', serif;
     font-weight: 700;
@@ -263,38 +273,47 @@
   display: flex;
   justify-content: center;
 }
+
 .mushaf-page {
-  width: 880px; /* comfortable readable width */
+  width: 880px;
+  /* comfortable readable width */
   background: var(--background);
   color: var(--foreground);
-  border: 1px solid rgba(0,0,0,0.06);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: none;
   padding: 42px 56px;
   margin: 12px 0;
   line-height: 1.9;
   direction: rtl;
 }
+
 .mushaf-header {
   text-align: center;
   margin-bottom: 18px;
 }
+
 .mushaf-body {
-  font-size: 28px; /* comfortable Quranic size */
+  font-size: 28px;
+  /* comfortable Quranic size */
   color: var(--foreground);
 }
+
 .mushaf-lines {
   display: block;
 }
+
 .ayah-line {
   display: block;
   padding: 4px 0;
   text-align: right;
   word-break: break-word;
 }
+
 .ayah-text {
   display: inline-block;
   margin-right: 10px;
 }
+
 .ayah-number {
   display: inline-block;
   min-width: 36px;
@@ -303,14 +322,16 @@
   text-align: center;
   margin-left: 12px;
   border-radius: 50%;
-  background: rgba(0,0,0,0.04);
+  background: rgba(0, 0, 0, 0.04);
   color: var(--foreground);
   font-size: 14px;
 }
+
 .mushaf-footer {
   margin-top: 22px;
   text-align: center;
 }
+
 .mushaf-footer-text {
   color: var(--muted-foreground);
   font-size: 13px;
@@ -318,27 +339,33 @@
 
 /* Spread / single image presentation */
 .mushaf-backdrop {
-  background: rgba(0,0,0,0.55);
+  background: rgba(0, 0, 0, 0.55);
   padding: 28px 0;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 18px;
 }
+
 .mushaf-spread {
   display: flex;
   gap: 24px;
   align-items: flex-start;
   justify-content: center;
 }
+
 .mushaf-frame {
   background: #fff;
   padding: 18px;
-  box-shadow: 0 6px 18px rgba(2,6,23,0.25);
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.25);
   border-radius: 2px;
   max-width: 880px;
 }
-.mushaf-frame { position: relative; }
+
+.mushaf-frame {
+  position: relative;
+}
+
 .mushaf-overlay {
   position: absolute;
   inset: 18px;
@@ -347,22 +374,34 @@
   text-align: right;
   overflow: hidden;
 }
-.mushaf-overlay .ayah-line { color: var(--foreground); background: transparent; line-height: 1.9; font-size: 28px; }
-.mushaf-dimmed { filter: brightness(0.5); }
+
+.mushaf-overlay .ayah-line {
+  color: var(--foreground);
+  background: transparent;
+  line-height: 1.9;
+  font-size: 28px;
+}
+
+.mushaf-dimmed {
+  filter: brightness(0.5);
+}
+
 .mushaf-image {
   display: block;
   max-width: 840px;
   height: auto;
 }
+
 .mushaf-caption {
   text-align: center;
   margin-top: 8px;
   color: var(--muted-foreground);
   font-size: 13px;
 }
+
 .mushaf-arrow {
-  background: rgba(255,255,255,0.92);
-  border: 1px solid rgba(0,0,0,0.06);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   width: 48px;
   height: 48px;
   border-radius: 999px;
@@ -372,8 +411,1258 @@
   font-size: 20px;
   cursor: pointer;
 }
-.mushaf-arrow.left { margin-right: 8px; }
-.mushaf-arrow.right { margin-left: 8px; }
+
+.mushaf-arrow.left {
+  margin-right: 8px;
+}
+
+.mushaf-arrow.right {
+  margin-left: 8px;
+}
 
 /* Respectful, minimal focus outline */
-.mushaf-arrow:focus { outline: 3px solid rgba(15,76,92,0.12); }
+.mushaf-arrow:focus {
+  outline: 3px solid rgba(15, 76, 92, 0.12);
+}
+
+/* ===========================
+   AyahCard Component Styles
+   =========================== */
+
+/* Wrapper with animation support */
+.ayah-card-wrapper {
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+/* Main card container */
+.ayah-card {
+  background: linear-gradient(135deg,
+      color-mix(in srgb, var(--card) 98%, var(--primary) 2%) 0%,
+      var(--card) 100%);
+  border: 1px solid color-mix(in srgb, var(--border) 80%, var(--primary) 20%);
+  border-radius: 16px;
+  padding: 1.75rem 2rem;
+  box-shadow:
+    0 2px 8px rgba(15, 76, 92, 0.04),
+    0 1px 3px rgba(15, 76, 92, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle background pattern */
+.ayah-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    repeating-linear-gradient(90deg,
+      transparent,
+      transparent 49px,
+      color-mix(in srgb, var(--primary) 2%, transparent) 49px,
+      color-mix(in srgb, var(--primary) 2%, transparent) 50px);
+  pointer-events: none;
+  opacity: 0.15;
+}
+
+/* Hover effects */
+.ayah-card:hover {
+  border-color: color-mix(in srgb, var(--primary) 40%, var(--border) 60%);
+  box-shadow:
+    0 4px 16px rgba(15, 76, 92, 0.08),
+    0 2px 6px rgba(15, 76, 92, 0.12),
+    inset 0 0 0 1px color-mix(in srgb, var(--primary) 10%, transparent);
+  transform: translateY(-2px);
+}
+
+/* Highlighted variant */
+.ayah-card-highlighted {
+  background: linear-gradient(135deg,
+      color-mix(in srgb, var(--primary) 8%, var(--card)) 0%,
+      color-mix(in srgb, var(--primary) 3%, var(--card)) 100%);
+  border-color: color-mix(in srgb, var(--primary) 30%, var(--border) 70%);
+}
+
+/* Decorative top border */
+.ayah-decoration-top {
+  margin-bottom: 1.25rem;
+  color: var(--primary);
+  opacity: 0.6;
+}
+
+/* Main content area */
+.ayah-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Ayah text styling */
+.ayah-text-content {
+  flex: 1;
+  font-size: 1.75rem;
+  line-height: 2.8;
+  color: var(--foreground);
+  margin: 0;
+  text-align: justify;
+  word-spacing: 0.1em;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+/* Ayah number badge container */
+.ayah-number-badge {
+  position: relative;
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+/* SVG ornament */
+.ayah-number-ornament {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: var(--primary);
+  filter: drop-shadow(0 2px 4px rgba(15, 76, 92, 0.15));
+  transition: transform 0.3s ease;
+}
+
+.ayah-card:hover .ayah-number-ornament {
+  transform: rotate(180deg);
+}
+
+/* Ayah number text */
+.ayah-number-text {
+  position: relative;
+  z-index: 2;
+  font-family: 'Amiri', serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* Decorative bottom border */
+.ayah-decoration-bottom {
+  margin-top: 1.25rem;
+  color: var(--primary);
+  opacity: 0.5;
+  display: flex;
+  justify-content: center;
+}
+
+/* Dark mode adjustments */
+.dark .ayah-card {
+  background: linear-gradient(135deg,
+      color-mix(in srgb, var(--card) 95%, var(--primary) 5%) 0%,
+      var(--card) 100%);
+  box-shadow:
+    0 2px 8px rgba(100, 255, 218, 0.06),
+    0 1px 3px rgba(100, 255, 218, 0.1);
+}
+
+.dark .ayah-card:hover {
+  box-shadow:
+    0 4px 16px rgba(100, 255, 218, 0.12),
+    0 2px 6px rgba(100, 255, 218, 0.16),
+    inset 0 0 0 1px color-mix(in srgb, var(--primary) 15%, transparent);
+}
+
+.dark .ayah-text-content {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.dark .ayah-number-text {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ayah-card {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .ayah-content {
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .ayah-text-content {
+    font-size: 1.5rem;
+    line-height: 2.5;
+    text-align: right;
+  }
+
+  .ayah-number-badge {
+    width: 50px;
+    height: 50px;
+  }
+
+  .ayah-number-text {
+    font-size: 1rem;
+  }
+}
+
+/* Enhanced Mushaf Page Styles */
+.mushaf-page {
+  background: linear-gradient(to bottom,
+      var(--background) 0%,
+      color-mix(in srgb, var(--background) 98%, var(--primary) 2%) 50%,
+      var(--background) 100%);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.05),
+    0 1px 3px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+/* Enhanced header with decorative elements */
+.mushaf-header {
+  position: relative;
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid color-mix(in srgb, var(--primary) 20%, var(--border) 80%);
+}
+
+.mushaf-header::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      var(--primary) 50%,
+      transparent 100%);
+  border-radius: 2px;
+}
+
+.quran-heading {
+  position: relative;
+  display: inline-block;
+  padding: 0.5rem 2rem;
+  background: linear-gradient(135deg,
+      color-mix(in srgb, var(--primary) 5%, transparent) 0%,
+      transparent 100%);
+  border-radius: 8px;
+}
+
+/* Improved mushaf body spacing */
+.mushaf-body {
+  padding: 1rem 0;
+}
+
+/* Better line spacing */
+.mushaf-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ===========================
+   Premium Mushaf Design  
+   =========================== */
+
+.mushaf-premium-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+  min-height: calc(100vh - 80px);
+}
+
+/* ===== Toolbar ===== */
+.mushaf-toolbar {
+  background: linear-gradient(135deg,
+      var(--card) 0%,
+      color-mix(in srgb, var(--card) 98%, var(--primary) 2%) 100%);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.mushaf-toolbar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 180px;
+}
+
+.mushaf-toolbar-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+}
+
+.mushaf-toolbar-label svg {
+  opacity: 0.7;
+}
+
+.mushaf-surah-select {
+  padding: 0.625rem 0.875rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Amiri', serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mushaf-surah-select:hover {
+  border-color: var(--primary);
+}
+
+.mushaf-surah-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);
+}
+
+.mushaf-jump-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.mushaf-page-input {
+  flex: 1;
+  padding: 0.625rem 0.875rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.mushaf-page-input:hover {
+  border-color: var(--primary);
+}
+
+.mushaf-page-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);
+}
+
+.mushaf-jump-button {
+  padding: 0.625rem 1.25rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mushaf-jump-button:hover {
+  background: color-mix(in srgb, var(--primary) 90%, black);
+  transform: translateY(-1px);
+}
+
+.mushaf-jump-button:active {
+  transform: translateY(0);
+}
+
+.mushaf-progress-section {
+  flex: 1;
+  min-width: 200px;
+}
+
+.mushaf-progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  font-weight: 600;
+}
+
+.mushaf-progress-percent {
+  color: var(--primary);
+}
+
+.mushaf-progress-bar-container {
+  height: 8px;
+  background: var(--muted);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.mushaf-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary) 0%, color-mix(in srgb, var(--primary) 80%, white) 100%);
+  transition: width 0.3s ease;
+  border-radius: 4px;
+}
+
+/* ===== Header ===== */
+.mushaf-page-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.mushaf-page-title {
+  font-family: 'Amiri', serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary) 0%, color-mix(in srgb, var(--primary) 70%, black) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+/* ===== Book Wrapper ===== */
+.mushaf-book-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+/* ===== Navigation Buttons ===== */
+.mushaf-nav-button {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,
+      var(--primary) 0%,
+      color-mix(in srgb, var(--primary) 85%, black) 100%);
+  border: 3px solid color-mix(in srgb, var(--primary) 30%, transparent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 4px 14px rgba(15, 76, 92, 0.25),
+    0 2px 6px rgba(15, 76, 92, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.mushaf-nav-button:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.08);
+  box-shadow:
+    0 8px 24px rgba(15, 76, 92, 0.35),
+    0 4px 10px rgba(15, 76, 92, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: color-mix(in srgb, var(--primary) 50%, transparent);
+}
+
+.mushaf-nav-button:active:not(:disabled) {
+  transform: translateY(-1px) scale(1.02);
+}
+
+.mushaf-nav-button:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+  background: var(--muted);
+  border-color: transparent;
+}
+
+.dark .mushaf-nav-button {
+  background: linear-gradient(135deg,
+      var(--primary) 0%,
+      color-mix(in srgb, var(--primary) 75%, white) 100%);
+}
+
+/* ===== Premium Card ===== */
+.mushaf-premium-card {
+  flex: 1;
+  max-width: 1000px;
+  background: linear-gradient(to bottom,
+      color-mix(in srgb, var(--card) 100%, var(--background) 0%) 0%,
+      color-mix(in srgb, var(--card) 98%, var(--primary) 2%) 30%,
+      color-mix(in srgb, var(--card) 98%, var(--primary) 2%) 70%,
+      color-mix(in srgb, var(--card) 100%, var(--background) 0%) 100%);
+  border-radius: 20px;
+  box-shadow:
+    0 12px 48px rgba(0, 0, 0, 0.1),
+    0 6px 16px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+  border: 2px solid color-mix(in srgb, var(--border) 60%, var(--primary) 40%);
+  padding: 3.5rem 3rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /* user-select removed to enable text copying */
+}
+
+.mushaf-premium-card:hover {
+  box-shadow:
+    0 16px 60px rgba(0, 0, 0, 0.12),
+    0 8px 20px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+/* Decorative corners */
+.mushaf-premium-card::before,
+.mushaf-premium-card::after {
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 2.5px solid;
+  border-color: color-mix(in srgb, var(--primary) 25%, transparent);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.mushaf-premium-card::before {
+  top: 1.5rem;
+  right: 1.5rem;
+  border-left: none;
+  border-bottom: none;
+  border-top-right-radius: 12px;
+}
+
+.mushaf-premium-card::after {
+  bottom: 1.5rem;
+  left: 1.5rem;
+  border-right: none;
+  border-top: none;
+  border-bottom-left-radius: 12px;
+}
+
+/* ===== Page Numbers ===== */
+.mushaf-page-number-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  font-family: 'Amiri', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid color-mix(in srgb, var(--primary) 25%, var(--border) 75%);
+  position: relative;
+  z-index: 1;
+}
+
+.mushaf-page-ornament {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg,
+      color-mix(in srgb, var(--primary) 60%, transparent) 0%,
+      var(--primary) 50%,
+      color-mix(in srgb, var(--primary) 60%, transparent) 100%);
+  border-radius: 1px;
+}
+
+.mushaf-page-number-bottom {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  text-align: center;
+  font-family: 'Amiri', serif;
+  font-size: 1rem;
+  color: var(--muted-foreground);
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+}
+
+.mushaf-page-divider {
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      var(--border) 50%,
+      transparent 100%);
+  margin: 0 auto 1rem;
+}
+
+/* ===== Page Content ===== */
+.mushaf-page-content {
+  min-height: 550px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Ayahs (Premium) ===== */
+.mushaf-ayahs-premium {
+  width: 100%;
+  direction: rtl;
+  text-align: justify;
+  line-height: 3.2;
+  font-size: 1.875rem;
+  color: var(--foreground);
+  letter-spacing: 0.02em;
+}
+
+.mushaf-ayah-text-premium {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+/* ===== Ayah Marker (Premium - Inside Ornament) ===== */
+.mushaf-ayah-marker {
+  display: inline-block;
+  position: relative;
+  margin: 0 0.4rem;
+  vertical-align: middle;
+}
+
+.mushaf-ayah-marker-ornament {
+  width: 42px;
+  height: 42px;
+  display: block;
+}
+
+.mushaf-ayah-marker-ornament circle {
+  stroke: var(--primary);
+  fill: var(--card);
+}
+
+.mushaf-ayah-marker-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Amiri', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1;
+}
+
+/* ===== Loading State ===== */
+.mushaf-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  color: var(--muted-foreground);
+}
+
+.mushaf-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--muted);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: mushaf-spin 0.8s linear infinite;
+}
+
+@keyframes mushaf-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== Error State ===== */
+.mushaf-error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  color: var(--destructive);
+  text-align: center;
+  padding: 3rem;
+}
+
+.mushaf-error-message {
+  font-size: 1.125rem;
+  margin: 0;
+}
+
+.mushaf-retry-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mushaf-retry-button:hover {
+  background: color-mix(in srgb, var(--primary) 90%, black);
+  transform: translateY(-1px);
+}
+
+/* ===== Empty State ===== */
+.mushaf-empty {
+  color: var(--muted-foreground);
+  text-align: center;
+  font-size: 1.125rem;
+  padding: 3rem;
+}
+
+/* ===== Navigation Hints ===== */
+.mushaf-navigation-hints {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding-top: 1rem;
+}
+
+.mushaf-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+}
+
+.mushaf-hint kbd {
+  padding: 0.25rem 0.5rem;
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.75rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.mushaf-hint svg {
+  opacity: 0.6;
+}
+
+/* ===== Dark Mode ===== */
+.dark .mushaf-premium-card {
+  background: linear-gradient(to bottom,
+      color-mix(in srgb, var(--card) 100%, var(--background) 0%) 0%,
+      color-mix(in srgb, var(--card) 96%, var(--primary) 4%) 30%,
+      color-mix(in srgb, var(--card) 96%, var(--primary) 4%) 70%,
+      color-mix(in srgb, var(--card) 100%, var(--background) 0%) 100%);
+  box-shadow:
+    0 12px 48px rgba(100, 255, 218, 0.08),
+    0 6px 16px rgba(100, 255, 218, 0.05),
+    inset 0 1px 0 rgba(100, 255, 218, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.dark .mushaf-premium-card:hover {
+  box-shadow:
+    0 16px 60px rgba(100, 255, 218, 0.12),
+    0 8px 20px rgba(100, 255, 218, 0.08),
+    inset 0 1px 0 rgba(100, 255, 218, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.dark .mushaf-ayah-text-premium {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 1200px) {
+  .mushaf-premium-card {
+    max-width: 850px;
+  }
+
+  .mushaf-ayahs-premium {
+    font-size: 1.75rem;
+    line-height: 3;
+  }
+}
+
+@media (max-width: 1024px) {
+  .mushaf-toolbar {
+    gap: 1.5rem;
+  }
+
+  .mushaf-book-wrapper {
+    gap: 1.5rem;
+  }
+
+  .mushaf-nav-button {
+    width: 56px;
+    height: 56px;
+  }
+
+  .mushaf-premium-card {
+    padding: 3rem 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .mushaf-premium-container {
+    padding: 1rem 0.5rem 2rem;
+  }
+
+  .mushaf-toolbar {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .mushaf-toolbar-section {
+    min-width: 140px;
+  }
+
+  .mushaf-page-title {
+    font-size: 1.75rem;
+  }
+
+  .mushaf-book-wrapper {
+    gap: 1rem;
+  }
+
+  .mushaf-nav-button {
+    width: 48px;
+    height: 48px;
+  }
+
+  .mushaf-nav-button svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .mushaf-premium-card {
+    padding: 2.5rem 2rem;
+  }
+
+  .mushaf-ayahs-premium {
+    font-size: 1.5rem;
+    line-height: 2.8;
+  }
+
+  .mushaf-ayah-marker-ornament {
+    width: 36px;
+    height: 36px;
+  }
+
+  .mushaf-ayah-marker-number {
+    font-size: 1rem;
+  }
+
+  .mushaf-page-content {
+    min-height: 450px;
+  }
+
+  .mushaf-navigation-hints {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mushaf-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .mushaf-toolbar-section {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .mushaf-book-wrapper {
+    gap: 0.75rem;
+  }
+
+  .mushaf-nav-button {
+    width: 44px;
+    height: 44px;
+  }
+
+  .mushaf-nav-button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .mushaf-premium-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .mushaf-page-number-top {
+    font-size: 1.5rem;
+    gap: 1rem;
+  }
+
+  .mushaf-page-ornament {
+    width: 40px;
+  }
+
+  .mushaf-ayahs-premium {
+    font-size: 1.375rem;
+    line-height: 2.6;
+  }
+
+  .mushaf-ayah-marker-ornament {
+    width: 32px;
+    height: 32px;
+  }
+
+  .mushaf-ayah-marker-number {
+    font-size: 0.9rem;
+  }
+
+  .mushaf-page-content {
+    min-height: 400px;
+  }
+}
+
+
+.mushaf-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  min-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Header */
+.mushaf-page-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.mushaf-page-title {
+  font-family: 'Amiri', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+}
+
+/* Book Wrapper */
+.mushaf-book-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  justify-content: center;
+}
+
+/* Navigation Buttons */
+.mushaf-nav-button {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary) 0%, color-mix(in srgb, var(--primary) 80%, black) 100%);
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 4px 12px rgba(15, 76, 92, 0.2),
+    0 2px 4px rgba(15, 76, 92, 0.1);
+  flex-shrink: 0;
+}
+
+.mushaf-nav-button:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow:
+    0 6px 20px rgba(15, 76, 92, 0.3),
+    0 3px 6px rgba(15, 76, 92, 0.15);
+}
+
+.mushaf-nav-button:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.mushaf-nav-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  background: var(--muted);
+}
+
+.dark .mushaf-nav-button {
+  background: linear-gradient(135deg, var(--primary) 0%, color-mix(in srgb, var(--primary) 70%, white) 100%);
+}
+
+/* Book Card */
+.mushaf-book-card {
+  flex: 1;
+  max-width: 900px;
+  background: linear-gradient(to bottom,
+      var(--card) 0%,
+      color-mix(in srgb, var(--card) 98%, var(--primary) 2%) 50%,
+      var(--card) 100%);
+  border-radius: 16px;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.12),
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid color-mix(in srgb, var(--border) 70%, var(--primary) 30%);
+  padding: 3rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mushaf-book-card:hover {
+  box-shadow:
+    0 14px 50px rgba(0, 0, 0, 0.15),
+    0 6px 16px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Decorative corner ornaments */
+.mushaf-book-card::before,
+.mushaf-book-card::after {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border: 2px solid;
+  border-color: color-mix(in srgb, var(--primary) 20%, transparent);
+  opacity: 0.3;
+}
+
+.mushaf-book-card::before {
+  top: 1rem;
+  right: 1rem;
+  border-left: none;
+  border-bottom: none;
+  border-top-right-radius: 8px;
+}
+
+.mushaf-book-card::after {
+  bottom: 1rem;
+  left: 1rem;
+  border-right: none;
+  border-top: none;
+  border-bottom-left-radius: 8px;
+}
+
+/* Page Numbers */
+.mushaf-page-number-top,
+.mushaf-page-number-bottom {
+  text-align: center;
+  font-family: 'Amiri', serif;
+  color: var(--primary);
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+}
+
+.mushaf-page-number-top {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid color-mix(in srgb, var(--primary) 20%, var(--border) 80%);
+}
+
+.mushaf-page-number-bottom {
+  font-size: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 2px solid color-mix(in srgb, var(--primary) 20%, var(--border) 80%);
+  opacity: 0.7;
+}
+
+/* Page Content */
+.mushaf-page-content {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Ayahs Container */
+.mushaf-ayahs {
+  width: 100%;
+  direction: rtl;
+  text-align: justify;
+  line-height: 2.8;
+}
+
+/* Single Ayah */
+.mushaf-ayah {
+  display: inline;
+  font-size: 1.75rem;
+  position: relative;
+}
+
+.mushaf-ayah-text {
+  color: var(--foreground);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.mushaf-ayah-number {
+  display: inline-block;
+  margin: 0 0.5rem;
+  font-family: 'Amiri', serif;
+  font-size: 1.2rem;
+  color: var(--primary);
+  font-weight: 700;
+  position: relative;
+  top: -0.2em;
+}
+
+/* Loading State */
+.mushaf-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: var(--muted-foreground);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--muted);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error State */
+.mushaf-error {
+  color: var(--destructive);
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 2rem;
+}
+
+/* Empty State */
+.mushaf-empty {
+  color: var(--muted-foreground);
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 2rem;
+}
+
+/* Instructions */
+.mushaf-instructions {
+  text-align: center;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+.mushaf-instructions p {
+  margin: 0;
+}
+
+/* Dark Mode Adjustments */
+.dark .mushaf-book-card {
+  background: linear-gradient(to bottom,
+      var(--card) 0%,
+      color-mix(in srgb, var(--card) 95%, var(--primary) 5%) 50%,
+      var(--card) 100%);
+  box-shadow:
+    0 10px 40px rgba(100, 255, 218, 0.08),
+    0 4px 12px rgba(100, 255, 218, 0.05),
+    inset 0 1px 0 rgba(100, 255, 218, 0.05);
+}
+
+.dark .mushaf-book-card:hover {
+  box-shadow:
+    0 14px 50px rgba(100, 255, 218, 0.12),
+    0 6px 16px rgba(100, 255, 218, 0.08),
+    inset 0 1px 0 rgba(100, 255, 218, 0.08);
+}
+
+.dark .mushaf-ayah-text {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .mushaf-book-wrapper {
+    gap: 1rem;
+  }
+
+  .mushaf-nav-button {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mushaf-container {
+    padding: 1rem 0.5rem;
+  }
+
+  .mushaf-book-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .mushaf-page-title {
+    font-size: 1.5rem;
+  }
+
+  .mushaf-ayah {
+    font-size: 1.5rem;
+  }
+
+  .mushaf-ayah-number {
+    font-size: 1rem;
+  }
+
+  .mushaf-page-content {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mushaf-book-wrapper {
+    gap: 0.5rem;
+  }
+
+  .mushaf-nav-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .mushaf-book-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .mushaf-ayah {
+    font-size: 1.3rem;
+  }
+
+  .mushaf-page-content {
+    min-height: 350px;
+  }
+}

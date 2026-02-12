@@ -1,0 +1,269 @@
+/* Previous styles... */
+
+/* =====================================
+   Surah Separators & Basmala
+   ===================================== */
+
+/* Surah Separator */
+.surah-separator {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 2rem 0 1.25rem;
+    padding: 0;
+}
+
+.surah-ornament-line {
+    width: 100%;
+    height: 1.5px;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            color-mix(in srgb, var(--primary) 40%, transparent) 20%,
+            var(--primary) 50%,
+            color-mix(in srgb, var(--primary) 40%, transparent) 80%,
+            transparent 100%);
+    position: relative;
+}
+
+.surah-header-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 1.5rem;
+    background: linear-gradient(135deg,
+            color-mix(in srgb, var(--card) 95%, var(--primary) 5%) 0%,
+            color-mix(in srgb, var(--card) 98%, var(--primary) 2%) 100%);
+    border: 1.5px solid color-mix(in srgb, var(--primary) 30%, transparent);
+    border-radius: 10px;
+    box-shadow:
+        0 4px 12px rgba(15, 76, 92, 0.12),
+        0 2px 4px rgba(15, 76, 92, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.surah-name {
+    font-family: 'Amiri', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0;
+    background: linear-gradient(135deg,
+            var(--primary) 0%,
+            color-mix(in srgb, var(--primary) 80%, black) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.surah-ornament-icon {
+    color: var(--primary);
+    flex-shrink: 0;
+    opacity: 0.7;
+}
+
+/* Basmala */
+.basmala-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0 1.75rem;
+    padding: 0;
+}
+
+.basmala-ornament-top,
+.basmala-ornament-bottom {
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            color-mix(in srgb, var(--primary) 30%, transparent) 50%,
+            transparent 100%);
+}
+
+.basmala-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--primary);
+    margin: 0;
+    padding: 0.75rem 1.5rem;
+    letter-spacing: 0.05em;
+    background: linear-gradient(135deg,
+            color-mix(in srgb, var(--card) 98%, var(--primary) 2%) 0%,
+            transparent 100%);
+    border-radius: 8px;
+}
+
+/* =====================================
+   Searchable Surah Dropdown
+   ===================================== */
+
+.surah-selector-custom {
+    position: relative;
+    width: 100%;
+}
+
+.surah-search-input {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: 'Amiri', serif;
+    font-size: 1rem;
+    cursor: text;
+    transition: all 0.2s;
+}
+
+.surah-search-input:hover {
+    border-color: var(--primary);
+}
+
+.surah-search-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);
+}
+
+.surah-search-input::placeholder {
+    color: var(--muted-foreground);
+    opacity: 0.6;
+}
+
+.surah-dropdown-list {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    right: 0;
+    max-height: 320px;
+    overflow-y: auto;
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.12),
+        0 4px 8px rgba(0, 0, 0, 0.08);
+    z-index: 100;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) var(--muted);
+}
+
+.surah-dropdown-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.surah-dropdown-list::-webkit-scrollbar-track {
+    background: var(--muted);
+    border-radius: 3px;
+}
+
+.surah-dropdown-list::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 3px;
+}
+
+.surah-dropdown-list::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--primary) 85%, black);
+}
+
+.surah-option {
+    padding: 0.75rem 1rem;
+    font-family: 'Amiri', serif;
+    font-size: 1rem;
+    color: var(--foreground);
+    cursor: pointer;
+    transition: all 0.15s;
+    border-bottom: 1px solid var(--border);
+}
+
+.surah-option:last-child {
+    border-bottom: none;
+}
+
+.surah-option:hover {
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+    color: var(--primary);
+    padding-right: 1.25rem;
+}
+
+.surah-option-empty {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    color: var(--muted-foreground);
+    font-style: italic;
+    font-size: 0.925rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .surah-separator {
+        margin: 2.5rem 0 1.5rem;
+    }
+
+    .surah-header-content {
+        gap: 1rem;
+        padding: 0.625rem 1.5rem;
+    }
+
+    .surah-name {
+        font-size: 1.5rem;
+    }
+
+    .surah-ornament-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .basmala-text {
+        font-size: 1.75rem;
+    }
+
+    .basmala-ornament-top,
+    .basmala-ornament-bottom {
+        width: 150px;
+    }
+
+    .surah-dropdown-list {
+        max-height: 240px;
+    }
+
+    .surah-option {
+        padding: 0.65rem 0.875rem;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .surah-separator {
+        margin: 2rem 0 1.25rem;
+    }
+
+    .surah-header-content {
+        gap: 0.75rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .surah-name {
+        font-size: 1.25rem;
+    }
+
+    .surah-ornament-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .basmala-text {
+        font-size: 1.5rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .basmala-ornament-top,
+    .basmala-ornament-bottom {
+        width: 100px;
+    }
+}
