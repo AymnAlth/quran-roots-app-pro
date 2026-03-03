@@ -24,6 +24,7 @@ const ayahRoutes = require("../backend/src/routes/ayahRoutes");
 const surahRoutes = require("../backend/src/routes/surahRoutes");
 const statisticsRoutes = require("../backend/src/routes/statisticsRoutes");
 const mushafRoutes = require("../backend/src/routes/mushafRoutes");
+const aiRoutes = require("../backend/src/routes/aiRoutes");
 
 const app = express();
 
@@ -31,13 +32,27 @@ const app = express();
 app.use(cors({
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
     if (!origin) return callback(null, true);
+    const normalizeOrigin = (value: string) => value.replace(/\/+$/, '');
+
+    const envOrigins = [
+      process.env.FRONTEND_URL || '',
+      ...(process.env.FRONTEND_URLS || '')
+        .split(',')
+        .map((v) => v.trim())
+        .filter(Boolean),
+    ]
+      .map(normalizeOrigin)
+      .filter(Boolean);
+
     const allowedOrigins = [
-      'http://localhost:5173', 
+      'http://localhost:5173',
       'http://localhost:3000',
+      'http://localhost:3001',
       'http://localhost:3002',
-      process.env.FRONTEND_URL || '' // Allow Production URL
-    ];
-    if (allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      ...envOrigins,
+    ].map(normalizeOrigin);
+
+    if (allowedOrigins.includes(normalizeOrigin(origin)) || origin.endsWith('.vercel.app')) {
       callback(null, true);
     } else {
       console.log('Blocked by CORS:', origin);
@@ -97,6 +112,7 @@ app.use('/api/ayah', ayahRoutes);
 app.use('/api/surahs', surahRoutes);
 app.use('/api/statistics', statisticsRoutes);
 app.use('/api/mushaf', mushafRoutes);
+app.use('/api/ai', aiRoutes);
 
 app.get('/api', (_req, res) => {
   res.json({ message: 'Quran Roots API is running (Unified Mode)' });

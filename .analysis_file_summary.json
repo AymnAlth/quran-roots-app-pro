@@ -1,0 +1,3527 @@
+[
+  {
+    "path": ".gitignore",
+    "ext": "",
+    "size": 1316,
+    "lines": 107,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": ".gitkeep",
+    "ext": "",
+    "size": 0,
+    "lines": 1,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": ".hintrc",
+    "ext": "",
+    "size": 124,
+    "lines": 9,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": ".prettierignore",
+    "ext": "",
+    "size": 47,
+    "lines": 6,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": ".prettierrc",
+    "ext": "",
+    "size": 325,
+    "lines": 16,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "ARCHITECTURE.md",
+    "ext": ".md",
+    "size": 29238,
+    "lines": 654,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "DEPLOYMENT_VERCEL.md",
+    "ext": ".md",
+    "size": 11354,
+    "lines": 482,
+    "imports": [
+      "express-rate-limit",
+      "@vercel/analytics/react"
+    ],
+    "exports": [],
+    "routes": [
+      {
+        "obj": "app",
+        "method": "use",
+        "path": "/api/"
+      }
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "QUICKSTART.md",
+    "ext": ".md",
+    "size": 3621,
+    "lines": 159,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "README.md",
+    "ext": ".md",
+    "size": 14791,
+    "lines": 404,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": true
+    }
+  },
+  {
+    "path": "SETUP.md",
+    "ext": ".md",
+    "size": 10196,
+    "lines": 436,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "api/index.ts",
+    "ext": ".ts",
+    "size": 103,
+    "lines": 4,
+    "imports": [
+      "../server/index.js"
+    ],
+    "exports": [
+      "default"
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "backend/create_indexes.js",
+    "ext": ".js",
+    "size": 1158,
+    "lines": 31,
+    "imports": [
+      "require:@libsql/client",
+      "require:dotenv"
+    ],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "backend/data/quran.db",
+    "ext": ".db",
+    "size": 0,
+    "binaryLike": true
+  },
+  {
+    "path": "backend/data/word_index.json",
+    "ext": ".json",
+    "size": 536128,
+    "lines": 16760,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "backend/database/dump.sql",
+    "ext": ".sql",
+    "size": 15780270,
+    "lines": 161154,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "backend/database/quran_roots_dual_v2.sqlite",
+    "ext": ".sqlite",
+    "size": 33476608,
+    "binaryLike": true
+  },
+  {
+    "path": "backend/database/quran_roots_dual_v2.sqlite-shm",
+    "missing": true
+  },
+  {
+    "path": "backend/database/quran_roots_dual_v2.sqlite-wal",
+    "missing": true
+  },
+  {
+    "path": "backend/package.json",
+    "ext": ".json",
+    "size": 26,
+    "lines": 3,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "backend/pnpm-lock.yaml",
+    "ext": ".yaml",
+    "size": 39224,
+    "lines": 1252,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "backend/scripts/generate_static_api.js",
+    "ext": ".js",
+    "size": 2906,
+    "lines": 88,
+    "imports": [
+      "require:@libsql/client",
+      "require:fs",
+      "require:path",
+      "require:dotenv"
+    ],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "backend/scripts/precompute_stats.js",
+    "ext": ".js",
+    "size": 5185,
+    "lines": 149,
+    "imports": [
+      "require:path",
+      "require:fs",
+      "require:dotenv",
+      "require:@libsql/client"
+    ],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "backend/src/config/database.js",
+    "ext": ".js",
+    "size": 8567,
+    "lines": 193,
+    "imports": [
+      "require:@libsql/client",
+      "require:path"
+    ],
+    "exports": [
+      "module.exports"
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "backend/src/data/global_stats.json",
+    "ext": ".json",
+    "size": 5690,
+    "lines": 372,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "backend/src/data/surahMetadata.js",
+    "ext": ".js",
+    "size": 11808,
+    "lines": 125,
+    "imports": [],
+    "exports": [
+      "module.exports"
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "backend/src/routes/ayahRoutes.js",
+    "ext": ".js",
+    "size": 1323,
+    "lines": 60,
+    "imports": [
+      "require:express",
+      "require:../config/database"
+    ],
+    "exports": [
+      "module.exports"
+    ],
+    "routes": [
+      {
+        "obj": "router",
+        "method": "get",
+        "path": "/:ayahId"
+      }
+    ],
+    "contains": {
+      "react": false,
+      "express": true,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "backend/src/routes/mushafRoutes.js",
+    "ext": ".js",
+    "size": 2531,
+    "lines": 81,
+    "imports": [
+      "require:express",
+      "require:../config/database"
+    ],
+    "exports": [
+      "module.exports"
+    ],
+    "routes": [
+      {
+        "obj": "router",
+        "method": "get",
+        "path": "/by-juz/:juz"
+      },
+      {
+        "obj": "router",
+        "method": "get",
+        "path": "/by-page/:page"
+      },
+      {
+        "obj": "router",
+        "method": "get",
+        "path": "/search"
+      }
+    ],
+    "contains": {
+      "react": false,
+      "express": true,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "backend/src/routes/searchRoutes.js",
+    "ext": ".js",
+    "size": 2757,
+    "lines": 104,
+    "imports": [
+      "require:express",
+      "require:../services/rootService",
+      "require:node-cache"
+    ],
+    "exports": [
+      "module.exports"
+    ],
+    "routes": [
+      {
+        "obj": "router",
+        "method": "get",
+        "path": "/root/:root"
+      },
+      {
+        "obj": "router",
+        "method": "get",
+        "path": "/suggest"
+      },
+      {
+        "obj": "router",
+        "method": "get",
+        "path": "/statistics/:root"
+      }
+    ],
+    "contains": {
+      "react": false,
+      "express": true,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "backend/src/routes/statisticsRoutes.js",
+    "ext": ".js",
+    "size": 9328,
+    "lines": 248,
+    "imports": [
+      "require:express",
+      "require:../config/database",
+      "require:node-cache",
+      "require:fs",
+      "require:path"
+    ],
+    "exports": [
+      "module.exports"
+    ],
+    "routes": [
+      {
+        "obj": "router",
+        "method": "get",
+        "path": "/global"
+      },
+      {
+        "obj": "router",
+        "method": "get",
+        "path": "/roots-by-length/:length"
+      }
+    ],
+    "contains": {
+      "react": false,
+      "express": true,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "backend/src/routes/surahRoutes.js",
+    "ext": ".js",
+    "size": 3288,
+    "lines": 104,
+    "imports": [
+      "require:express",
+      "require:../config/database"
+    ],
+    "exports": [
+      "module.exports"
+    ],
+    "routes": [
+      {
+        "obj": "router",
+        "method": "get",
+        "path": "/"
+      },
+      {
+        "obj": "router",
+        "method": "get",
+        "path": "/:surahNo"
+      }
+    ],
+    "contains": {
+      "react": false,
+      "express": true,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "backend/src/services/rootService.js",
+    "ext": ".js",
+    "size": 16724,
+    "lines": 463,
+    "imports": [
+      "require:../config/database",
+      "require:../data/surahMetadata"
+    ],
+    "exports": [
+      "module.exports"
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "backend/verify_security.js",
+    "ext": ".js",
+    "size": 2008,
+    "lines": 60,
+    "imports": [
+      "require:http"
+    ],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "check-db.js",
+    "ext": ".js",
+    "size": 686,
+    "lines": 23,
+    "imports": [
+      "@libsql/client",
+      "path",
+      "url"
+    ],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/index.html",
+    "ext": ".html",
+    "size": 1170,
+    "lines": 27,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/public/.gitkeep",
+    "ext": "",
+    "size": 0,
+    "lines": 1,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/public/__manus__/debug-collector.js",
+    "ext": ".js",
+    "size": 25989,
+    "lines": 822,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/public/robots.txt",
+    "ext": ".txt",
+    "size": 84,
+    "lines": 5,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/public/word_index.json",
+    "ext": ".json",
+    "size": 536128,
+    "lines": 16760,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/App.tsx",
+    "ext": ".tsx",
+    "size": 4130,
+    "lines": 103,
+    "imports": [
+      "react",
+      "wouter",
+      "@vercel/analytics/react",
+      "framer-motion",
+      "@/components/ui/sonner",
+      "@/components/ui/tooltip",
+      "./components/ErrorBoundary",
+      "./contexts/ThemeContext",
+      "./contexts/QuranContext",
+      "./components/layout/MainLayout"
+    ],
+    "exports": [
+      "default"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/AyahList.tsx",
+    "ext": ".tsx",
+    "size": 3301,
+    "lines": 74,
+    "imports": [
+      "react",
+      "framer-motion",
+      "./ui/AyahCard"
+    ],
+    "exports": [
+      "AyahList"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ErrorBoundary.tsx",
+    "ext": ".tsx",
+    "size": 778,
+    "lines": 38,
+    "imports": [
+      "react",
+      "./errors/ServerError"
+    ],
+    "exports": [
+      "default"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ManusDialog.tsx",
+    "ext": ".tsx",
+    "size": 2455,
+    "lines": 86,
+    "imports": [
+      "react",
+      "@/components/ui/button"
+    ],
+    "exports": [
+      "ManusDialog"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/Map.tsx",
+    "ext": ".tsx",
+    "size": 5087,
+    "lines": 156,
+    "imports": [
+      "react",
+      "@/hooks/usePersistFn",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "MapView"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/Results.tsx",
+    "ext": ".tsx",
+    "size": 18797,
+    "lines": 368,
+    "imports": [
+      "react",
+      "@/contexts/QuranContext",
+      "lucide-react",
+      "wouter",
+      "./errors/NetworkError",
+      "./errors/ServerError",
+      "./errors/AccessDenied",
+      "./errors/ErrorLayout",
+      "./ui/QuranLoader",
+      "./errors/EmptyState",
+      "./ui/ScrollToTop",
+      "./ui/AyahCard"
+    ],
+    "exports": [
+      "Results",
+      "default"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/SearchBar.tsx",
+    "ext": ".tsx",
+    "size": 5514,
+    "lines": 148,
+    "imports": [
+      "react",
+      "@/contexts/QuranContext",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "lucide-react"
+    ],
+    "exports": [
+      "SearchBar",
+      "default"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/Statistics.tsx",
+    "ext": ".tsx",
+    "size": 6584,
+    "lines": 144,
+    "imports": [
+      "react",
+      "@/contexts/QuranContext",
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "recharts",
+      "lucide-react",
+      "./ui/ScrollToTop"
+    ],
+    "exports": [
+      "Statistics",
+      "default"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ThemeToggle.tsx",
+    "ext": ".tsx",
+    "size": 1842,
+    "lines": 41,
+    "imports": [
+      "lucide-react",
+      "@/components/ui/button",
+      "@/contexts/ThemeContext"
+    ],
+    "exports": [
+      "ThemeToggle"
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ThreeParticleSearch.tsx",
+    "ext": ".tsx",
+    "size": 18354,
+    "lines": 508,
+    "imports": [
+      "react",
+      "@react-three/fiber",
+      "@react-three/drei",
+      "@react-three/postprocessing",
+      "three"
+    ],
+    "exports": [
+      "default"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/charts/DashboardCharts.tsx",
+    "ext": ".tsx",
+    "size": 19636,
+    "lines": 417,
+    "imports": [
+      "react",
+      "framer-motion",
+      "lucide-react"
+    ],
+    "exports": [
+      "RevelationTimeline",
+      "EraDistribution",
+      "NetworkGraph",
+      "WordFormsList",
+      "RelationshipMatrix"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/errors/AccessDenied.tsx",
+    "ext": ".tsx",
+    "size": 2277,
+    "lines": 52,
+    "imports": [
+      "react",
+      "./ErrorLayout",
+      "lucide-react",
+      "framer-motion"
+    ],
+    "exports": [
+      "AccessDenied"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/errors/EmptyState.tsx",
+    "ext": ".tsx",
+    "size": 4120,
+    "lines": 87,
+    "imports": [
+      "react",
+      "framer-motion",
+      "lucide-react"
+    ],
+    "exports": [
+      "EmptyState"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/errors/ErrorLayout.tsx",
+    "ext": ".tsx",
+    "size": 9630,
+    "lines": 194,
+    "imports": [
+      "react",
+      "framer-motion",
+      "@/lib/utils",
+      "@/components/ui/button",
+      "lucide-react",
+      "wouter"
+    ],
+    "exports": [
+      "ErrorLayout"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/errors/NetworkError.tsx",
+    "ext": ".tsx",
+    "size": 1731,
+    "lines": 46,
+    "imports": [
+      "react",
+      "./ErrorLayout",
+      "lucide-react",
+      "framer-motion"
+    ],
+    "exports": [
+      "NetworkError"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/errors/NotFound.tsx",
+    "ext": ".tsx",
+    "size": 1741,
+    "lines": 42,
+    "imports": [
+      "react",
+      "./ErrorLayout",
+      "lucide-react",
+      "framer-motion"
+    ],
+    "exports": [
+      "NotFound"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/errors/ServerError.tsx",
+    "ext": ".tsx",
+    "size": 2823,
+    "lines": 72,
+    "imports": [
+      "react",
+      "./ErrorLayout",
+      "lucide-react",
+      "@/components/ui/button",
+      "framer-motion"
+    ],
+    "exports": [
+      "ServerError"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/labs/ProjectAnalytics.tsx",
+    "ext": ".tsx",
+    "size": 19150,
+    "lines": 325,
+    "imports": [
+      "react",
+      "../../lib/apiClient",
+      "wouter",
+      "../../contexts/QuranContext",
+      "framer-motion",
+      "../ui/card",
+      "lucide-react",
+      "@/components/errors/NetworkError",
+      "@/components/errors/ServerError",
+      "@/components/errors/ErrorLayout",
+      "../../lib/errors",
+      "@/components/ui/ScrollToTop"
+    ],
+    "exports": [
+      "ProjectAnalytics"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/layout/AppSidebar.tsx",
+    "ext": ".tsx",
+    "size": 11275,
+    "lines": 200,
+    "imports": [
+      "react",
+      "framer-motion",
+      "lucide-react",
+      "../ui/button",
+      "../../lib/utils",
+      "../ThemeToggle",
+      "wouter"
+    ],
+    "exports": [
+      "AppSidebar"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/layout/Header.tsx",
+    "ext": ".tsx",
+    "size": 5083,
+    "lines": 106,
+    "imports": [
+      "react",
+      "wouter",
+      "lucide-react",
+      "@/components/ui/button",
+      "@/components/ThemeToggle",
+      "@/lib/utils",
+      "framer-motion"
+    ],
+    "exports": [
+      "Header"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/layout/MainLayout.tsx",
+    "ext": ".tsx",
+    "size": 6152,
+    "lines": 123,
+    "imports": [
+      "react",
+      "./Header",
+      "./AppSidebar",
+      "@/components/ui/sonner",
+      "wouter",
+      "lucide-react",
+      "@/components/ui/button",
+      "@/components/labs/ProjectAnalytics"
+    ],
+    "exports": [
+      "MainLayout"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/mushaf/AyahCard.tsx",
+    "ext": ".tsx",
+    "size": 3514,
+    "lines": 83,
+    "imports": [
+      "react"
+    ],
+    "exports": [
+      "AyahCard",
+      "default"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/mushaf/Basmala.tsx",
+    "ext": ".tsx",
+    "size": 442,
+    "lines": 14,
+    "imports": [
+      "react"
+    ],
+    "exports": [
+      "Basmala"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/mushaf/SearchModal.tsx",
+    "ext": ".tsx",
+    "size": 7827,
+    "lines": 182,
+    "imports": [
+      "react",
+      "@/lib/searchService",
+      "@/data/surahNames"
+    ],
+    "exports": [
+      "SearchModal"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/mushaf/SurahHeader.tsx",
+    "ext": ".tsx",
+    "size": 1436,
+    "lines": 29,
+    "imports": [
+      "react",
+      "@/data/surahNames"
+    ],
+    "exports": [
+      "SurahHeader"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/AyahCard.tsx",
+    "ext": ".tsx",
+    "size": 14993,
+    "lines": 278,
+    "imports": [
+      "react",
+      "framer-motion",
+      "lucide-react"
+    ],
+    "exports": [
+      "AyahCard"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/PageContainer.tsx",
+    "ext": ".tsx",
+    "size": 3239,
+    "lines": 89,
+    "imports": [
+      "react",
+      "framer-motion",
+      "@/components/ui/QuranLoader",
+      "@/components/errors/ErrorLayout",
+      "@/components/errors/NetworkError",
+      "@/components/errors/ServerError",
+      "@/components/errors/AccessDenied",
+      "@/lib/errors",
+      "@/lib/utils",
+      "lucide-react"
+    ],
+    "exports": [
+      "PageContainer"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/QuranLoader.tsx",
+    "ext": ".tsx",
+    "size": 5626,
+    "lines": 116,
+    "imports": [
+      "react",
+      "framer-motion"
+    ],
+    "exports": [
+      "QuranLoader"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/ScrollToTop.tsx",
+    "ext": ".tsx",
+    "size": 4159,
+    "lines": 99,
+    "imports": [
+      "react",
+      "framer-motion",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "ScrollToTop"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/accordion.tsx",
+    "ext": ".tsx",
+    "size": 2112,
+    "lines": 65,
+    "imports": [
+      "react",
+      "@radix-ui/react-accordion",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Accordion, AccordionItem, AccordionTrigger, AccordionContent }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/alert-dialog.tsx",
+    "ext": ".tsx",
+    "size": 4021,
+    "lines": 156,
+    "imports": [
+      "react",
+      "@radix-ui/react-alert-dialog",
+      "@/lib/utils",
+      "@/components/ui/button"
+    ],
+    "exports": [
+      "{ AlertDialog, AlertDialogPortal, AlertDialogOverlay, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogDescription, AlertDialogAction, AlertDialogCancel, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/alert.tsx",
+    "ext": ".tsx",
+    "size": 1688,
+    "lines": 67,
+    "imports": [
+      "react",
+      "class-variance-authority",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Alert, AlertTitle, AlertDescription }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/aspect-ratio.tsx",
+    "ext": ".tsx",
+    "size": 278,
+    "lines": 10,
+    "imports": [
+      "@radix-ui/react-aspect-ratio"
+    ],
+    "exports": [
+      "{ AspectRatio }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/avatar.tsx",
+    "ext": ".tsx",
+    "size": 1141,
+    "lines": 52,
+    "imports": [
+      "react",
+      "@radix-ui/react-avatar",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Avatar, AvatarImage, AvatarFallback }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/badge.tsx",
+    "ext": ".tsx",
+    "size": 1685,
+    "lines": 47,
+    "imports": [
+      "react",
+      "@radix-ui/react-slot",
+      "class-variance-authority",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Badge, badgeVariants }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/breadcrumb.tsx",
+    "ext": ".tsx",
+    "size": 2480,
+    "lines": 110,
+    "imports": [
+      "react",
+      "@radix-ui/react-slot",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/button-group.tsx",
+    "ext": ".tsx",
+    "size": 2303,
+    "lines": 84,
+    "imports": [
+      "@radix-ui/react-slot",
+      "class-variance-authority",
+      "@/lib/utils",
+      "@/components/ui/separator"
+    ],
+    "exports": [
+      "{ ButtonGroup, ButtonGroupSeparator, ButtonGroupText, buttonGroupVariants, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/button.tsx",
+    "ext": ".tsx",
+    "size": 2157,
+    "lines": 61,
+    "imports": [
+      "react",
+      "@radix-ui/react-slot",
+      "class-variance-authority",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Button, buttonVariants }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/calendar.tsx",
+    "ext": ".tsx",
+    "size": 7874,
+    "lines": 212,
+    "imports": [
+      "react",
+      "react-day-picker",
+      "@/lib/utils",
+      "@/components/ui/button"
+    ],
+    "exports": [
+      "{ Calendar, CalendarDayButton }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": true
+    }
+  },
+  {
+    "path": "client/src/components/ui/card.tsx",
+    "ext": ".tsx",
+    "size": 2089,
+    "lines": 93,
+    "imports": [
+      "react",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Card, CardHeader, CardFooter, CardTitle, CardAction, CardDescription, CardContent, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/carousel.tsx",
+    "ext": ".tsx",
+    "size": 5841,
+    "lines": 240,
+    "imports": [
+      "react",
+      "lucide-react",
+      "@/lib/utils",
+      "@/components/ui/button"
+    ],
+    "exports": [
+      "{ type CarouselApi, Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/chart.tsx",
+    "ext": ".tsx",
+    "size": 10468,
+    "lines": 356,
+    "imports": [
+      "react",
+      "recharts",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "ChartConfig",
+      "{ ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartStyle, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/checkbox.tsx",
+    "ext": ".tsx",
+    "size": 1248,
+    "lines": 31,
+    "imports": [
+      "react",
+      "@radix-ui/react-checkbox",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Checkbox }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/collapsible.tsx",
+    "ext": ".tsx",
+    "size": 822,
+    "lines": 32,
+    "imports": [
+      "@radix-ui/react-collapsible"
+    ],
+    "exports": [
+      "{ Collapsible, CollapsibleTrigger, CollapsibleContent }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/command.tsx",
+    "ext": ".tsx",
+    "size": 5022,
+    "lines": 185,
+    "imports": [
+      "react",
+      "cmdk",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandShortcut, CommandSeparator, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/context-menu.tsx",
+    "ext": ".tsx",
+    "size": 8534,
+    "lines": 251,
+    "imports": [
+      "react",
+      "@radix-ui/react-context-menu",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuCheckboxItem, ContextMenuRadioItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuShortcut, ContextMenuGroup, ContextMenuPortal, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuRadioGroup, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/dialog.tsx",
+    "ext": ".tsx",
+    "size": 6233,
+    "lines": 210,
+    "imports": [
+      "@/lib/utils",
+      "@radix-ui/react-dialog",
+      "lucide-react",
+      "react"
+    ],
+    "exports": [
+      "useDialogComposition",
+      "{ Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/drawer.tsx",
+    "ext": ".tsx",
+    "size": 4388,
+    "lines": 134,
+    "imports": [
+      "react",
+      "vaul",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Drawer, DrawerPortal, DrawerOverlay, DrawerTrigger, DrawerClose, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle, DrawerDescription, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/dropdown-menu.tsx",
+    "ext": ".tsx",
+    "size": 8689,
+    "lines": 256,
+    "imports": [
+      "react",
+      "@radix-ui/react-dropdown-menu",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ DropdownMenu, DropdownMenuPortal, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/empty.tsx",
+    "ext": ".tsx",
+    "size": 2510,
+    "lines": 105,
+    "imports": [
+      "class-variance-authority",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent, EmptyMedia, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/field.tsx",
+    "ext": ".tsx",
+    "size": 6299,
+    "lines": 243,
+    "imports": [
+      "react",
+      "class-variance-authority",
+      "@/lib/utils",
+      "@/components/ui/label",
+      "@/components/ui/separator"
+    ],
+    "exports": [
+      "{ Field, FieldLabel, FieldDescription, FieldError, FieldGroup, FieldLegend, FieldSeparator, FieldSet, FieldContent, FieldTitle, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/form.tsx",
+    "ext": ".tsx",
+    "size": 3969,
+    "lines": 169,
+    "imports": [
+      "react",
+      "@radix-ui/react-label",
+      "@radix-ui/react-slot",
+      "@/lib/utils",
+      "@/components/ui/label"
+    ],
+    "exports": [
+      "{ useFormField, Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/hover-card.tsx",
+    "ext": ".tsx",
+    "size": 1567,
+    "lines": 43,
+    "imports": [
+      "react",
+      "@radix-ui/react-hover-card",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ HoverCard, HoverCardTrigger, HoverCardContent }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/input-group.tsx",
+    "ext": ".tsx",
+    "size": 5234,
+    "lines": 169,
+    "imports": [
+      "react",
+      "class-variance-authority",
+      "@/lib/utils",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/textarea"
+    ],
+    "exports": [
+      "{ InputGroup, InputGroupAddon, InputGroupButton, InputGroupText, InputGroupInput, InputGroupTextarea, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/input-otp.tsx",
+    "ext": ".tsx",
+    "size": 2328,
+    "lines": 76,
+    "imports": [
+      "react",
+      "input-otp",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/input.tsx",
+    "ext": ".tsx",
+    "size": 2798,
+    "lines": 71,
+    "imports": [
+      "@/components/ui/dialog",
+      "@/hooks/useComposition",
+      "@/lib/utils",
+      "react"
+    ],
+    "exports": [
+      "{ Input }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/item.tsx",
+    "ext": ".tsx",
+    "size": 4706,
+    "lines": 194,
+    "imports": [
+      "react",
+      "@radix-ui/react-slot",
+      "class-variance-authority",
+      "@/lib/utils",
+      "@/components/ui/separator"
+    ],
+    "exports": [
+      "{ Item, ItemMedia, ItemContent, ItemActions, ItemGroup, ItemSeparator, ItemTitle, ItemDescription, ItemHeader, ItemFooter, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/kbd.tsx",
+    "ext": ".tsx",
+    "size": 894,
+    "lines": 29,
+    "imports": [
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Kbd, KbdGroup }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/label.tsx",
+    "ext": ".tsx",
+    "size": 624,
+    "lines": 23,
+    "imports": [
+      "react",
+      "@radix-ui/react-label",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Label }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/menubar.tsx",
+    "ext": ".tsx",
+    "size": 8679,
+    "lines": 275,
+    "imports": [
+      "react",
+      "@radix-ui/react-menubar",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Menubar, MenubarPortal, MenubarMenu, MenubarTrigger, MenubarContent, MenubarGroup, MenubarSeparator, MenubarLabel, MenubarItem, MenubarShortcut, MenubarCheckboxItem, MenubarRadioGroup, MenubarRadioItem, MenubarSub, MenubarSubTrigger, MenubarSubContent, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/navigation-menu.tsx",
+    "ext": ".tsx",
+    "size": 6848,
+    "lines": 169,
+    "imports": [
+      "react",
+      "@radix-ui/react-navigation-menu",
+      "class-variance-authority",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuContent, NavigationMenuTrigger, NavigationMenuLink, NavigationMenuIndicator, NavigationMenuViewport, navigationMenuTriggerStyle, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/pagination.tsx",
+    "ext": ".tsx",
+    "size": 2853,
+    "lines": 128,
+    "imports": [
+      "react",
+      "@/lib/utils",
+      "@/components/ui/button"
+    ],
+    "exports": [
+      "{ Pagination, PaginationContent, PaginationLink, PaginationItem, PaginationPrevious, PaginationNext, PaginationEllipsis, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/popover.tsx",
+    "ext": ".tsx",
+    "size": 1675,
+    "lines": 47,
+    "imports": [
+      "react",
+      "@radix-ui/react-popover",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Popover, PopoverTrigger, PopoverContent, PopoverAnchor }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/progress.tsx",
+    "ext": ".tsx",
+    "size": 760,
+    "lines": 30,
+    "imports": [
+      "react",
+      "@radix-ui/react-progress",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Progress }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/radio-group.tsx",
+    "ext": ".tsx",
+    "size": 1502,
+    "lines": 44,
+    "imports": [
+      "react",
+      "@radix-ui/react-radio-group",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ RadioGroup, RadioGroupItem }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/resizable.tsx",
+    "ext": ".tsx",
+    "size": 2077,
+    "lines": 55,
+    "imports": [
+      "react",
+      "lucide-react",
+      "react-resizable-panels",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ ResizablePanelGroup, ResizablePanel, ResizableHandle }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/scroll-area.tsx",
+    "ext": ".tsx",
+    "size": 1693,
+    "lines": 57,
+    "imports": [
+      "react",
+      "@radix-ui/react-scroll-area",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ ScrollArea, ScrollBar }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/select.tsx",
+    "ext": ".tsx",
+    "size": 6482,
+    "lines": 186,
+    "imports": [
+      "react",
+      "@radix-ui/react-select",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/separator.tsx",
+    "ext": ".tsx",
+    "size": 716,
+    "lines": 27,
+    "imports": [
+      "react",
+      "@radix-ui/react-separator",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Separator }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/sheet.tsx",
+    "ext": ".tsx",
+    "size": 4236,
+    "lines": 140,
+    "imports": [
+      "react",
+      "@radix-ui/react-dialog",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Sheet, SheetTrigger, SheetClose, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/sidebar.tsx",
+    "ext": ".tsx",
+    "size": 22681,
+    "lines": 735,
+    "imports": [
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/separator",
+      "@/components/ui/skeleton",
+      "@/hooks/useMobile",
+      "@/lib/utils",
+      "@radix-ui/react-slot",
+      "class-variance-authority",
+      "lucide-react",
+      "react"
+    ],
+    "exports": [
+      "{ Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, useSidebar }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/skeleton.tsx",
+    "ext": ".tsx",
+    "size": 292,
+    "lines": 14,
+    "imports": [
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Skeleton }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/slider.tsx",
+    "ext": ".tsx",
+    "size": 2049,
+    "lines": 62,
+    "imports": [
+      "react",
+      "@radix-ui/react-slider",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Slider }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/sonner.tsx",
+    "ext": ".tsx",
+    "size": 584,
+    "lines": 24,
+    "imports": [
+      "next-themes",
+      "sonner"
+    ],
+    "exports": [
+      "{ Toaster }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/spinner.tsx",
+    "ext": ".tsx",
+    "size": 351,
+    "lines": 17,
+    "imports": [
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Spinner }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/switch.tsx",
+    "ext": ".tsx",
+    "size": 1197,
+    "lines": 30,
+    "imports": [
+      "react",
+      "@radix-ui/react-switch",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Switch }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/table.tsx",
+    "ext": ".tsx",
+    "size": 2559,
+    "lines": 115,
+    "imports": [
+      "react",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption, }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/tabs.tsx",
+    "ext": ".tsx",
+    "size": 2027,
+    "lines": 65,
+    "imports": [
+      "react",
+      "@radix-ui/react-tabs",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Tabs, TabsList, TabsTrigger, TabsContent }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/textarea.tsx",
+    "ext": ".tsx",
+    "size": 2680,
+    "lines": 68,
+    "imports": [
+      "@/components/ui/dialog",
+      "@/hooks/useComposition",
+      "@/lib/utils",
+      "react"
+    ],
+    "exports": [
+      "{ Textarea }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/toggle-group.tsx",
+    "ext": ".tsx",
+    "size": 2009,
+    "lines": 74,
+    "imports": [
+      "react",
+      "@radix-ui/react-toggle-group",
+      "class-variance-authority",
+      "@/lib/utils",
+      "@/components/ui/toggle"
+    ],
+    "exports": [
+      "{ ToggleGroup, ToggleGroupItem }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/toggle.tsx",
+    "ext": ".tsx",
+    "size": 1608,
+    "lines": 46,
+    "imports": [
+      "react",
+      "@radix-ui/react-toggle",
+      "class-variance-authority",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Toggle, toggleVariants }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/components/ui/tooltip.tsx",
+    "ext": ".tsx",
+    "size": 1945,
+    "lines": 60,
+    "imports": [
+      "react",
+      "@radix-ui/react-tooltip",
+      "@/lib/utils"
+    ],
+    "exports": [
+      "{ Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/config/api.ts",
+    "ext": ".ts",
+    "size": 193,
+    "lines": 6,
+    "imports": [],
+    "exports": [
+      "API_BASE_URL"
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/const.ts",
+    "ext": ".ts",
+    "size": 660,
+    "lines": 18,
+    "imports": [],
+    "exports": [
+      "getLoginUrl",
+      "{ COOKIE_NAME, ONE_YEAR_MS }"
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/contexts/QuranContext.tsx",
+    "ext": ".tsx",
+    "size": 7215,
+    "lines": 227,
+    "imports": [
+      "react",
+      "../lib/apiClient",
+      "../lib/errors"
+    ],
+    "exports": [
+      "QuranProvider",
+      "useQuran"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/contexts/ThemeContext.tsx",
+    "ext": ".tsx",
+    "size": 9333,
+    "lines": 341,
+    "imports": [
+      "react"
+    ],
+    "exports": [
+      "ThemeProvider",
+      "useTheme"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/data/surahNames.ts",
+    "ext": ".ts",
+    "size": 2653,
+    "lines": 119,
+    "imports": [],
+    "exports": [
+      "default"
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/hooks/useComposition.ts",
+    "ext": ".ts",
+    "size": 2414,
+    "lines": 82,
+    "imports": [
+      "react",
+      "./usePersistFn"
+    ],
+    "exports": [
+      "UseCompositionReturn",
+      "UseCompositionOptions",
+      "useComposition"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/hooks/useMobile.tsx",
+    "ext": ".tsx",
+    "size": 605,
+    "lines": 22,
+    "imports": [
+      "react"
+    ],
+    "exports": [
+      "useIsMobile"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/hooks/usePersistFn.ts",
+    "ext": ".ts",
+    "size": 491,
+    "lines": 21,
+    "imports": [
+      "react"
+    ],
+    "exports": [
+      "usePersistFn"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/index.css",
+    "ext": ".css",
+    "size": 36462,
+    "lines": 1668,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": true
+    }
+  },
+  {
+    "path": "client/src/lib/apiClient.ts",
+    "ext": ".ts",
+    "size": 6172,
+    "lines": 149,
+    "imports": [
+      "../config/api",
+      "./errors"
+    ],
+    "exports": [
+      "apiClient"
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/lib/errors.ts",
+    "ext": ".ts",
+    "size": 944,
+    "lines": 38,
+    "imports": [],
+    "exports": [
+      "AppError",
+      "NetworkError",
+      "ServerError",
+      "AuthenticationError",
+      "NotFoundError"
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/lib/mushafService.ts",
+    "ext": ".ts",
+    "size": 1148,
+    "lines": 45,
+    "imports": [
+      "axios"
+    ],
+    "exports": [
+      "default"
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/lib/searchService.ts",
+    "ext": ".ts",
+    "size": 4101,
+    "lines": 108,
+    "imports": [
+      "./mushafService"
+    ],
+    "exports": [
+      "SearchResult",
+      "highlightText"
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/lib/utils.ts",
+    "ext": ".ts",
+    "size": 175,
+    "lines": 7,
+    "imports": [
+      "clsx",
+      "tailwind-merge"
+    ],
+    "exports": [
+      "cn"
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/lib/vercelAnalytics.ts",
+    "ext": ".ts",
+    "size": 794,
+    "lines": 23,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/main.tsx",
+    "ext": ".tsx",
+    "size": 1185,
+    "lines": 35,
+    "imports": [
+      "react-dom/client",
+      "./App"
+    ],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/mushaf-fab.css",
+    "ext": ".css",
+    "size": 3476,
+    "lines": 161,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/mushaf-floating-nav.css",
+    "ext": ".css",
+    "size": 1948,
+    "lines": 79,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/mushaf-separators.css",
+    "ext": ".css",
+    "size": 6088,
+    "lines": 269,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/pages/Dashboard.tsx",
+    "ext": ".tsx",
+    "size": 31907,
+    "lines": 496,
+    "imports": [
+      "react",
+      "../contexts/QuranContext",
+      "wouter",
+      "../components/ui/card",
+      "../components/ui/button",
+      "lucide-react",
+      "framer-motion",
+      "../components/charts/DashboardCharts",
+      "../components/ui/select",
+      "../components/ui/ScrollToTop",
+      "../components/ui/PageContainer"
+    ],
+    "exports": [
+      "default"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/pages/DetailView.tsx",
+    "ext": ".tsx",
+    "size": 17002,
+    "lines": 348,
+    "imports": [
+      "react",
+      "wouter",
+      "../contexts/QuranContext",
+      "../components/ui/button",
+      "../components/ui/input",
+      "lucide-react",
+      "../components/AyahList",
+      "../components/ui/card",
+      "../components/ui/QuranLoader",
+      "../components/ui/ScrollToTop",
+      "framer-motion"
+    ],
+    "exports": [
+      "default"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/pages/Home.tsx",
+    "ext": ".tsx",
+    "size": 4341,
+    "lines": 97,
+    "imports": [
+      "react",
+      "@/components/SearchBar",
+      "@/components/Results",
+      "@/contexts/QuranContext",
+      "lucide-react",
+      "wouter",
+      "@/components/ui/button",
+      "@/components/ThreeParticleSearch"
+    ],
+    "exports": [
+      "default"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/pages/Mushaf.tsx",
+    "ext": ".tsx",
+    "size": 20269,
+    "lines": 495,
+    "imports": [
+      "react",
+      "@/lib/mushafService",
+      "@/components/ui/PageContainer",
+      "@/data/surahNames",
+      "@/components/mushaf/SurahHeader",
+      "@/components/mushaf/Basmala",
+      "@/components/mushaf/SearchModal"
+    ],
+    "exports": [
+      "default"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/pages/NotFound.tsx",
+    "ext": ".tsx",
+    "size": 155,
+    "lines": 6,
+    "imports": [
+      "@/components/errors/NotFound"
+    ],
+    "exports": [
+      "default"
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/pages/RootLengthExplorer.tsx",
+    "ext": ".tsx",
+    "size": 14358,
+    "lines": 263,
+    "imports": [
+      "react",
+      "../lib/apiClient",
+      "wouter",
+      "framer-motion",
+      "lucide-react",
+      "../contexts/QuranContext",
+      "../components/ui/button",
+      "../components/ui/card",
+      "../components/ui/input",
+      "../components/ui/badge",
+      "../components/ui/QuranLoader",
+      "@/components/errors/NetworkError",
+      "@/components/errors/ServerError",
+      "@/components/errors/ErrorLayout",
+      "../lib/errors",
+      "@/components/ui/ScrollToTop"
+    ],
+    "exports": [
+      "default"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/pages/RootNetworkExplorer.tsx",
+    "ext": ".tsx",
+    "size": 23048,
+    "lines": 464,
+    "imports": [
+      "react",
+      "react-force-graph-2d",
+      "../contexts/QuranContext",
+      "../components/ui/PageContainer",
+      "wouter",
+      "../components/ui/card",
+      "lucide-react",
+      "../components/ui/button",
+      "../components/ui/input",
+      "framer-motion",
+      "@/components/ui/tooltip",
+      "d3-force"
+    ],
+    "exports": [
+      "default"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/pages/Settings.tsx",
+    "ext": ".tsx",
+    "size": 9754,
+    "lines": 176,
+    "imports": [
+      "react",
+      "@/contexts/ThemeContext",
+      "@/components/ui/button",
+      "@/components/ui/card"
+    ],
+    "exports": [
+      "default"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/pages/SurahProfile.tsx",
+    "ext": ".tsx",
+    "size": 24743,
+    "lines": 442,
+    "imports": [
+      "react",
+      "../lib/apiClient",
+      "wouter",
+      "framer-motion",
+      "lucide-react",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/QuranLoader",
+      "@/components/errors/NetworkError",
+      "@/components/errors/ServerError",
+      "@/components/errors/ErrorLayout",
+      "../lib/errors",
+      "@/components/ui/ScrollToTop"
+    ],
+    "exports": [
+      "default"
+    ],
+    "contains": {
+      "react": true,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/search-modal.css",
+    "ext": ".css",
+    "size": 6952,
+    "lines": 361,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "client/src/utils/surahHelpers.ts",
+    "ext": ".ts",
+    "size": 1653,
+    "lines": 31,
+    "imports": [],
+    "exports": [
+      "getSurahType"
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "components.json",
+    "ext": ".json",
+    "size": 407,
+    "lines": 20,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "database_report.md",
+    "ext": ".md",
+    "size": 7618,
+    "lines": 95,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": true
+    }
+  },
+  {
+    "path": "install_fonts.js",
+    "ext": ".js",
+    "size": 398,
+    "lines": 11,
+    "imports": [
+      "require:child_process"
+    ],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "package.json",
+    "ext": ".json",
+    "size": 4417,
+    "lines": 130,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "patches/wouter@3.7.1.patch",
+    "ext": ".patch",
+    "size": 946,
+    "lines": 29,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": true,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "pnpm-lock.yaml",
+    "ext": ".yaml",
+    "size": 307192,
+    "lines": 8403,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": true,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "server/index.ts",
+    "ext": ".ts",
+    "size": 4619,
+    "lines": 139,
+    "imports": [
+      "express",
+      "path",
+      "url",
+      "cors",
+      "helmet",
+      "compression",
+      "morgan",
+      "dotenv",
+      "module",
+      "require:../backend/src/routes/searchRoutes",
+      "require:../backend/src/routes/ayahRoutes",
+      "require:../backend/src/routes/surahRoutes",
+      "require:../backend/src/routes/statisticsRoutes",
+      "require:../backend/src/routes/mushafRoutes"
+    ],
+    "exports": [
+      "default"
+    ],
+    "routes": [
+      {
+        "obj": "app",
+        "method": "get",
+        "path": "/health"
+      },
+      {
+        "obj": "app",
+        "method": "get",
+        "path": "/api/resources/word-index"
+      },
+      {
+        "obj": "app",
+        "method": "use",
+        "path": "/api/search"
+      },
+      {
+        "obj": "app",
+        "method": "use",
+        "path": "/api/ayah"
+      },
+      {
+        "obj": "app",
+        "method": "use",
+        "path": "/api/surahs"
+      },
+      {
+        "obj": "app",
+        "method": "use",
+        "path": "/api/statistics"
+      },
+      {
+        "obj": "app",
+        "method": "use",
+        "path": "/api/mushaf"
+      },
+      {
+        "obj": "app",
+        "method": "get",
+        "path": "/api"
+      },
+      {
+        "obj": "app",
+        "method": "get",
+        "path": "*"
+      }
+    ],
+    "contains": {
+      "react": false,
+      "express": true,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "shared/const.ts",
+    "ext": ".ts",
+    "size": 101,
+    "lines": 3,
+    "imports": [],
+    "exports": [
+      "COOKIE_NAME",
+      "ONE_YEAR_MS"
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "tsconfig.json",
+    "ext": ".json",
+    "size": 680,
+    "lines": 24,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "tsconfig.node.json",
+    "ext": ".json",
+    "size": 501,
+    "lines": 23,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "vercel.json",
+    "ext": ".json",
+    "size": 277,
+    "lines": 13,
+    "imports": [],
+    "exports": [],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  },
+  {
+    "path": "vite.config.ts",
+    "ext": ".ts",
+    "size": 13599,
+    "lines": 417,
+    "imports": [
+      "@builder.io/vite-plugin-jsx-loc",
+      "@tailwindcss/vite",
+      "@vitejs/plugin-react",
+      "node:fs",
+      "node:path",
+      "vite",
+      "vite-plugin-manus-runtime"
+    ],
+    "exports": [
+      "default"
+    ],
+    "contains": {
+      "react": false,
+      "express": false,
+      "sql": false,
+      "context": false,
+      "component": false,
+      "cssVar": false
+    }
+  }
+]

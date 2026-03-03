@@ -4,6 +4,7 @@
 @import "./mushaf-floating-nav.css";
 @import "./mushaf-fab.css";
 @import "./search-modal.css";
+@source "../../node_modules/streamdown/dist/index.js";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -1665,4 +1666,37 @@
   .mushaf-page-content {
     min-height: 350px;
   }
+}
+
+/* AI Markdown View */
+.ai-markdown {
+  direction: rtl;
+  text-align: right;
+}
+
+.ai-markdown [data-streamdown="heading-1"],
+.ai-markdown [data-streamdown="heading-2"],
+.ai-markdown [data-streamdown="heading-3"],
+.ai-markdown [data-streamdown="heading-4"],
+.ai-markdown [data-streamdown="heading-5"],
+.ai-markdown [data-streamdown="heading-6"] {
+  font-family: 'Cairo', 'Lato', sans-serif;
+  color: var(--primary);
+}
+
+.ai-markdown p,
+.ai-markdown li,
+.ai-markdown blockquote {
+  line-height: 2.1;
+}
+
+.ai-markdown [data-streamdown="blockquote"] {
+  border-right: 4px solid color-mix(in srgb, var(--primary) 30%, transparent);
+  border-left: 0;
+  padding-right: 1rem;
+  padding-left: 0;
+}
+
+.ai-markdown [data-streamdown="code-block-container"] {
+  direction: ltr;
 }

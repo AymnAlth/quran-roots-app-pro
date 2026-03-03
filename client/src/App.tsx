@@ -17,6 +17,7 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 const DetailView = lazy(() => import("./pages/DetailView"));
 const SurahProfile = lazy(() => import("./pages/SurahProfile"));
 const RootLengthExplorer = lazy(() => import("./pages/RootLengthExplorer"));
+const AyahOperationalInsight = lazy(() => import("./pages/AyahOperationalInsight"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const RootNetworkExplorer = lazy(() => import("./pages/RootNetworkExplorer"));
 const Mushaf = lazy(() => import("./pages/Mushaf"));
@@ -70,6 +71,7 @@ function Router() {
         <Route path="/surah/:id" component={SurahProfile} />
         {/* استكشاف حسب الطول */}
         <Route path="/morphology/:length" component={RootLengthExplorer} />
+        <Route path="/insights/operational" component={AyahOperationalInsight} />
         <Route path="/settings" component={Settings} />
         <Route path="/mushaf" component={Mushaf} />
 

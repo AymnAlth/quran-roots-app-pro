@@ -5,6 +5,7 @@ import surahNames from '@/data/surahNames';
 import { SurahHeader } from '@/components/mushaf/SurahHeader';
 import { Basmala } from '@/components/mushaf/Basmala';
 import { SearchModal } from '@/components/mushaf/SearchModal';
+import { OperationalInsightButton } from '@/components/ai/OperationalInsightButton';
 
 type Ayah = {
   surahNo: number;
@@ -368,14 +369,23 @@ export default function Mushaf() {
                           {ayah.text}
                         </span>
 
-                        {/* رقم الآية */}
-                        <span className="mushaf-ayah-marker">
-                          <svg className="mushaf-ayah-marker-ornament" viewBox="0 0 48 48">
-                            <circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.3" />
-                            <circle cx="24" cy="24" r="18" fill="currentColor" opacity="0.05" />
-                            <circle cx="24" cy="24" r="16" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.5" />
-                          </svg>
-                          <span className="mushaf-ayah-marker-number">{ayah.ayahNo}</span>
+                        {/* رقم الآية + زر التحليل */}
+                        <span className="inline-flex items-center gap-1 align-middle group/ayah-tools">
+                          <span className="mushaf-ayah-marker">
+                            <svg className="mushaf-ayah-marker-ornament" viewBox="0 0 48 48">
+                              <circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.3" />
+                              <circle cx="24" cy="24" r="18" fill="currentColor" opacity="0.05" />
+                              <circle cx="24" cy="24" r="16" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.5" />
+                            </svg>
+                            <span className="mushaf-ayah-marker-number">{ayah.ayahNo}</span>
+                          </span>
+                          <OperationalInsightButton
+                            surahNo={ayah.surahNo}
+                            ayahNo={ayah.ayahNo}
+                            ayahText={ayah.text}
+                            size="compact"
+                            className="opacity-30 group-hover/ayah-tools:opacity-100 transition-opacity"
+                          />
                         </span>
                         {index < ayahs.length - 1 && ' '}
                       </React.Fragment>

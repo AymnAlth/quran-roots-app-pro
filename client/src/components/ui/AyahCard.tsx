@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronUp, Copy, BookOpen } from 'lucide-react';
+import { OperationalInsightButton } from '@/components/ai/OperationalInsightButton';
 
 // --- Utility: Strong Normalization (توحيد النص للمقارنة الدقيقة) ---
 // التحديث: إضافة "ٱ" (همزة الوصل) لقائمة التوحيد لضمان تلوين لفظ الجلالة
@@ -149,6 +150,13 @@ export const AyahCard: React.FC<AyahCardProps> = ({
                 </div>
 
                 <div className="flex items-center gap-1">
+                    <OperationalInsightButton
+                        surahNo={ayah.surahNo}
+                        ayahNo={ayah.ayahNo}
+                        ayahText={ayah.text}
+                        stopPropagation={true}
+                    />
+
                     <button
                         type="button"
                         onClick={(e) => {

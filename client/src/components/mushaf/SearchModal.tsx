@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SearchResult, searchInMushaf, highlightText } from '@/lib/searchService';
 import surahNames from '@/data/surahNames';
+import { OperationalInsightButton } from '@/components/ai/OperationalInsightButton';
 
 interface SearchModalProps {
     isOpen: boolean;
@@ -155,6 +156,14 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                                         <div className="result-meta">
                                             <span className="surah-name">{surahNames[result.surahNo]}</span>
                                             <span className="ayah-num">آية {result.ayahNo}</span>
+                                            <OperationalInsightButton
+                                                surahNo={result.surahNo}
+                                                ayahNo={result.ayahNo}
+                                                ayahText={result.text}
+                                                size="compact"
+                                                className="mr-2"
+                                                stopPropagation={true}
+                                            />
                                         </div>
                                         <div
                                             className="result-text font-quran"

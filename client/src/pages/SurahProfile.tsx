@@ -20,6 +20,7 @@ import { ServerError as ServerErrorPage } from '@/components/errors/ServerError'
 import { ErrorLayout } from '@/components/errors/ErrorLayout';
 import { AppError } from '../lib/errors';
 import { ScrollToTop } from '@/components/ui/ScrollToTop';
+import { OperationalInsightButton } from '@/components/ai/OperationalInsightButton';
 
 interface Ayah {
     surah_no: number;
@@ -68,6 +69,14 @@ const SurahAyahView: React.FC<{
                     <div className="w-9 h-9 flex items-center justify-center rounded-lg border border-primary/20 text-primary text-sm font-bold font-quran bg-primary/5 shadow-sm">
                         {ayah.ayah_no}
                     </div>
+                </div>
+                <div className="absolute top-6 end-6 opacity-75 group-hover:opacity-100 transition-opacity">
+                    <OperationalInsightButton
+                        surahNo={surahNumber}
+                        ayahNo={ayah.ayah_no}
+                        ayahText={ayah.text_uthmani}
+                        size="compact"
+                    />
                 </div>
 
                 {/* Text */}

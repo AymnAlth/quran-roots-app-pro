@@ -9,6 +9,7 @@ import { RevelationTimeline, EraDistribution, NetworkGraph, WordFormsList, Relat
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { ScrollToTop } from '../components/ui/ScrollToTop';
 import { PageContainer } from '../components/ui/PageContainer';
+import { OperationalInsightButton } from '@/components/ai/OperationalInsightButton';
 
 // --- Custom Local Components (Styled with Islamic Identity) ---
 
@@ -140,6 +141,7 @@ const Dashboard: React.FC = () => {
 
     const currentCgAyah = centerOfGravityData.candidates[cgIndex];
     const isUniform = centerOfGravityData.maxFrequency <= 1;
+    const operationalDefinition = searchResults.operationalFunction?.replace(/\r\n/g, '\n').trim() || '';
 
     const handleNavigation = (type: string, value: string, focusAyahId?: number) => {
         if (!searchResults) return;
@@ -196,6 +198,33 @@ const Dashboard: React.FC = () => {
                         </p>
                     </motion.div>
                 </section>
+
+                {/* Operational Definition */}
+                {operationalDefinition && (
+                    <motion.section
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.45 }}
+                    >
+                        <Card className="relative overflow-hidden border-secondary/25 bg-gradient-to-br from-card via-background to-secondary/5 shadow-sm">
+                            <div className="absolute inset-0 opacity-[0.045] bg-[radial-gradient(#b58b2a_1px,transparent_1px)] [background-size:14px_14px]" />
+                            <CardHeader className="relative pb-3 border-b border-secondary/15">
+                                <CardTitle className="flex items-center gap-2 font-quran text-2xl text-secondary">
+                                    <BookOpen className="w-6 h-6" />
+                                    التعريفات التشغيلية للجذر
+                                </CardTitle>
+                                <CardDescription>الوصف التشغيلي المستخرج من قاعدة البيانات لهذا الجذر</CardDescription>
+                            </CardHeader>
+                            <CardContent className="relative pt-5">
+                                <div className="rounded-xl border border-secondary/20 bg-background/70 p-5 md:p-6">
+                                    <p className="text-foreground/90 whitespace-pre-line leading-8 text-[1.02rem] md:text-[1.06rem]">
+                                        {operationalDefinition}
+                                    </p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </motion.section>
+                )}
 
                 {/* KPI Grid: Standardized Colors */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
@@ -280,6 +309,11 @@ const Dashboard: React.FC = () => {
                                     <span className="px-3 py-1.5 rounded-md bg-muted text-muted-foreground border border-border">
                                         الآية {currentCgAyah.ayahNo}
                                     </span>
+                                    <OperationalInsightButton
+                                        surahNo={currentCgAyah.surahNo}
+                                        ayahNo={currentCgAyah.ayahNo}
+                                        ayahText={currentCgAyah.text}
+                                    />
                                     <span className="px-3 py-1.5 rounded-md bg-secondary/10 text-secondary border border-secondary/20">
                                         {currentCgAyah.rootCount} تكرارات للجذر
                                     </span>
@@ -470,7 +504,15 @@ const Dashboard: React.FC = () => {
                             </div>
                             <div className="mt-4 text-xs text-muted-foreground font-bold flex justify-between">
                                 <span>سورة {longestAyah.surahName}</span>
-                                <span>آية {longestAyah.ayahNo}</span>
+                                <span className="flex items-center gap-2">
+                                    <span>آية {longestAyah.ayahNo}</span>
+                                    <OperationalInsightButton
+                                        surahNo={longestAyah.surahNo}
+                                        ayahNo={longestAyah.ayahNo}
+                                        ayahText={longestAyah.text}
+                                        size="compact"
+                                    />
+                                </span>
                             </div>
                         </div>
                         <div className="bg-card rounded-2xl p-6 border border-primary/10 shadow-sm hover:border-primary/20 transition-colors">
@@ -482,7 +524,15 @@ const Dashboard: React.FC = () => {
                             </div>
                             <div className="mt-4 text-xs text-muted-foreground font-bold flex justify-between">
                                 <span>سورة {shortestAyah.surahName}</span>
-                                <span>آية {shortestAyah.ayahNo}</span>
+                                <span className="flex items-center gap-2">
+                                    <span>آية {shortestAyah.ayahNo}</span>
+                                    <OperationalInsightButton
+                                        surahNo={shortestAyah.surahNo}
+                                        ayahNo={shortestAyah.ayahNo}
+                                        ayahText={shortestAyah.text}
+                                        size="compact"
+                                    />
+                                </span>
                             </div>
                         </div>
                     </div>

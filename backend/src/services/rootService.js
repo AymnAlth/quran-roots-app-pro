@@ -2,6 +2,21 @@ const { executeQuery, getSurahName } = require('../config/database');
 const surahMetadata = require('../data/surahMetadata');
 
 class RootService {
+  // Get operational definition text for a root (if available)
+  async getOperationalFunction(root) {
+    const query = `
+      SELECT operational_function
+      FROM token
+      WHERE root = ?
+        AND operational_function IS NOT NULL
+        AND TRIM(operational_function) <> ''
+      LIMIT 1
+    `;
+
+    const rows = await executeQuery(query, [root]);
+    return rows.length > 0 ? rows[0].operational_function : null;
+  }
+
   // Search for verses containing a specific root
   async searchByRoot(root) {
     try {
@@ -62,6 +77,8 @@ class RootService {
 
   // Internal helper for the core search logic
   async performSearch(targetRoot) {
+    const operationalFunction = await this.getOperationalFunction(targetRoot);
+
     // OPTIMIZATION: Step 1 - Get Root Counts directly from Token table (Indexed access)
     // Avoids the expensive JOIN on calculated fields: (CAST(a.surah_no AS TEXT) || ':' || ...)
     const tokenCountsQuery = `
@@ -78,7 +95,8 @@ class RootService {
       return {
         root: targetRoot,
         ayahs: [],
-        totalOccurrences: 0
+        totalOccurrences: 0,
+        operationalFunction
       };
     }
 
@@ -196,7 +214,8 @@ class RootService {
     return {
       root: targetRoot,
       ayahs: enrichedAyahs,
-      totalOccurrences: totalOccurrences
+      totalOccurrences: totalOccurrences,
+      operationalFunction
     };
   }
 

@@ -28,6 +28,7 @@ interface SearchResult {
   root: string;
   ayahs: Ayah[];
   totalOccurrences: number;
+  operationalFunction?: string | null;
 }
 
 interface Statistics {
