@@ -1,0 +1,1 @@
+backend/database/quran_roots_dual_v2.sqlite filter=lfs diff=lfs merge=lfs -text
