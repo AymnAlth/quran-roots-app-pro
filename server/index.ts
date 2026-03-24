@@ -1,4 +1,10 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
+
+type Request = express.Request;
+type Response = express.Response;
+type NextFunction = express.NextFunction;
+type RequestHandler = express.RequestHandler;
+type ErrorRequestHandler = express.ErrorRequestHandler;
 import path from "path";
 import { fileURLToPath } from "url";
 import cors from "cors";
@@ -67,7 +73,7 @@ app.use(helmet({
 }));
 
 // --- 2. Custom Security Gate ---
-const verifySource = (req: Request, res: Response, next: NextFunction) => {
+const verifySource: RequestHandler = (req: Request, res: Response, next: NextFunction) => {
   if (
     req.path === '/health' || 
     req.path === '/api/health' || 
@@ -96,11 +102,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // --- 4. API Routes ---
-app.get('/health', (_req, res) => {
+app.get('/health', (_req: Request, res: Response) => {
   res.json({ status: 'healthy', version: '2.0.0 (Unified)' });
 });
 
-app.get('/api/resources/word-index', (_req, res) => {
+app.get('/api/resources/word-index', (_req: Request, res: Response) => {
   const filePath = path.join(__dirname, '../backend/data/word_index.json');
   res.sendFile(filePath, (err) => {
     if (err) res.status(500).json({ error: 'Failed to load resource' });
@@ -114,7 +120,7 @@ app.use('/api/statistics', statisticsRoutes);
 app.use('/api/mushaf', mushafRoutes);
 app.use('/api/ai', aiRoutes);
 
-app.get('/api', (_req, res) => {
+app.get('/api', (_req: Request, res: Response) => {
   res.json({ message: 'Quran Roots API is running (Unified Mode)' });
 });
 
@@ -127,7 +133,7 @@ const frontendPath = path.join(__dirname, "../dist");
 app.use(express.static(frontendPath));
 
 // Fallback for SPA
-app.get("*", (req, res, next) => {
+app.get("*", (req: Request, res: Response, next: NextFunction) => {
   if (req.path.startsWith('/api')) return next();
   res.sendFile(path.join(frontendPath, "index.html"), (err) => {
     if (err && !process.env.VERCEL) {
@@ -137,10 +143,12 @@ app.get("*", (req, res, next) => {
 });
 
 // Handling Errors
-app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+const errorHandler: ErrorRequestHandler = (err: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error(err.stack);
   res.status(err.status || 500).json({ error: { message: err.message || 'Server Error' } });
-});
+};
+
+app.use(errorHandler);
 
 // EXPORT APP FOR VERCEL (Crucial Step)
 export default app;
