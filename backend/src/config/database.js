@@ -90,6 +90,7 @@
 // };
 const { createClient } = require('@libsql/client');
 const path = require('path');
+const { resolveLocalDb } = require('./localDbResolver');
 
 /* ===========================
    Database Configuration
@@ -98,9 +99,23 @@ const path = require('path');
 // نحن في: backend/src/config
 // الداتا في: backend/data/quran.db
 const localDbPath = path.join(process.cwd(), 'backend', 'database', 'quran_roots_dual_v2.sqlite');
+const compressedDbPath = `${localDbPath}.gz`;
+
+let resolvedLocalDbPath = localDbPath;
+let localDbSource = 'direct-sqlite';
+
+if (!process.env.TURSO_DB_URL) {
+  const resolved = resolveLocalDb({
+    preferredPath: localDbPath,
+    gzipPath: compressedDbPath,
+  });
+
+  resolvedLocalDbPath = resolved.path;
+  localDbSource = resolved.source;
+}
 
 const config = {
-  url: process.env.TURSO_DB_URL || `file:${localDbPath}`,
+  url: process.env.TURSO_DB_URL || `file:${resolvedLocalDbPath}`,
   authToken: process.env.TURSO_DB_AUTH_TOKEN,
 };
 
@@ -112,9 +127,12 @@ const client = createClient(config);
 let logged = false;
 function logOnce() {
   if (!logged) {
-    const mode = config.url.startsWith('file:') ? '📂 Local SQLite (Production Safe)' : '☁️ Remote Turso';
+    const mode = config.url.startsWith('file:')
+      ? `📂 Local SQLite (${localDbSource})`
+      : '☁️ Remote Turso';
     console.log(`✅ Database Connected: ${mode}`);
-    console.log(`📍 Path used: ${localDbPath}`); // سيظهر هذا في لوج Vercel للتأكد
+    console.log(`📍 Path used: ${resolvedLocalDbPath}`); // سيظهر هذا في لوج Vercel للتأكد
+    console.log(`🗜️ Archive path: ${compressedDbPath}`);
     logged = true;
   }
 }
